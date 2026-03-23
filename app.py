@@ -1,5 +1,5 @@
 """
-PharmGTN Pro v3 — Dynamic Multi-Year Gross-to-Net Analyzer
+PharmGTN Pro  — Dynamic Multi-Year Gross-to-Net Analyzer
 • 5–10 year forecast with editable annual volumes & WAC
 • Per-year rebates, discounts, and channel allocation
 • ASP = 6-month rolling weighted average of non-exempt channel selling prices
@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore")
 # PAGE CONFIG
 # ───────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="PharmGTN Pro v4",
+    page_title="PharmGTN Pro",
     layout="wide",
     page_icon="⚕️",
     initial_sidebar_state="expanded",
@@ -396,8 +396,8 @@ def compute_gtn(monthly_df, asp_df, channel_alloc_by_year, discount_by_year, reb
         asp6_val = aspplus_lookup.get(period, wac * 1.06)
 
         # IDN acquisition vs ASP flag
-        idn_below_asp = idn_p < asp_val
-        b340_below_asp= b340_p < asp_val
+        idn_below_asp = asp_val < idn_p
+        b340_below_asp= asp_val < b340_p
 
         rows.append({
             "Period": period, "Year": yr, "Month": row["Month"],
@@ -2090,7 +2090,7 @@ with tabs[6]:
             acq = wac * (1 - idn["discount"] / 100)
             spread       = asp6 - acq
             spread_pct   = spread / asp6 * 100 if asp6 > 0 else 0
-            below_asp    = acq < asp
+            below_asp    = asp < acq
             fc_row       = st.session_state.forecast_df[st.session_state.forecast_df["Year"]==yr]
             total_units  = float(fc_row["Annual Units"].values[0]) if len(fc_row) else 0
             # B&B units = total units × channel share × IDN volume share
@@ -2144,7 +2144,7 @@ with tabs[6]:
                 line=dict(color=color, width=1.8, dash=dash),
                 mode="lines+markers", marker=dict(size=6, symbol="circle"),
             ))
-            # Flag years where acquisition < ASP
+            # Flag years where ASP < acquisition (provider loses money)
             for _, r in sub[sub["Below_ASP"]].iterrows():
                 fig_all.add_vrect(
                     x0=r["Year"]-0.45, x1=r["Year"]+0.45,
@@ -2209,7 +2209,7 @@ with tabs[6]:
             for _, row in sub.iterrows():
                 flag  = row["Below_ASP"]
                 color = "#f87171" if flag else "#4ade80"
-                icon  = "🚩" if flag else "✅"
+                icon  = "🚩 ASP<ACQ" if flag else "✅ OK"
                 st.markdown(f"""
                 <div style='display:flex;justify-content:space-between;
                 padding:3px 0;border-bottom:1px solid #003A8C;font-size:0.73rem;'>
@@ -2287,7 +2287,7 @@ with tabs[6]:
     for _, row in yr_sub.iterrows():
         flag   = row["Below_ASP"]
         color  = "#f87171" if flag else "#4ade80"
-        icon   = "🚩 ACQ < ASP" if flag else "✅ Clean"
+        icon   = "🚩 ASP < ACQ" if flag else "✅ Clean"
         r_cols = st.columns([2.2, 1, 1, 1, 1, 1, 1])
         vals   = [
             row["IDN"],
@@ -2299,7 +2299,7 @@ with tabs[6]:
             icon,
         ]
         colors = ["#F1ECE9","#fbbf24","#4ade80","#A8D5FF","#f87171",
-                  "#4ade80" if row["Spread"]>0 else "#f87171", color]
+                  "#f87171" if row["Spread"]<0 else "#4ade80", color]
         for rc, v, c in zip(r_cols, vals, colors):
             rc.markdown(f"<div style='font-size:0.78rem;color:{c};padding:5px 2px;"
                         f"font-family:JetBrains Mono;border-bottom:1px solid #003A8C;'>{v}</div>",
@@ -2319,7 +2319,7 @@ with tabs[6]:
         for s in sens_steps:
             new_asp6 = asp_base*(1+s/100)*1.06
             sp = new_asp6 - acq
-            flag = " 🚩" if acq < asp_base*(1+s/100) else ""
+            flag = " 🚩" if asp_base*(1+s/100) < acq else ""
             spreads.append(f"{fmt_d(sp)}{flag}")
         sens_data[label] = spreads
     st.dataframe(pd.DataFrame(sens_data), use_container_width=True, hide_index=True)
