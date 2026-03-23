@@ -1,5 +1,5 @@
 """
-PharmGTN Pro  — Dynamic Multi-Year Gross-to-Net Analyzer
+PharmGTN Pro v3 — Dynamic Multi-Year Gross-to-Net Analyzer
 • 5–10 year forecast with editable annual volumes & WAC
 • Per-year rebates, discounts, and channel allocation
 • ASP = 6-month rolling weighted average of non-exempt channel selling prices
@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore")
 # PAGE CONFIG
 # ───────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="PharmGTN Pro",
+    page_title="PharmGTN Pro v4",
     layout="wide",
     page_icon="⚕️",
     initial_sidebar_state="expanded",
@@ -2002,18 +2002,7 @@ with tabs[6]:
         ASP=("RollingASP_6M","mean"), ASP6=("ASP_Plus6","mean"), WAC=("WAC","mean"),
     ).reset_index()
 
-    st.markdown("""<div class='info-box'>
-    <b>Buy & Bill mechanics:</b> Provider purchases drug at IDN/GPO contract price,
-    administers to patient, then bills Medicare at <b>ASP + 6%</b>.
-    Manufacturer revenue = IDN acquisition price. Provider margin = ASP+6% − Acquisition.
-    When acquisition &lt; ASP the provider earns an above-average spread, which also
-    gradually erodes future ASP through the 6-month rolling calculation.
-    </div>""", unsafe_allow_html=True)
-
-    # ── IDN Configuration ─────────────────────────────────────────────
-    st.markdown('<div class="sec-header">⚙️ IDN Configuration — Add / Edit Customers</div>', unsafe_allow_html=True)
-
-    # Init IDN list
+    # ── Init IDN list ────────────────────────────────────────────────
     if "idn_list" not in st.session_state:
         st.session_state.idn_list = [
             {"name": "IDN-A (Academic Medical)",   "discount": 20.0, "volume_pct": 30.0, "is_340b": False},
@@ -2023,57 +2012,193 @@ with tabs[6]:
             {"name": "IDN-E (VA Affiliate)",       "discount": 24.0, "volume_pct": 10.0, "is_340b": False},
         ]
 
-    btn_cols = st.columns([1, 1, 4])
-    with btn_cols[0]:
-        if st.button("➕ Add IDN", use_container_width=True):
-            st.session_state.idn_list.append({
-                "name": f"IDN-{chr(65+len(st.session_state.idn_list))} (New)",
-                "discount": 15.0, "volume_pct": 10.0, "is_340b": False,
-            })
-    with btn_cols[1]:
-        if st.button("🗑️ Remove Last", use_container_width=True) and len(st.session_state.idn_list) > 1:
-            st.session_state.idn_list.pop()
+    # Use current list for read-only display (pre-computation)
+    idn_list_ro = st.session_state.idn_list
 
-    # IDN editor — one row per IDN
-    idn_list = st.session_state.idn_list
-    n_idn    = len(idn_list)
+    # ────────────────────────────────────────────────────────────────
+    # SECTION 1 — PORTFOLIO OVERVIEW (read-only KPI cards + charts)
+    # ────────────────────────────────────────────────────────────────
+    st.markdown("""<div class='info-box'>
+    <b>Buy & Bill mechanics:</b> Provider purchases drug at IDN/GPO contract price,
+    administers to patient, then bills Medicare at <b>ASP + 6%</b>.
+    Manufacturer revenue = IDN acquisition price. Provider margin = ASP+6% − Acquisition.
+    A 🚩 flag fires when <b>ASP falls below acquisition cost</b> — the provider loses money
+    on every unit and will stop using the drug.
+    </div>""", unsafe_allow_html=True)
 
-    # Column headers
-    hdr_c = st.columns([0.3, 2.2, 1.2, 1.2, 0.8])
-    for hc, lbl in zip(hdr_c, ["#", "IDN Name", "Discount % off WAC", "% of B&B Volume", "340B"]):
-        hc.markdown(f"<div style='font-size:0.68rem;color:#A09A96;text-transform:uppercase;"
-                    f"font-family:JetBrains Mono;padding:4px 2px;'>{lbl}</div>",
-                    unsafe_allow_html=True)
+    st.markdown('<div class="sec-header">🏥 IDN Portfolio — High Level Overview</div>',
+                unsafe_allow_html=True)
+    st.caption("KPIs computed at Year 1 prices. Click '⚙️ Edit IDN Allocations' below to adjust.")
 
-    updated_idn = []
-    for i, idn in enumerate(idn_list):
-        row_c = st.columns([0.3, 2.2, 1.2, 1.2, 0.8])
-        with row_c[0]:
-            st.markdown(f"<div style='font-family:Syne;font-weight:700;color:#A8D5FF;"
-                        f"font-size:0.85rem;padding:8px 4px;'>#{i+1}</div>",
-                        unsafe_allow_html=True)
-        with row_c[1]:
-            name = st.text_input("Name", value=idn["name"], key=f"idn_name_{i}",
-                                  label_visibility="collapsed")
-        with row_c[2]:
-            disc = st.number_input("Disc", min_value=0.0, max_value=99.0,
-                                    value=float(idn["discount"]), step=0.5, format="%.1f",
-                                    key=f"idn_disc_{i}", label_visibility="collapsed")
-        with row_c[3]:
-            vol = st.number_input("Vol%", min_value=0.0, max_value=100.0,
-                                   value=float(idn["volume_pct"]), step=1.0, format="%.1f",
-                                   key=f"idn_vol_{i}", label_visibility="collapsed")
-        with row_c[4]:
-            is340 = st.checkbox("340B", value=bool(idn["is_340b"]), key=f"idn_340b_{i}")
-        updated_idn.append({"name": name, "discount": disc, "volume_pct": vol, "is_340b": is340})
-    st.session_state.idn_list = updated_idn
+    # Quick compute Year 1 KPIs for overview cards
+    yr1_asp_row = annual_asp.iloc[0] if len(annual_asp) > 0 else None
+    yr1_asp  = float(yr1_asp_row["ASP"])  if yr1_asp_row is not None else 0.0
+    yr1_asp6 = float(yr1_asp_row["ASP6"]) if yr1_asp_row is not None else 0.0
+    yr1_wac  = float(yr1_asp_row["WAC"])  if yr1_asp_row is not None else 0.0
+    yr1_total_units = float(
+        st.session_state.forecast_df["Annual Units"].iloc[0]
+    ) if len(st.session_state.forecast_df) > 0 else 0.0
 
-    # Vol % validation
-    total_vol = sum(x["volume_pct"] for x in updated_idn)
-    if abs(total_vol - 100) > 1:
-        st.markdown(f"<div class='card card-warn' style='padding:8px 14px;'>⚠️ IDN volume %s sum to {total_vol:.1f}% — should be 100%</div>", unsafe_allow_html=True)
-    else:
-        st.markdown(f"<div class='card card-success' style='padding:8px 14px;'>✅ IDN volume allocation = {total_vol:.1f}%</div>", unsafe_allow_html=True)
+    # ── Portfolio KPI banner ─────────────────────────────────────────
+    k_cols = st.columns(4)
+    k_cols[0].metric("IDNs Configured",   str(len(idn_list_ro)))
+    k_cols[1].metric("Year 1 ASP",        fmt_d(yr1_asp))
+    k_cols[2].metric("Medicare Reimb (ASP+6%)", fmt_d(yr1_asp6))
+    k_cols[3].metric("Year 1 WAC",        fmt_d(yr1_wac))
+
+    # ── IDN Portfolio Cards ──────────────────────────────────────────
+    n_ro   = len(idn_list_ro)
+    card_cols = st.columns(min(n_ro, 5))
+    for i, idn in enumerate(idn_list_ro):
+        acq      = yr1_wac * (1 - idn["discount"] / 100)
+        spread   = yr1_asp6 - acq
+        flagged  = yr1_asp < acq          # ASP below what provider paid
+        bb_pct   = (
+            st.session_state.ch_alloc_dict.get(
+                int(st.session_state.forecast_df["Year"].iloc[0]), {}
+            ).get("Medicare Part B", 16)
+            + st.session_state.ch_alloc_dict.get(
+                int(st.session_state.forecast_df["Year"].iloc[0]), {}
+            ).get("Commercial Medical", 18)
+        ) / 100
+        idn_units  = yr1_total_units * bb_pct * (idn["volume_pct"] / 100)
+        mfr_rev_yr1= idn_units * acq
+
+        status_icon  = "🚩" if flagged else "✅"
+        status_text  = "ASP < ACQ" if flagged else "Profitable"
+        card_bg      = "#1a0505" if flagged else "#031209"
+        card_border  = "#b02a2a" if flagged else "#1a6e3a"
+        spread_color = "#f87171" if spread < 0 else "#4ade80"
+        type_tag     = "🟡 340B" if idn["is_340b"] else "🔵 GPO/IDN"
+
+        with card_cols[i % 5]:
+            st.markdown(f"""
+            <div style='background:{card_bg};border:1px solid {card_border};
+            border-radius:12px;padding:16px 14px;margin-bottom:8px;'>
+
+            <div style='display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;'>
+            <div style='font-family:Syne;font-size:0.82rem;font-weight:700;
+            color:#D4EAFF;line-height:1.3;'>{idn["name"]}</div>
+            <div style='font-size:1.1rem;'>{status_icon}</div>
+            </div>
+
+            <div style='font-size:0.68rem;color:#A09A96;margin-bottom:10px;'>{type_tag}</div>
+
+            <div style='display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;'>
+            <div style='background:#001C4A;border-radius:6px;padding:7px 9px;'>
+            <div style='font-size:0.6rem;color:#A09A96;text-transform:uppercase;letter-spacing:0.4px;'>Discount</div>
+            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#F1ECE9;font-weight:600;'>
+            {idn["discount"]}%</div>
+            </div>
+            <div style='background:#001C4A;border-radius:6px;padding:7px 9px;'>
+            <div style='font-size:0.6rem;color:#A09A96;text-transform:uppercase;letter-spacing:0.4px;'>B&B Vol</div>
+            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#F1ECE9;font-weight:600;'>
+            {idn["volume_pct"]:.0f}%</div>
+            </div>
+            <div style='background:#001C4A;border-radius:6px;padding:7px 9px;'>
+            <div style='font-size:0.6rem;color:#A09A96;text-transform:uppercase;letter-spacing:0.4px;'>Acq. Price</div>
+            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#fbbf24;font-weight:600;'>
+            {fmt_d(acq)}</div>
+            </div>
+            <div style='background:#001C4A;border-radius:6px;padding:7px 9px;'>
+            <div style='font-size:0.6rem;color:#A09A96;text-transform:uppercase;letter-spacing:0.4px;'>Spread</div>
+            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:{spread_color};font-weight:600;'>
+            {fmt_d(spread)}</div>
+            </div>
+            </div>
+
+            <div style='background:#001C4A;border-radius:6px;padding:7px 9px;margin-bottom:8px;'>
+            <div style='font-size:0.6rem;color:#A09A96;text-transform:uppercase;letter-spacing:0.4px;'>Est. Mfr Rev (Y1)</div>
+            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#A8D5FF;font-weight:600;'>
+            {fmt_m(mfr_rev_yr1)}</div>
+            </div>
+
+            <div style='text-align:center;background:{"#2a0505" if flagged else "#052010"};
+            border-radius:6px;padding:5px;font-size:0.73rem;font-weight:700;
+            color:{spread_color};font-family:JetBrains Mono;'>{status_icon} {status_text}</div>
+            </div>""", unsafe_allow_html=True)
+
+    # ── Portfolio summary table ──────────────────────────────────────
+    st.markdown('<div class="sec-header">📋 Portfolio Summary Table</div>', unsafe_allow_html=True)
+    port_rows = []
+    for idn in idn_list_ro:
+        acq    = yr1_wac * (1 - idn["discount"] / 100)
+        spread = yr1_asp6 - acq
+        flagged= yr1_asp < acq
+        port_rows.append({
+            "IDN Name":        idn["name"],
+            "Type":            "340B" if idn["is_340b"] else "GPO/IDN",
+            "Discount % off WAC": f"{idn['discount']:.1f}%",
+            "B&B Volume %":    f"{idn['volume_pct']:.1f}%",
+            "Acquisition Price": fmt_d(acq),
+            "ASP+6% (Medicare)": fmt_d(yr1_asp6),
+            "Provider Spread":  fmt_d(spread),
+            "Status":          "🚩 ASP<ACQ" if flagged else "✅ Profitable",
+        })
+    st.dataframe(pd.DataFrame(port_rows), use_container_width=True, hide_index=True)
+
+    st.markdown("---")
+
+    # ────────────────────────────────────────────────────────────────
+    # SECTION 2 — DRILL DOWN: EDIT IDN ALLOCATIONS (expander)
+    # ────────────────────────────────────────────────────────────────
+    with st.expander("⚙️ Edit IDN Allocations — Add, Remove & Adjust", expanded=False):
+        st.caption("Changes here update all charts and flags below in real time.")
+
+        btn_cols = st.columns([1, 1, 4])
+        with btn_cols[0]:
+            if st.button("➕ Add IDN", use_container_width=True):
+                st.session_state.idn_list.append({
+                    "name": f"IDN-{chr(65+len(st.session_state.idn_list))} (New)",
+                    "discount": 15.0, "volume_pct": 10.0, "is_340b": False,
+                })
+                st.rerun()
+        with btn_cols[1]:
+            if st.button("🗑️ Remove Last", use_container_width=True) and len(st.session_state.idn_list) > 1:
+                st.session_state.idn_list.pop()
+                st.rerun()
+
+        idn_list = st.session_state.idn_list
+        n_idn    = len(idn_list)
+
+        # Column headers
+        hdr_c = st.columns([0.3, 2.2, 1.2, 1.2, 0.8])
+        for hc, lbl in zip(hdr_c, ["#", "IDN Name", "Discount % off WAC", "% of B&B Volume", "340B"]):
+            hc.markdown(f"<div style='font-size:0.68rem;color:#A09A96;text-transform:uppercase;"
+                        f"font-family:JetBrains Mono;padding:4px 2px;border-bottom:1px solid #003A8C;'>"
+                        f"{lbl}</div>", unsafe_allow_html=True)
+
+        updated_idn = []
+        for i, idn in enumerate(idn_list):
+            row_c = st.columns([0.3, 2.2, 1.2, 1.2, 0.8])
+            with row_c[0]:
+                st.markdown(f"<div style='font-family:Syne;font-weight:700;color:#A8D5FF;"
+                            f"font-size:0.85rem;padding:8px 4px;'>#{i+1}</div>",
+                            unsafe_allow_html=True)
+            with row_c[1]:
+                name = st.text_input("Name", value=idn["name"], key=f"idn_name_{i}",
+                                      label_visibility="collapsed")
+            with row_c[2]:
+                disc = st.number_input("Disc", min_value=0.0, max_value=99.0,
+                                        value=float(idn["discount"]), step=0.5, format="%.1f",
+                                        key=f"idn_disc_{i}", label_visibility="collapsed")
+            with row_c[3]:
+                vol = st.number_input("Vol%", min_value=0.0, max_value=100.0,
+                                       value=float(idn["volume_pct"]), step=1.0, format="%.1f",
+                                       key=f"idn_vol_{i}", label_visibility="collapsed")
+            with row_c[4]:
+                is340 = st.checkbox("340B", value=bool(idn["is_340b"]), key=f"idn_340b_{i}")
+            updated_idn.append({"name": name, "discount": disc, "volume_pct": vol, "is_340b": is340})
+        st.session_state.idn_list = updated_idn
+
+        total_vol = sum(x["volume_pct"] for x in updated_idn)
+        if abs(total_vol - 100) > 1:
+            st.markdown(f"<div class='card card-warn' style='padding:8px 14px;'>⚠️ IDN volume %s sum to {total_vol:.1f}% — should be 100%</div>", unsafe_allow_html=True)
+        else:
+            st.markdown(f"<div class='card card-success' style='padding:8px 14px;'>✅ IDN volume allocation sums to {total_vol:.1f}%</div>", unsafe_allow_html=True)
+    # end expander — use updated_idn from expander if it ran, else fall back to read-only list
+    updated_idn = st.session_state.idn_list
+    n_idn = len(updated_idn)
 
     st.markdown("---")
 
