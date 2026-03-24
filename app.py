@@ -731,9 +731,11 @@ with tabs[0]:
                                    label_visibility="collapsed")
         yr_pie_int = int(yr_pie_sel)
         row_pie = ch_raw[ch_raw["Year"]==yr_pie_int].iloc[0] if yr_pie_int in ch_raw["Year"].values else ch_raw.iloc[0]
-        vals_pie = [row_pie[ch] for ch in CHANNELS]
+        _dash_active = st.session_state.get("active_channels", CHANNELS)
+        vals_pie = [row_pie[ch] for ch in _dash_active if ch in row_pie.index]
+        _dash_labels = [ch for ch in _dash_active if ch in row_pie.index]
         fig_pie = go.Figure(go.Pie(
-            labels=CHANNELS, values=vals_pie, hole=0.44,
+            labels=_dash_labels, values=vals_pie, hole=0.44,
             marker_colors=COLORS_MAIN, textfont_size=9,
             hovertemplate="<b>%{label}</b><br>%{value:.1f}%<extra></extra>",
         ))
@@ -1001,6 +1003,160 @@ with tabs[2]:
     consolidation. Edit any cell — rows must sum to 100%.
     </div>""", unsafe_allow_html=True)
 
+    # ── Master channel list (built-in + any custom ones added) ────────
+    CHANNEL_DESCRIPTIONS = {
+        "Commercial PBM":    "Retail/specialty pharmacy benefit — large rebate driver",
+        "Commercial Medical":"Provider buy-and-bill on commercial insurance",
+        "Medicare Part B":   "Provider buy-and-bill billed to CMS at ASP+6%",
+        "Medicare Part D":   "Pharmacy benefit for Medicare enrollees",
+        "Medicaid FFS":      "State fee-for-service Medicaid — statutory rebates apply",
+        "Managed Medicaid":  "MCO-managed Medicaid — supplemental rebates",
+        "GPO/IDN Non-340B":  "Health system GPO contract price — chargeback driven",
+        "GPO/IDN 340B":      "Covered entity 340B ceiling price — deepest discount",
+        "VA/DoD/Federal":    "Federal Supply Schedule — FSS pricing required",
+        "Cash/Uninsured":    "Out-of-pocket / patient assistance programs",
+    }
+
+    # Session state: full channel registry (built-in + custom)
+    if "all_channels" not in st.session_state:
+        st.session_state.all_channels = list(CHANNELS)
+
+    # ── ⚙️ Customise Channels panel ───────────────────────────────────
+    with st.expander("⚙️ Customise Channels — Toggle, Add Custom, Delete", expanded=False):
+
+        # ── Part A: Add a custom channel ─────────────────────────────
+        st.markdown('<div class="sec-header">➕ Add a Custom Channel</div>', unsafe_allow_html=True)
+        st.caption("Add any payer segment not in the default list (e.g. a specific health plan, employer group, specialty pharmacy).")
+
+        add_col1, add_col2, add_col3 = st.columns([2, 2, 1])
+        with add_col1:
+            new_ch_name = st.text_input("Channel Name", placeholder="e.g. Kaiser Permanente",
+                                         key="new_ch_name", label_visibility="visible")
+        with add_col2:
+            new_ch_desc = st.text_input("Description (optional)",
+                                         placeholder="e.g. Integrated health plan — West Coast",
+                                         key="new_ch_desc", label_visibility="visible")
+        with add_col3:
+            st.markdown("<div style='height:28px'></div>", unsafe_allow_html=True)
+            if st.button("➕ Add Channel", use_container_width=True, key="btn_add_ch"):
+                nm = new_ch_name.strip()
+                if nm and nm not in st.session_state.all_channels:
+                    st.session_state.all_channels.append(nm)
+                    CHANNEL_DESCRIPTIONS[nm] = new_ch_desc.strip() or "Custom channel"
+                    # Init its session-state steppers to 0
+                    for yr in forecast_years:
+                        k = f"ch_{nm}_{yr}".replace("/","_").replace(" ","_")
+                        st.session_state[k] = 0.0
+                    # Init toggle as active
+                    # Use storage key (chtog_ prefix) not widget key
+                    st.session_state[f"chtog_{nm.replace('/','_').replace(' ','_')}"] = True
+                    # Add column to channel_alloc_raw
+                    if nm not in st.session_state.channel_alloc_raw.columns:
+                        st.session_state.channel_alloc_raw[nm] = 0.0
+                    st.rerun()
+                elif nm in st.session_state.all_channels:
+                    st.warning(f"'{nm}' already exists.")
+                else:
+                    st.warning("Please enter a channel name.")
+
+        st.markdown("---")
+
+        # ── Part B: Toggle existing channels on/off ──────────────────
+        st.markdown('<div class="sec-header">🔀 Show / Hide Channels</div>', unsafe_allow_html=True)
+        st.caption("Toggle off channels not relevant to your product. They will be hidden from the grid immediately.")
+
+        ALL_CH_NOW = st.session_state.all_channels
+
+        # Storage keys use prefix "chtog_" (never bound to a widget directly)
+        def _skey(ch):  # storage key — safe to read/write anytime
+            return f"chtog_{ch.replace('/','_').replace(' ','_')}"
+
+        # Init storage keys (done once, before any widget renders)
+        for ch in ALL_CH_NOW:
+            if _skey(ch) not in st.session_state:
+                st.session_state[_skey(ch)] = True
+
+        toggle_cols = st.columns(2)
+        for idx, ch in enumerate(ALL_CH_NOW):
+            is_active = st.session_state[_skey(ch)]
+
+            with toggle_cols[idx % 2]:
+                row_t = st.columns([0.55, 3, 1])
+                with row_t[0]:
+                    # Widget key is distinct from storage key — Streamlit owns it
+                    new_val = st.toggle(
+                        "on",
+                        value=is_active,
+                        key=f"chtog_w_{ch.replace('/','_').replace(' ','_')}",
+                        label_visibility="collapsed",
+                    )
+                    # Write result back to storage key (widget key is not touched)
+                    st.session_state[_skey(ch)] = new_val
+                    # Zero steppers immediately when turned off
+                    if not new_val:
+                        for yr in forecast_years:
+                            k = f"ch_{ch}_{yr}".replace("/","_").replace(" ","_")
+                            st.session_state[k] = 0.0
+                with row_t[1]:
+                    border_c = "#6AB4F0" if new_val else "#3a3a4a"
+                    name_c   = "#D4EAFF" if new_val else "#A09A96"
+                    st.markdown(
+                        f"<div style='background:#001C4A;border:1px solid {border_c};"
+                        f"border-radius:7px;padding:8px 12px;margin:2px 0;'>"
+                        f"<div style='font-family:Syne;font-size:0.82rem;font-weight:700;"
+                        f"color:{name_c};'>{ch}</div>"
+                        f"<div style='font-size:0.69rem;color:#A09A96;margin-top:2px;'>"
+                        f"{CHANNEL_DESCRIPTIONS.get(ch, 'Custom channel')}</div></div>",
+                        unsafe_allow_html=True)
+                with row_t[2]:
+                    is_builtin = ch in CHANNELS
+                    if not is_builtin:
+                        if st.button("🗑️", key=f"del_ch_{idx}",
+                                     help=f"Delete '{ch}'",
+                                     use_container_width=True):
+                            st.session_state.all_channels.remove(ch)
+                            for yr in forecast_years:
+                                st.session_state.pop(
+                                    f"ch_{ch}_{yr}".replace("/","_").replace(" ","_"), None)
+                            st.session_state.pop(_skey(ch), None)
+                            if ch in st.session_state.channel_alloc_raw.columns:
+                                st.session_state.channel_alloc_raw.drop(
+                                    columns=[ch], inplace=True)
+                            st.rerun()
+                    else:
+                        st.markdown(
+                            "<div style='font-size:0.7rem;color:#A09A96;"
+                            "text-align:center;padding-top:8px;'>built-in</div>",
+                            unsafe_allow_html=True)
+
+        n_active_now = sum(
+            1 for ch in ALL_CH_NOW if st.session_state.get(_skey(ch), True)
+        )
+        st.markdown(
+            f"<div style='font-size:0.75rem;color:#C8C2BE;margin-top:10px;'>"
+            f"<b style='color:#A8D5FF;'>{n_active_now}</b> of "
+            f"<b style='color:#A8D5FF;'>{len(ALL_CH_NOW)}</b> channels active "
+            f"({len(ALL_CH_NOW) - len(CHANNELS)} custom)</div>",
+            unsafe_allow_html=True)
+
+        if st.button("🔄 Re-enable All Channels", key="ch_reset_all"):
+            for ch in st.session_state.all_channels:
+                st.session_state[_skey(ch)] = True
+            st.rerun()
+
+    # ── Resolve ACTIVE_CH from storage keys (never from widget keys) ──
+    def _skey(ch):
+        return f"chtog_{ch.replace('/','_').replace(' ','_')}"
+
+    ALL_CH_NOW = st.session_state.all_channels
+    ACTIVE_CH = [
+        ch for ch in ALL_CH_NOW
+        if st.session_state.get(_skey(ch), True)
+    ]
+    if not ACTIVE_CH:
+        st.warning("No channels are active — re-enable at least one in Customise above.")
+        ACTIVE_CH = list(CHANNELS)
+
     st.markdown('<div class="sec-header">📥 Channel Mix % by Year (Editable)</div>', unsafe_allow_html=True)
     st.caption("⚠️ Each row must sum to 100%. The app will flag rows that don't.")
 
@@ -1020,27 +1176,40 @@ with tabs[2]:
                 rows.append(base)
         st.session_state.channel_alloc_raw = pd.DataFrame(rows)
 
-    # ── Init session state for channel steppers ──
+    # ── Init session state for ALL channel steppers (built-in + custom) ──
     ch_src = st.session_state.channel_alloc_raw.set_index("Year")
     for yr in forecast_years:
-        for ch in CHANNELS:
+        for ch in ALL_CH_NOW:
             key = f"ch_{ch}_{yr}".replace("/","_").replace(" ","_")
             if key not in st.session_state:
-                st.session_state[key] = float(ch_src.loc[yr, ch]) if yr in ch_src.index else 5.0
+                val = 0.0
+                if yr in ch_src.index and ch in ch_src.columns:
+                    val = float(ch_src.loc[yr, ch])
+                elif ch in CHANNELS:
+                    val = 5.0
+                st.session_state[key] = val
 
-    # ── Transposed stepper grid: rows = channels, cols = years ──
-    st.caption("Use ＋/－ buttons or type directly. Each year column must sum to 100%.")
+    # ── Transposed stepper grid: rows = active channels only ──
+    st.caption(f"Use ＋/－ buttons or type directly. Showing {len(ACTIVE_CH)} of {len(ALL_CH_NOW)} channels active. Each year column must sum to 100%.")
 
     # Header row: year labels
     hdr_cols = st.columns([2] + [1]*len(forecast_years))
-    hdr_cols[0].markdown("<div style='font-size:0.72rem;color:#A09A96;text-transform:uppercase;letter-spacing:0.5px;padding:6px 0;font-family:JetBrains Mono;'>Channel</div>", unsafe_allow_html=True)
+    hdr_cols[0].markdown(
+        "<div style='font-size:0.72rem;color:#A09A96;text-transform:uppercase;"
+        "letter-spacing:0.5px;padding:6px 0;font-family:JetBrains Mono;'>Channel</div>",
+        unsafe_allow_html=True)
     for j, yr in enumerate(forecast_years):
-        hdr_cols[j+1].markdown(f"<div style='font-size:0.8rem;font-weight:700;color:#A8D5FF;text-align:center;padding:6px 0;font-family:Syne;'>{yr}</div>", unsafe_allow_html=True)
+        hdr_cols[j+1].markdown(
+            f"<div style='font-size:0.8rem;font-weight:700;color:#A8D5FF;"
+            f"text-align:center;padding:6px 0;font-family:Syne;'>{yr}</div>",
+            unsafe_allow_html=True)
 
-    ch_values = {yr: {} for yr in forecast_years}
-    for ch in CHANNELS:
+    ch_values = {yr: {ch: 0.0 for ch in ALL_CH_NOW} for yr in forecast_years}  # all channels incl. custom
+    for ch in ACTIVE_CH:
         row_cols = st.columns([2] + [1]*len(forecast_years))
-        row_cols[0].markdown(f"<div style='font-size:0.75rem;color:#D4EAFF;padding:8px 4px;line-height:1.3;'>{ch}</div>", unsafe_allow_html=True)
+        row_cols[0].markdown(
+            f"<div style='font-size:0.75rem;color:#D4EAFF;padding:8px 4px;line-height:1.3;'>{ch}</div>",
+            unsafe_allow_html=True)
         for j, yr in enumerate(forecast_years):
             key = f"ch_{ch}_{yr}".replace("/","_").replace(" ","_")
             val = row_cols[j+1].number_input(
@@ -1052,41 +1221,53 @@ with tabs[2]:
             )
             st.session_state[key] = val
             ch_values[yr][ch] = val
+        # Inactive channels stay 0 (already initialised above)
 
-    # Validation row — show sum per year
+    # Validation row — show sum of ACTIVE channels per year
     val_cols = st.columns([2] + [1]*len(forecast_years))
-    val_cols[0].markdown("<div style='font-size:0.72rem;color:#A09A96;padding:6px 4px;font-family:JetBrains Mono;'>Σ Total %</div>", unsafe_allow_html=True)
+    val_cols[0].markdown(
+        "<div style='font-size:0.72rem;color:#A09A96;padding:6px 4px;"
+        "font-family:JetBrains Mono;'>Σ Total %</div>",
+        unsafe_allow_html=True)
     all_valid = True
     for j, yr in enumerate(forecast_years):
-        yr_sum = sum(ch_values[yr].values())
+        yr_sum = sum(ch_values[yr][ch] for ch in ACTIVE_CH)
         ok = abs(yr_sum - 100) < 0.6
         if not ok: all_valid = False
         color = "#4ade80" if ok else "#f87171"
-        val_cols[j+1].markdown(f"<div style='text-align:center;font-family:JetBrains Mono;font-size:0.8rem;font-weight:700;color:{color};padding:4px 0;'>{yr_sum:.1f}%</div>", unsafe_allow_html=True)
+        val_cols[j+1].markdown(
+            f"<div style='text-align:center;font-family:JetBrains Mono;font-size:0.8rem;"
+            f"font-weight:700;color:{color};padding:4px 0;'>{yr_sum:.1f}%</div>",
+            unsafe_allow_html=True)
 
     if all_valid:
         st.markdown("<div class='card card-success' style='padding:8px 14px;'>✅ All years sum to ~100% — allocation valid.</div>", unsafe_allow_html=True)
     else:
         st.markdown("<div class='card card-warn' style='padding:8px 14px;'>⚠️ One or more years don't sum to 100% — check red totals above.</div>", unsafe_allow_html=True)
 
-    # Rebuild channel_alloc_raw from steppers
+    # Rebuild channel_alloc_raw from steppers (all channels incl. custom, inactive = 0)
     ch_rows = []
     for yr in forecast_years:
         row = {"Year": yr}
         row.update(ch_values[yr])
+        # Ensure every built-in CHANNEL col exists (for downstream compatibility)
+        for ch in CHANNELS:
+            if ch not in row:
+                row[ch] = 0.0
         ch_rows.append(row)
     ch_edited_df = pd.DataFrame(ch_rows)
     st.session_state.channel_alloc_raw = ch_edited_df
     ch_edited = ch_edited_df
 
-    # Stacked area chart
+    # Stacked area chart — only active channels
     st.markdown('<div class="sec-header">📊 Channel Mix Evolution (Area Chart)</div>', unsafe_allow_html=True)
     fig_ch = go.Figure()
-    for i, ch in enumerate(CHANNELS):
+    for i, ch in enumerate(ACTIVE_CH):
+        orig_i = CHANNELS.index(ch) if ch in CHANNELS else i
         fig_ch.add_trace(go.Scatter(
             x=ch_edited["Year"], y=ch_edited[ch],
             name=ch, stackgroup="one", mode="none",
-            fillcolor=hex_to_rgba(COLORS_MAIN[i % len(COLORS_MAIN)], alpha=0.73),
+            fillcolor=hex_to_rgba(COLORS_MAIN[orig_i % len(COLORS_MAIN)], alpha=0.73),
             hovertemplate=f"<b>{ch}</b><br>%{{y:.1f}}%<extra></extra>",
         ))
     fig_ch.update_layout(title="Payer Channel Mix % by Year", height=350, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
@@ -1094,16 +1275,17 @@ with tabs[2]:
     apply_axes_style(fig_ch)
     st.plotly_chart(fig_ch, use_container_width=True)
 
-    # Per-year pie grid
+    # Per-year pie grid — active channels only
     st.markdown('<div class="sec-header">🥧 Channel Mix Snapshots</div>', unsafe_allow_html=True)
     display_years = ch_edited["Year"].tolist()[:6]
     cols = st.columns(min(len(display_years), 3))
+    pie_colors = [COLORS_MAIN[CHANNELS.index(ch) % len(COLORS_MAIN)] for ch in ACTIVE_CH]
     for idx, yr in enumerate(display_years[:6]):
         row = ch_edited[ch_edited["Year"] == yr].iloc[0]
-        vals = [row[ch] for ch in CHANNELS]
+        vals = [row[ch] for ch in ACTIVE_CH]
         fig_p = go.Figure(go.Pie(
-            labels=CHANNELS, values=vals, hole=0.4,
-            marker_colors=COLORS_MAIN, textfont_size=8,
+            labels=ACTIVE_CH, values=vals, hole=0.4,
+            marker_colors=pie_colors, textfont_size=8,
             hovertemplate="<b>%{label}</b><br>%{value:.1f}%<extra></extra>",
         ))
         fig_p.update_layout(paper_bgcolor="#001C4A", font_color="#C8C2BE",
