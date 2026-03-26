@@ -1602,29 +1602,29 @@ with tabs[4]:
     st.markdown('<div class="sec-header">⚙️ ASP Calculation Step-by-Step</div>', unsafe_allow_html=True)
     col_a, col_b = st.columns(2)
     with col_a:
-        st.markdown("""<div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 55%,#8ab4f2 100%); border-radius:10px; padding:12px;'>
+        st.markdown("""<div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 55%,#8ab4f2 100%); border-radius:10px; padding:12px;' style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 55%,#8ab4f2 100%); border-radius:10px; padding:12px;'>
         <b style='color:#FFFFFF;'>Step 1 — Identify ASP-Eligible Channels</b>
         <table style='width:100%;font-size:0.78rem;margin-top:8px;'>
-        <tr><th style='color:#FFFFFF;text-align:left;'>Channel</th><th style='color:#FFFFFF;'>ASP Eligible?</th></tr>
+        <tr><th style='color:#FFFFFF;text-align:left;font-weight:700;'>Channel</th><th style='color:#FFFFFF;font-weight:700;'>ASP Eligible?</th></tr>
         """, unsafe_allow_html=True)
         for ch, eligible in ASP_ELIGIBLE.items():
             color = "#4ade80" if eligible else "#f87171"
             tag = "✅ Included" if eligible else "❌ Exempt"
-            st.markdown(f"<tr><td style='color:#FFFFFF;padding:3px 0;'>{ch}</td><td style='color:{color};font-family:JetBrains Mono;font-size:0.75rem;'>{tag}</td></tr>",
+            st.markdown(f"<tr><td style='color:#1f4e79;padding:3px 0;'>{ch}</td><td style='color:{color};font-family:JetBrains Mono;font-size:0.75rem;'>{tag}</td></tr>",
                         unsafe_allow_html=True)
         st.markdown("</table></div>", unsafe_allow_html=True)
     with col_b:
         st.markdown("""<div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 55%,#8ab4f2 100%); border-radius:10px; padding:12px;'>
         <b style='color:#FFFFFF;'>Step 2 — Monthly ASP Computation</b>
         <div style='margin-top:10px;font-size:0.8rem;color:#FFFFFF;line-height:1.7;'>
-        For each month <em>t</em>:<br>
-        <code style='color:#FFFFFF;'>ASP_t = Σ(price_i × units_i) / Σ(units_i)</code><br>
-        where <em>i</em> = non-exempt channels only<br><br>
+        <b>For each month <em>t</em>:</b><br>
+        <code style='background:#001A4D;color:#FFFFFF;font-weight:700;padding:6px 8px;border-radius:4px;display:inline-block;'>ASP_t = Σ(price_i × units_i) / Σ(units_i)</code><br>
+        <b>where <em>i</em> = non-exempt channels only</b><br><br>
         <b style='color:#FFFFFF;'>Step 3 — Rolling 6-Month Average</b><br>
-        <code style='color:#FFFFFF;'>ASP_rolling = Σ(rev_{t-5..t}) / Σ(units_{t-5..t})</code><br>
+        <code style='background:#001A4D;color:#FFFFFF;font-weight:700;padding:6px 8px;border-radius:4px;display:inline-block;'>ASP_rolling = Σ(rev_{t-5..t}) / Σ(units_{t-5..t})</code><br>
         (volume-weighted, not simple average)<br><br>
         <b style='color:#FFFFFF;'>Step 4 — Medicare Reimbursement</b><br>
-        <code style='color:#FFFFFF;'>Medicare B Reimb = ASP_rolling × 1.06</code><br>
+        <code style='background:#001A4D;color:#FFFFFF;font-weight:700;padding:6px 8px;border-radius:4px;display:inline-block;'>Medicare B Reimb = ASP_rolling × 1.06</code><br>
         (pre-sequestration; effective = × 1.04 post-seq)<br><br>
         <b style='color:#FFFFFF;'>Step 5 — Reporting Lag</b><br>
         ASP published ~2 quarters after the reference period.
@@ -2879,7 +2879,7 @@ with tabs[6]:
             fmt_d(row["Spread"]),
             icon,
         ]
-        colors = ["#F1ECE9","#fbbf24","#4ade80","#A8D5FF","#f87171",
+        colors = ["#1f4e79","#fbbf24","#4ade80","#A8D5FF","#f87171",
                   "#f87171" if row["Spread"]<0 else "#4ade80", color]
         for rc, v, c in zip(r_cols, vals, colors):
             rc.markdown(f"<div style='font-size:0.78rem;color:{c};padding:5px 2px;"
@@ -2908,6 +2908,6 @@ with tabs[6]:
 # ── Footer ──
 st.markdown("---")
 st.markdown("""
-<div style='text-align:center;color:#FFFFFF;font-size:0.72rem;padding:6px;font-family:JetBrains Mono;'>
+<div style='text-align:center;color:#999999;font-size:0.72rem;padding:6px;font-family:JetBrains Mono;'>
 PharmGTN Pro v3 · Dynamic Multi-Year GTN Engine · For internal forecasting use only
 </div>""", unsafe_allow_html=True)
