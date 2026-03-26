@@ -30,182 +30,89 @@ st.set_page_config(
 # ───────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
 
-/* ── Brand Palette ──────────────────────────────────────────────────
-   Prussian Blue  #001C4A   backgrounds (darkest)
-   Prussian Mid   #002766   cards, sidebar
-   Prussian Light #003A8C   borders, dividers
-   Anakiwa        #A8D5FF   primary accent / labels
-   Anakiwa Dim    #6AB4F0   secondary accent
-   Anakiwa Pale   #D4EAFF   headings, bright values
-   Pampas         #F1ECE9   body text
-   Pampas Dim     #C8C2BE   muted text
-   Pampas Faint   #A09A96   very muted
-   ──────────────────────────────────────────────────────────────── */
-
-html, body, [data-testid="stAppViewContainer"] {
-    background: #001C4A !important;
-    color: #F1ECE9;
+/* ===== GLOBAL BACKGROUND ===== */
+html, body, .stApp, [data-testid="stAppViewContainer"] {
+    background-color: #FFFFFF !important;
+    color: #1A1A1A !important;
     font-family: 'DM Sans', sans-serif;
 }
+
+/* ===== REMOVE STREAMLIT DARK HEADER ===== */
+header[data-testid="stHeader"] {
+    background-color: #FFFFFF !important;
+}
+
+/* REMOVE TOOLBAR DARK AREA */
+[data-testid="stToolbar"] {
+    background-color: #FFFFFF !important;
+}
+
+/* REMOVE ANY EXTRA DARK STRIP */
+[data-testid="stDecoration"] {
+    background: none !important;
+}
+
+/* ===== SIDEBAR ===== */
 [data-testid="stSidebar"] {
-    background: #002766 !important;
-    border-right: 1px solid #003A8C;
-}
-[data-testid="stSidebar"] *, [data-testid="stSidebar"] label { color: #A8D5FF !important; }
-[data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3 { color: #D4EAFF !important; font-family: 'Syne', sans-serif !important; }
-
-h1 { font-family: 'Syne', sans-serif !important; font-weight: 800 !important; font-size: 1.7rem !important;
-     background: linear-gradient(135deg, #A8D5FF 0%, #D4EAFF 100%);
-     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-h2, h3 { font-family: 'Syne', sans-serif !important; font-weight: 700 !important; }
-h2 { color: #D4EAFF !important; font-size: 1.1rem !important; }
-h3 { color: #A8D5FF !important; font-size: 0.95rem !important; }
-
-.stTabs [data-baseweb="tab-list"] {
-    gap: 2px; background: #002766; padding: 5px 6px;
-    border-radius: 10px; border: 1px solid #003A8C;
-}
-.stTabs [data-baseweb="tab"] {
-    background: transparent; border-radius: 7px; border: none;
-    color: #C8C2BE; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500;
-    padding: 7px 14px; transition: all 0.2s;
-}
-.stTabs [aria-selected="true"] {
-    background: linear-gradient(135deg, #003A8C 0%, #002766 100%) !important;
-    color: #A8D5FF !important; border: 1px solid #6AB4F0 !important;
+    background-color: #F7F9FC !important;
+    border-right: 1px solid #E0E0E0;
 }
 
-.card {
-    background: #002766; border: 1px solid #003A8C; border-radius: 10px;
-    padding: 14px 18px; margin: 5px 0;
+/* ===== CUSTOM TOP BANNER (ONLY BLUE AREA) ===== */
+.top-banner {
+    background: linear-gradient(135deg, #1f4e79 0%, #2e75bf 40%, #9dc9f4 100%);
+    color: #ffffff;
+    padding: 14px 20px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #1b4c77;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-.card-accent { border-color: #6AB4F0; background: #001C4A; }
-.card-warn { border-color: #b38600; background: #1a1200; }
-.card-danger { border-color: #b02a2a; background: #1a0505; }
-.card-success { border-color: #1a6e3a; background: #031209; }
 
-.mono { font-family: 'JetBrains Mono', monospace; }
-.val-blue  { color: #A8D5FF; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
-.val-green { color: #4ade80; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
-.val-red   { color: #f87171; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
-.val-amber { color: #fbbf24; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
-.val-purple{ color: #c084fc; font-family: 'JetBrains Mono', monospace; font-weight: 600; }
+/* ===== TEXT ===== */
+h1, h2, h3 {
+    color: #1f4e79 !important;
+}
 
+/* ===== SECTION HEADERS ===== */
 .sec-header {
-    background: linear-gradient(90deg, #003A8C55 0%, transparent 100%);
-    border-left: 3px solid #A8D5FF; padding: 7px 14px;
-    border-radius: 0 6px 6px 0; margin: 14px 0 10px; font-family: 'Syne', sans-serif;
-    font-size: 0.85rem; font-weight: 700; color: #D4EAFF; letter-spacing: 0.3px;
-}
-.pill {
-    display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 0.7rem;
-    font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin: 1px;
-    font-family: 'JetBrains Mono', monospace;
-}
-.pill-b { background: #002766; color: #A8D5FF; border: 1px solid #6AB4F0; }
-.pill-g { background: #031a0a; color: #4ade80; border: 1px solid #1a6e3a; }
-.pill-r { background: #1a0505; color: #f87171; border: 1px solid #b02a2a; }
-.pill-a { background: #1a1200; color: #fbbf24; border: 1px solid #b38600; }
-.pill-p { background: #120a1a; color: #c084fc; border: 1px solid #6a1a9a; }
-
-.asp-box {
-    background: linear-gradient(135deg, #001C4A 0%, #002766 100%);
-    border: 1px solid #6AB4F0; border-radius: 10px; padding: 16px 20px; margin: 8px 0;
-    color: #F1ECE9;
-}
-.flag-box {
-    background: #1a0505; border: 1px solid #b02a2a; border-radius: 8px;
-    padding: 12px 16px; margin: 6px 0; font-size: 0.82rem; color: #F1ECE9;
-}
-.info-box {
-    background: #002766; border: 1px solid #003A8C; border-radius: 8px;
-    padding: 13px 17px; font-size: 0.82rem; color: #C8C2BE; line-height: 1.65; margin: 8px 0;
-}
-div[data-testid="metric-container"] {
-    background: #002766 !important; border: 1px solid #003A8C !important;
-    border-radius: 9px !important; padding: 11px 15px !important;
-}
-div[data-testid="stMetricValue"] { color: #A8D5FF !important; font-family: 'JetBrains Mono', monospace !important; }
-div[data-testid="stMetricLabel"] { color: #C8C2BE !important; }
-div[data-testid="stMetricDelta"] svg { display: none; }
-
-.stDataFrame { border-radius: 8px; overflow: hidden; }
-.stDataFrame td, .stDataFrame th {
-    font-family: 'JetBrains Mono', monospace !important; font-size: 0.78rem !important;
-    background: #002766 !important; color: #F1ECE9 !important;
-}
-.stDataFrame thead th {
-    background: #003A8C !important; color: #D4EAFF !important; font-weight: 700 !important;
-}
-input[type="number"], .stNumberInput input, .stSelectbox > div > div {
-    background: #002766 !important; color: #F1ECE9 !important;
-    border: 1px solid #003A8C !important; border-radius: 6px !important;
-    font-family: 'JetBrains Mono', monospace !important;
-}
-.stSlider > div > div > div { background: #A8D5FF !important; }
-hr { border-color: #003A8C !important; }
-
-/* ── Stepper number_input: +/- buttons ── */
-div[data-testid="stNumberInput"] {
-    background: #001C4A;
-}
-div[data-testid="stNumberInput"] input {
-    text-align: center !important;
-    font-family: 'JetBrains Mono', monospace !important;
-    font-size: 0.9rem !important;
-    font-weight: 600 !important;
-    background: #002766 !important;
-    color: #F1ECE9 !important;
-    border: 1px solid #003A8C !important;
-    border-radius: 6px !important;
-    padding: 4px 6px !important;
-}
-div[data-testid="stNumberInput"] > div {
-    gap: 2px !important;
-}
-button[data-testid="stNumberInput-StepUp"],
-button[data-testid="stNumberInput-StepDown"] {
-    background: #003A8C !important;
-    color: #A8D5FF !important;
-    border: 1px solid #6AB4F0 !important;
-    border-radius: 5px !important;
-    font-size: 1rem !important;
-    font-weight: 700 !important;
-    min-width: 28px !important;
-    height: 28px !important;
-    padding: 0 !important;
-    cursor: pointer !important;
-    transition: background 0.15s, color 0.15s;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
-button[data-testid="stNumberInput-StepUp"]:hover,
-button[data-testid="stNumberInput-StepDown"]:hover {
-    background: #A8D5FF !important;
-    color: #001C4A !important;
-    border-color: #D4EAFF !important;
-}
-/* Year column header in stepper grids */
-.yr-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.95rem;
+    background: linear-gradient(135deg, #1f4e79 0%, #264d78 45%, #4f77c0 100%);
+    color: white !important;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin: 10px 0;
     font-weight: 700;
-    color: #A8D5FF;
-    text-align: center;
-    margin-bottom: 8px;
-    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
-.metric-label-sm {
-    font-size: 0.68rem;
-    color: #C8C2BE;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 2px;
-    font-family: 'JetBrains Mono', monospace;
+
+p, span, label {
+    color: #333333 !important;
 }
+
+/* ===== METRIC CARDS ===== */
+[data-testid="stMetric"] {
+    background-color: #FFFFFF;
+    border: 1px solid #E6E6E6;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+/* ===== BUTTONS ===== */
+.stButton>button {
+    background-color: #1f4e79;
+    color: white;
+    border-radius: 6px;
+    border: none;
+}
+
+/* ===== PLOTLY FIX ===== */
+.js-plotly-plot {
+    background-color: white !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -419,10 +326,10 @@ def compute_gtn(monthly_df, asp_df, channel_alloc_by_year, discount_by_year, reb
     return pd.DataFrame(rows)
 
 PLOTLY_LAYOUT = dict(
-    paper_bgcolor="#001C4A", plot_bgcolor="#002766",
-    font=dict(color="#F1ECE9", family="DM Sans"),
-    legend=dict(bgcolor="#002766", bordercolor="#003A8C", borderwidth=1,
-                font_size=11, font_color="#F1ECE9"),
+    paper_bgcolor="#FFFFFF", plot_bgcolor="#FFFFFF",
+    font=dict(color="#111111", family="DM Sans"),
+    legend=dict(bgcolor="#F8F8F8", bordercolor="#CCCCCC", borderwidth=1,
+                font_size=11, font_color="#111111"),
 )
 # xaxis/yaxis removed from PLOTLY_LAYOUT to prevent duplicate-keyword errors.
 # Use apply_axes_style(fig) after update_layout to apply the brand grid.
@@ -578,15 +485,15 @@ with tabs[0]:
 
     # ── KPI Banner ────────────────────────────────────────────────────
     st.markdown(f"""
-    <div style='background:linear-gradient(135deg,#001C4A 0%,#050a14 100%);border:1px solid #6AB4F0;
+    <div style='background:#FFFFFF;border:1px solid #E6E6E6;
     border-radius:12px;padding:18px 24px;margin-bottom:16px;'>
     <div style='display:flex;align-items:center;gap:12px;margin-bottom:14px;'>
-    <span style='font-family:Syne;font-size:1.1rem;font-weight:800;color:#A8D5FF;'>{product_name}</span>
-    <span style='background:#003A8C;color:#D4EAFF;border:1px solid #6AB4F0;border-radius:8px;
+    <span style='font-family:Syne;font-size:1.1rem;font-weight:800;color:#1f4e79;'>{product_name}</span>
+    <span style='background:#F7F9FC;color:#1f4e79;border:1px solid #E0E0E0;border-radius:8px;
     padding:3px 10px;font-size:0.72rem;font-family:JetBrains Mono;'>{therapy_area}</span>
-    <span style='background:#003A8C;color:#D4EAFF;border:1px solid #6AB4F0;border-radius:8px;
+    <span style='background:#F7F9FC;color:#1f4e79;border:1px solid #E0E0E0;border-radius:8px;
     padding:3px 10px;font-size:0.72rem;font-family:JetBrains Mono;'>{admin_route.split("(")[0].strip()}</span>
-    <span style='background:#003A8C;color:#D4EAFF;border:1px solid #6AB4F0;border-radius:8px;
+    <span style='background:#F7F9FC;color:#1f4e79;border:1px solid #E0E0E0;border-radius:8px;
     padding:3px 10px;font-size:0.72rem;font-family:JetBrains Mono;'>
     {forecast_years[0]}–{forecast_years[-1]} · {n_years}yr</span>
     </div></div>""", unsafe_allow_html=True)
@@ -686,7 +593,7 @@ with tabs[0]:
             st.markdown("""<div class='card' style='height:300px;display:flex;align-items:center;
             justify-content:center;flex-direction:column;gap:8px;'>
             <span style='font-size:1.5rem;'>📉</span>
-            <span style='color:#A09A96;font-size:0.85rem;'>Run ASP Engine tab to unlock waterfall</span>
+            <span style='color:#FFFFFF;font-size:0.85rem;'>Run ASP Engine tab to unlock waterfall</span>
             </div>""", unsafe_allow_html=True)
 
     # ── Row 2: Annual deduction breakdown + GTN% trend ────────────────
@@ -721,7 +628,7 @@ with tabs[0]:
             apply_axes_style(fig_ded)
             st.plotly_chart(fig_ded, use_container_width=True)
         else:
-            st.markdown("<div class='card' style='height:260px;display:flex;align-items:center;justify-content:center;'><span style='color:#A09A96;'>Run ASP Engine to unlock</span></div>", unsafe_allow_html=True)
+            st.markdown("<div class='card' style='height:260px;display:flex;align-items:center;justify-content:center;'><span style='color:#FFFFFF;'>Run ASP Engine to unlock</span></div>", unsafe_allow_html=True)
 
     with col4:
         st.markdown('<div class="sec-header">🥧 Payer Channel Mix</div>', unsafe_allow_html=True)
@@ -740,11 +647,11 @@ with tabs[0]:
             hovertemplate="<b>%{label}</b><br>%{value:.1f}%<extra></extra>",
         ))
         fig_pie.update_layout(
-            paper_bgcolor="#001C4A", font_color="#C8C2BE", height=280,
+            paper_bgcolor="#FFFFFF", plot_bgcolor="#FFFFFF", font_color="#111111", height=280,
             margin=dict(t=10, b=10, l=5, r=5),
-            showlegend=True, legend=dict(font_size=9, bgcolor="#001C4A"),
+            showlegend=True, legend=dict(font_size=9, bgcolor="#FFFFFF", bordercolor="#CCCCCC", borderwidth=1),
             annotations=[dict(text=yr_pie_sel, x=0.5, y=0.5, showarrow=False,
-                              font=dict(size=16, color="#A8D5FF", family="Syne"))],
+                              font=dict(size=16, color="#0D2A56", family="Syne"))],
         )
         st.plotly_chart(fig_pie, use_container_width=True)
 
@@ -760,12 +667,12 @@ with tabs[0]:
             st.markdown(f"""
             <div style='background:#002766;border:1px solid #6AB4F0;border-radius:10px;
             padding:12px 14px;text-align:center;'>
-            <div style='font-family:Syne;font-size:0.82rem;font-weight:700;color:#A8D5FF;
+            <div style='font-family:Syne;font-size:0.82rem;font-weight:700;color:#FFFFFF;
             margin-bottom:6px;'>{idn["name"]}</div>
-            <div style='font-size:0.68rem;color:#A09A96;margin-bottom:8px;'>{flag}</div>
-            <div style='font-family:JetBrains Mono;font-size:0.95rem;color:#F1ECE9;'>{idn["discount"]}% off WAC</div>
-            <div style='font-family:JetBrains Mono;font-size:0.8rem;color:#4ade80;'>{fmt_d(acq)}/unit</div>
-            <div style='font-size:0.7rem;color:#A09A96;margin-top:4px;'>{idn["volume_pct"]}% of B&B vol</div>
+            <div style='font-size:0.68rem;color:#FFFFFF;margin-bottom:8px;'>{flag}</div>
+            <div style='font-family:JetBrains Mono;font-size:0.95rem;color:#FFFFFF;'>{idn["discount"]}% off WAC</div>
+            <div style='font-family:JetBrains Mono;font-size:0.8rem;color:#FFFFFF;'>{fmt_d(acq)}/unit</div>
+            <div style='font-size:0.7rem;color:#FFFFFF;margin-top:4px;'>{idn["volume_pct"]}% of B&B vol</div>
             </div>""", unsafe_allow_html=True)
 
     # ── Row 4: Full product summary table ────────────────────────────
@@ -1098,14 +1005,15 @@ with tabs[2]:
                             k = f"ch_{ch}_{yr}".replace("/","_").replace(" ","_")
                             st.session_state[k] = 0.0
                 with row_t[1]:
-                    border_c = "#6AB4F0" if new_val else "#3a3a4a"
-                    name_c   = "#D4EAFF" if new_val else "#A09A96"
+                    border_c = "#0D2A56" if new_val else "#CCCCCC"
+                    name_c   = "#0D2A56" if new_val else "#0D2A56"
+                    desc_c   = "#444444"
                     st.markdown(
-                        f"<div style='background:#001C4A;border:1px solid {border_c};"
+                        f"<div style='background:#FFFFFF;border:1px solid {border_c};"
                         f"border-radius:7px;padding:8px 12px;margin:2px 0;'>"
                         f"<div style='font-family:Syne;font-size:0.82rem;font-weight:700;"
                         f"color:{name_c};'>{ch}</div>"
-                        f"<div style='font-size:0.69rem;color:#A09A96;margin-top:2px;'>"
+                        f"<div style='font-size:0.69rem;color:{desc_c};margin-top:2px;'>"
                         f"{CHANNEL_DESCRIPTIONS.get(ch, 'Custom channel')}</div></div>",
                         unsafe_allow_html=True)
                 with row_t[2]:
@@ -1125,7 +1033,7 @@ with tabs[2]:
                             st.rerun()
                     else:
                         st.markdown(
-                            "<div style='font-size:0.7rem;color:#A09A96;"
+                            "<div style='font-size:0.7rem;color:#0D2A56;"
                             "text-align:center;padding-top:8px;'>built-in</div>",
                             unsafe_allow_html=True)
 
@@ -1133,9 +1041,9 @@ with tabs[2]:
             1 for ch in ALL_CH_NOW if st.session_state.get(_skey(ch), True)
         )
         st.markdown(
-            f"<div style='font-size:0.75rem;color:#C8C2BE;margin-top:10px;'>"
-            f"<b style='color:#A8D5FF;'>{n_active_now}</b> of "
-            f"<b style='color:#A8D5FF;'>{len(ALL_CH_NOW)}</b> channels active "
+            f"<div style='font-size:0.75rem;color:#0D2A56;margin-top:10px;'>"
+            f"<b style='color:#0D2A56;'>{n_active_now}</b> of "
+            f"<b style='color:#0D2A56;'>{len(ALL_CH_NOW)}</b> channels active "
             f"({len(ALL_CH_NOW) - len(CHANNELS)} custom)</div>",
             unsafe_allow_html=True)
 
@@ -1195,12 +1103,12 @@ with tabs[2]:
     # Header row: year labels
     hdr_cols = st.columns([2] + [1]*len(forecast_years))
     hdr_cols[0].markdown(
-        "<div style='font-size:0.72rem;color:#A09A96;text-transform:uppercase;"
+        "<div style='font-size:0.72rem;color:#0D2A56;text-transform:uppercase;"
         "letter-spacing:0.5px;padding:6px 0;font-family:JetBrains Mono;'>Channel</div>",
         unsafe_allow_html=True)
     for j, yr in enumerate(forecast_years):
         hdr_cols[j+1].markdown(
-            f"<div style='font-size:0.8rem;font-weight:700;color:#A8D5FF;"
+            f"<div style='font-size:0.8rem;font-weight:700;color:#0D2A56;"
             f"text-align:center;padding:6px 0;font-family:Syne;'>{yr}</div>",
             unsafe_allow_html=True)
 
@@ -1208,7 +1116,7 @@ with tabs[2]:
     for ch in ACTIVE_CH:
         row_cols = st.columns([2] + [1]*len(forecast_years))
         row_cols[0].markdown(
-            f"<div style='font-size:0.75rem;color:#D4EAFF;padding:8px 4px;line-height:1.3;'>{ch}</div>",
+            f"<div style='font-size:0.75rem;color:#0D2A56;padding:8px 4px;line-height:1.3;'>{ch}</div>",
             unsafe_allow_html=True)
         for j, yr in enumerate(forecast_years):
             key = f"ch_{ch}_{yr}".replace("/","_").replace(" ","_")
@@ -1226,7 +1134,7 @@ with tabs[2]:
     # Validation row — show sum of ACTIVE channels per year
     val_cols = st.columns([2] + [1]*len(forecast_years))
     val_cols[0].markdown(
-        "<div style='font-size:0.72rem;color:#A09A96;padding:6px 4px;"
+        "<div style='font-size:0.72rem;color:#FFFFFF;padding:6px 4px;"
         "font-family:JetBrains Mono;'>Σ Total %</div>",
         unsafe_allow_html=True)
     all_valid = True
@@ -1288,9 +1196,9 @@ with tabs[2]:
             marker_colors=pie_colors, textfont_size=8,
             hovertemplate="<b>%{label}</b><br>%{value:.1f}%<extra></extra>",
         ))
-        fig_p.update_layout(paper_bgcolor="#001C4A", font_color="#C8C2BE",
+        fig_p.update_layout(paper_bgcolor="#FFFFFF", plot_bgcolor="#FFFFFF", font_color="#111111",
                             height=220, margin=dict(t=30, b=10, l=5, r=5),
-                            title=str(yr), title_font=dict(size=13, color="#A8D5FF"),
+                            title=str(yr), title_font=dict(size=13, color="#0D2A56"),
                             showlegend=False)
         with cols[idx % 3]:
             st.plotly_chart(fig_p, use_container_width=True)
@@ -1341,18 +1249,19 @@ with tabs[3]:
     # ─────────────────────────────────────────────────────────────────
     st.markdown("""
     <style>
-    /* Contract-terms: brand palette overrides */
+    /* Contract-terms: palette overrides for light theme */
     [data-testid="stNumberInput"] input {
         min-width: 72px !important;
         font-size: 0.9rem !important;
         font-weight: 600 !important;
         text-align: center !important;
-        color: #F1ECE9 !important;
-        background: #002766 !important;
+        color: #0D2A56 !important;
+        background: #FFFFFF !important;
+        border: 1px solid #CCCCCC !important;
     }
     .ct-section-bg {
-        background: #002766;
-        border: 1px solid #003A8C;
+        background: #FFFFFF;
+        border: 1px solid #E0E6F3;
         border-radius: 10px;
         padding: 14px 18px 10px 18px;
         margin-bottom: 16px;
@@ -1361,22 +1270,22 @@ with tabs[3]:
         font-family: 'Syne', sans-serif;
         font-size: 0.82rem;
         font-weight: 700;
-        color: #A8D5FF;
+        color: #1f4e79;
         text-align: center;
         padding: 4px 0 6px 0;
-        border-bottom: 2px solid #6AB4F0;
+        border-bottom: 2px solid #B6D6F5;
         margin-bottom: 4px;
     }
     .ct-metric-lbl {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.74rem;
-        color: #D4EAFF;
+        color: #1f4e79;
         padding: 9px 4px 4px 4px;
         white-space: nowrap;
     }
     .ct-caption {
         font-size: 0.73rem;
-        color: #C8C2BE;
+        color: #333333;
         font-style: italic;
         margin-bottom: 8px;
     }
@@ -1409,7 +1318,7 @@ with tabs[3]:
 
         # Header row
         hdr_cols = st.columns(col_w)
-        hdr_cols[0].markdown("<div class='ct-metric-lbl' style='color:#A09A96;'>Metric</div>",
+        hdr_cols[0].markdown("<div class='ct-metric-lbl' style='color:#FFFFFF;'>Metric</div>",
                               unsafe_allow_html=True)
         for j, yr in enumerate(forecast_years):
             hdr_cols[j+1].markdown(f"<div class='ct-year-hdr'>{yr}</div>",
@@ -1693,31 +1602,31 @@ with tabs[4]:
     st.markdown('<div class="sec-header">⚙️ ASP Calculation Step-by-Step</div>', unsafe_allow_html=True)
     col_a, col_b = st.columns(2)
     with col_a:
-        st.markdown("""<div class='card'>
-        <b style='color:#A8D5FF;'>Step 1 — Identify ASP-Eligible Channels</b>
+        st.markdown("""<div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 55%,#8ab4f2 100%); border-radius:10px; padding:12px;'>
+        <b style='color:#FFFFFF;'>Step 1 — Identify ASP-Eligible Channels</b>
         <table style='width:100%;font-size:0.78rem;margin-top:8px;'>
-        <tr><th style='color:#C8C2BE;text-align:left;'>Channel</th><th style='color:#C8C2BE;'>ASP Eligible?</th></tr>
+        <tr><th style='color:#FFFFFF;text-align:left;'>Channel</th><th style='color:#FFFFFF;'>ASP Eligible?</th></tr>
         """, unsafe_allow_html=True)
         for ch, eligible in ASP_ELIGIBLE.items():
             color = "#4ade80" if eligible else "#f87171"
             tag = "✅ Included" if eligible else "❌ Exempt"
-            st.markdown(f"<tr><td style='color:#F1ECE9;padding:3px 0;'>{ch}</td><td style='color:{color};font-family:JetBrains Mono;font-size:0.75rem;'>{tag}</td></tr>",
+            st.markdown(f"<tr><td style='color:#FFFFFF;padding:3px 0;'>{ch}</td><td style='color:{color};font-family:JetBrains Mono;font-size:0.75rem;'>{tag}</td></tr>",
                         unsafe_allow_html=True)
         st.markdown("</table></div>", unsafe_allow_html=True)
     with col_b:
-        st.markdown("""<div class='card'>
-        <b style='color:#A8D5FF;'>Step 2 — Monthly ASP Computation</b>
-        <div style='margin-top:10px;font-size:0.8rem;color:#C8C2BE;line-height:1.7;'>
+        st.markdown("""<div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 55%,#8ab4f2 100%); border-radius:10px; padding:12px;'>
+        <b style='color:#FFFFFF;'>Step 2 — Monthly ASP Computation</b>
+        <div style='margin-top:10px;font-size:0.8rem;color:#FFFFFF;line-height:1.7;'>
         For each month <em>t</em>:<br>
-        <code style='color:#4ade80;'>ASP_t = Σ(price_i × units_i) / Σ(units_i)</code><br>
+        <code style='color:#FFFFFF;'>ASP_t = Σ(price_i × units_i) / Σ(units_i)</code><br>
         where <em>i</em> = non-exempt channels only<br><br>
-        <b style='color:#F1ECE9;'>Step 3 — Rolling 6-Month Average</b><br>
-        <code style='color:#4ade80;'>ASP_rolling = Σ(rev_{t-5..t}) / Σ(units_{t-5..t})</code><br>
+        <b style='color:#FFFFFF;'>Step 3 — Rolling 6-Month Average</b><br>
+        <code style='color:#FFFFFF;'>ASP_rolling = Σ(rev_{t-5..t}) / Σ(units_{t-5..t})</code><br>
         (volume-weighted, not simple average)<br><br>
-        <b style='color:#F1ECE9;'>Step 4 — Medicare Reimbursement</b><br>
-        <code style='color:#4ade80;'>Medicare B Reimb = ASP_rolling × 1.06</code><br>
+        <b style='color:#FFFFFF;'>Step 4 — Medicare Reimbursement</b><br>
+        <code style='color:#FFFFFF;'>Medicare B Reimb = ASP_rolling × 1.06</code><br>
         (pre-sequestration; effective = × 1.04 post-seq)<br><br>
-        <b style='color:#F1ECE9;'>Step 5 — Reporting Lag</b><br>
+        <b style='color:#FFFFFF;'>Step 5 — Reporting Lag</b><br>
         ASP published ~2 quarters after the reference period.
         Model uses concurrent ASP for simplification — add lag for sensitivity analysis.
         </div></div>""", unsafe_allow_html=True)
@@ -1741,6 +1650,373 @@ with tabs[4]:
     })
     st.dataframe(asp_T, use_container_width=True, hide_index=True)
 
+
+    # ═══════════════════════════════════════════════════════════════
+    # ASP RISK STRESS TEST
+    # ═══════════════════════════════════════════════════════════════
+    st.markdown("---")
+    st.markdown("""
+    <div style='background:linear-gradient(135deg,#1a0505 0%,#0a0515 100%);
+    border:1px solid #b02a2a;border-radius:12px;padding:16px 22px;margin:8px 0;'>
+    <div style='font-family:Syne;font-weight:800;font-size:1.1rem;color:#FFFFFF;margin-bottom:6px;'>
+    🔴 ASP Risk Stress Test — When Does ASP Enter the Danger Zone?</div>
+    <div style='font-size:0.82rem;color:#FFFFFF;line-height:1.6;'>
+    Use these levers to <b>stress ASP downward</b> and identify the tipping point where
+    it falls below the IDN acquisition floor. Each lever reflects a real-world
+    market access risk: deep discounting, channel mix erosion, 340B expansion, or
+    growing Medicare Part B exposure at suppressed prices.
+    <br><br>
+    <b style='color:#FFFFFF;'>Risk signals:</b>
+    Increasing GPO/IDN discounts · Shifting mix toward deeply discounted channels ·
+    340B covered entity volume growth · WAC price increases that lag ASP (IRA caps)
+    </div></div>""", unsafe_allow_html=True)
+
+    # Resolve IDN list and baseline values for the stress test
+    idn_list_stress = st.session_state.get("idn_list", [
+        {"name": "IDN-A", "discount": 20.0, "volume_pct": 30.0, "is_340b": False}
+    ])
+    wac_base   = float(st.session_state.forecast_df["WAC per Unit"].iloc[0])
+    asp_base_y1= float(asp_df[asp_df["Year"]==forecast_years[0]]["RollingASP_6M"].mean())
+
+    st_left, st_right = st.columns([1, 1.6])
+
+    with st_left:
+        st.markdown('<div class="sec-header">🔩 Stress Levers</div>', unsafe_allow_html=True)
+
+        # IDN to track as floor
+        idn_names_st = [x["name"] for x in idn_list_stress]
+        stress_idn_name = st.selectbox("Reference IDN (acquisition floor)",
+                                        idn_names_st, key="stress_idn_sel",
+                                        label_visibility="visible")
+        stress_idn = next((x for x in idn_list_stress if x["name"] == stress_idn_name),
+                          idn_list_stress[0])
+        stress_floor = wac_base * (1 - stress_idn["discount"] / 100)
+
+        st.markdown("---")
+        st.markdown("**Lever 1 — GPO Discount Escalation**")
+        st.caption("Simulate payer pressure forcing deeper GPO/IDN contracts")
+        stress_gpo = st.slider("GPO Discount % off WAC",
+                                min_value=0.0, max_value=70.0,
+                                value=float(disc_dict.get(forecast_years[0],{}).get("gpo",14.0)),
+                                step=0.5, key="stress_gpo",
+                                help="Higher discount → lower invoice price → ASP falls")
+
+        stress_idn_disc = st.slider("IDN Discount % off WAC",
+                                     min_value=0.0, max_value=70.0,
+                                     value=float(disc_dict.get(forecast_years[0],{}).get("idn",20.0)),
+                                     step=0.5, key="stress_idn_disc")
+
+        st.markdown("**Lever 2 — 340B Volume Growth**")
+        st.caption("340B sales are exempt from ASP but dilute mfr revenue; large 340B mix erodes blended ASP indirectly by shrinking eligible volume")
+        stress_b340_mix = st.slider("340B Channel % of total mix",
+                                     min_value=0.0, max_value=40.0,
+                                     value=float(ch_alloc_dict.get(forecast_years[0],{}).get("GPO/IDN 340B", 4.0)),
+                                     step=1.0, key="stress_b340_mix")
+
+        st.markdown("**Lever 3 — GPO/IDN Non-340B Volume Growth**")
+        st.caption("More volume through deeply discounted channels → pulls ASP down")
+        stress_gpo_mix = st.slider("GPO/IDN Non-340B % of mix",
+                                    min_value=0.0, max_value=50.0,
+                                    value=float(ch_alloc_dict.get(forecast_years[0],{}).get("GPO/IDN Non-340B", 7.0)),
+                                    step=1.0, key="stress_gpo_mix")
+
+        st.markdown("**Lever 4 — Commercial PBM Mix Erosion**")
+        st.caption("PBM invoiced at WAC — losing PBM share lowers ASP")
+        stress_pbm_mix = st.slider("Commercial PBM % of mix",
+                                    min_value=0.0, max_value=60.0,
+                                    value=float(ch_alloc_dict.get(forecast_years[0],{}).get("Commercial PBM", 25.0)),
+                                    step=1.0, key="stress_pbm_mix")
+
+        st.markdown("**Lever 5 — WAC Price Erosion vs Baseline**")
+        st.caption("Simulate IRA price caps or voluntary price reductions")
+        stress_wac_pct = st.slider("WAC as % of current WAC",
+                                    min_value=50.0, max_value=110.0,
+                                    value=100.0, step=1.0, key="stress_wac_pct",
+                                    help="100% = unchanged; 80% = 20% WAC reduction")
+
+        # ── Build stress scenario dicts ──────────────────────────────
+        stress_wac_mult = stress_wac_pct / 100.0
+
+        # Remaining channels scale proportionally
+        fixed_stress = stress_pbm_mix + stress_gpo_mix + stress_b340_mix
+        rem_stress   = max(0.0, 100.0 - fixed_stress)
+        other_stress_chs = [c for c in CHANNELS
+                            if c not in ("Commercial PBM","GPO/IDN Non-340B","GPO/IDN 340B")]
+        other_stress_tot = sum(ch_alloc_dict.get(forecast_years[0],{}).get(c, 0)
+                                for c in other_stress_chs)
+
+        stress_alloc = {}
+        for c in CHANNELS:
+            if c == "Commercial PBM":     stress_alloc[c] = stress_pbm_mix
+            elif c == "GPO/IDN Non-340B": stress_alloc[c] = stress_gpo_mix
+            elif c == "GPO/IDN 340B":     stress_alloc[c] = stress_b340_mix
+            else:
+                bs = (ch_alloc_dict.get(forecast_years[0],{}).get(c, 0)
+                      / other_stress_tot if other_stress_tot > 0 else 0)
+                stress_alloc[c] = rem_stress * bs
+
+        stress_alloc_dict = {yr: stress_alloc for yr in forecast_years}
+        stress_disc_dict  = {}
+        for yr in forecast_years:
+            bd = disc_dict.get(yr, disc_dict[forecast_years[0]])
+            stress_disc_dict[yr] = {
+                "gpo": stress_gpo, "idn": stress_idn_disc,
+                "b340": bd["b340"], "va": bd["va"],
+            }
+
+        # Modify monthly_df WAC for WAC erosion lever
+        stress_monthly = monthly_df.copy()
+        stress_monthly["WAC"] = stress_monthly["WAC"] * stress_wac_mult
+        stress_floor_adj = stress_floor  # floor fixed to original IDN contract
+
+        # ── Compute stress ASP ────────────────────────────────────────
+        stress_asp_df = compute_asp_series(stress_monthly, stress_alloc_dict, stress_disc_dict)
+
+        # Stress ASP year 1 for display
+        stress_asp_y1 = float(stress_asp_df[stress_asp_df["Year"]==forecast_years[0]]["RollingASP_6M"].mean())
+        stress_asp6_y1= stress_asp_y1 * 1.06
+        asp_delta_y1  = stress_asp_y1 - asp_base_y1
+        in_risk_y1    = stress_asp_y1 < stress_floor_adj
+
+        # ── Live risk readout ─────────────────────────────────────────
+        risk_bg     = "#2a0505" if in_risk_y1 else "#052010"
+        risk_border = "#b02a2a" if in_risk_y1 else "#1a6e3a"
+        risk_icon   = "🔴 IN RISK" if in_risk_y1 else "🟢 SAFE"
+        risk_color  = "#f87171" if in_risk_y1 else "#4ade80"
+        margin_val  = stress_asp6_y1 - stress_floor_adj
+        margin_color= "#f87171" if margin_val < 0 else "#4ade80"
+
+        st.markdown(f"""
+        <div style='background:{risk_bg};border:2px solid {risk_border};
+        border-radius:10px;padding:14px 16px;margin-top:12px;'>
+        <div style='font-family:Syne;font-size:1rem;font-weight:800;
+        color:{risk_color};margin-bottom:10px;'>{risk_icon}</div>
+        <div style='display:grid;grid-template-columns:1fr 1fr;gap:8px;'>
+        <div style='background:#001C4A;border-radius:6px;padding:8px;'>
+        <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;'>Stress ASP (Y1)</div>
+        <div style='font-family:JetBrains Mono;font-size:0.9rem;color:{risk_color};font-weight:700;'>
+        {fmt_d(stress_asp_y1)}</div></div>
+        <div style='background:#001C4A;border-radius:6px;padding:8px;'>
+        <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;'>Vs Baseline</div>
+        <div style='font-family:JetBrains Mono;font-size:0.9rem;
+        color:{"#f87171" if asp_delta_y1<0 else "#4ade80"};font-weight:700;'>
+        {fmt_d(asp_delta_y1)}</div></div>
+        <div style='background:#001C4A;border-radius:6px;padding:8px;'>
+        <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;'>IDN Floor</div>
+        <div style='font-family:JetBrains Mono;font-size:0.9rem;color:#FFFFFF;font-weight:700;'>
+        {fmt_d(stress_floor_adj)}</div></div>
+        <div style='background:#001C4A;border-radius:6px;padding:8px;'>
+        <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;'>Provider Margin</div>
+        <div style='font-family:JetBrains Mono;font-size:0.9rem;color:{margin_color};font-weight:700;'>
+        {fmt_d(margin_val)}</div></div>
+        </div></div>""", unsafe_allow_html=True)
+
+    with st_right:
+        st.markdown('<div class="sec-header">📉 ASP Risk Trajectory — Baseline vs Stress</div>',
+                    unsafe_allow_html=True)
+
+        # ── Main risk chart ───────────────────────────────────────────
+        fig_risk = go.Figure()
+
+        # Risk zone shading (between floor and 0)
+        fig_risk.add_hrect(
+            y0=0, y1=stress_floor_adj,
+            fillcolor="rgba(248,113,113,0.08)",
+            line_width=0,
+            annotation_text="⚠️ DANGER ZONE (ASP < IDN Floor)",
+            annotation_position="top left",
+            annotation_font=dict(color="#f87171", size=10),
+        )
+
+        # IDN acquisition floor
+        fig_risk.add_hline(
+            y=stress_floor_adj,
+            line_color="#f87171", line_dash="dash", line_width=2,
+            annotation_text=f"IDN Floor: {fmt_d(stress_floor_adj)}",
+            annotation_position="bottom right",
+            annotation_font=dict(color="#f87171", size=10),
+        )
+
+        # Baseline ASP
+        fig_risk.add_trace(go.Scatter(
+            x=asp_df["Period"], y=asp_df["RollingASP_6M"],
+            name="Baseline ASP", mode="lines",
+            line=dict(color="#4ade80", width=2.5),
+        ))
+
+        # Baseline ASP+6%
+        fig_risk.add_trace(go.Scatter(
+            x=asp_df["Period"], y=asp_df["ASP_Plus6"],
+            name="Baseline ASP+6%", mode="lines",
+            line=dict(color="#A8D5FF", width=1.5, dash="dot"),
+        ))
+
+        # Stress ASP
+        fig_risk.add_trace(go.Scatter(
+            x=stress_asp_df["Period"], y=stress_asp_df["RollingASP_6M"],
+            name="Stress ASP", mode="lines",
+            line=dict(color="#f87171", width=3),
+        ))
+
+        # Stress ASP+6%
+        fig_risk.add_trace(go.Scatter(
+            x=stress_asp_df["Period"], y=stress_asp_df["ASP_Plus6"],
+            name="Stress ASP+6%", mode="lines",
+            line=dict(color="#fb923c", width=1.5, dash="dot"),
+        ))
+
+        # Fill between baseline and stress ASP — shows the "erosion gap"
+        fig_risk.add_trace(go.Scatter(
+            x=asp_df["Period"].tolist() + stress_asp_df["Period"].tolist()[::-1],
+            y=asp_df["RollingASP_6M"].tolist() + stress_asp_df["RollingASP_6M"].tolist()[::-1],
+            fill="toself", fillcolor="rgba(248,113,113,0.10)",
+            line=dict(color="rgba(0,0,0,0)"),
+            name="ASP Erosion Gap", showlegend=True, hoverinfo="skip",
+        ))
+
+        # Flag months where stress ASP < floor
+        for _, r in stress_asp_df[stress_asp_df["RollingASP_6M"] < stress_floor_adj].iterrows():
+            fig_risk.add_shape(
+                type="line", x0=r["Period"], x1=r["Period"], y0=0, y1=1,
+                xref="x", yref="paper",
+                line=dict(color="rgba(248,113,113,0.35)", width=2),
+            )
+
+        # Year dividers
+        for yr in forecast_years[1:]:
+            fig_risk.add_shape(type="line", x0=f"{yr}-Jan", x1=f"{yr}-Jan",
+                               y0=0, y1=1, xref="x", yref="paper",
+                               line=dict(color="#003A8C", width=1, dash="dot"))
+
+        fig_risk.update_layout(
+            title="ASP Risk Analysis — Stress vs Baseline (red shading = danger zone)",
+            height=400, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
+            yaxis_title="$/unit", xaxis_tickangle=-45,
+        )
+        apply_axes_style(fig_risk)
+        st.plotly_chart(fig_risk, use_container_width=True)
+
+        # ── Year-by-year risk scoreboard ──────────────────────────────
+        st.markdown('<div class="sec-header">🎯 Year-by-Year Risk Scoreboard</div>',
+                    unsafe_allow_html=True)
+
+        stress_annual = stress_asp_df.groupby("Year").agg(
+            Stress_ASP=("RollingASP_6M","mean"),
+            Stress_ASP6=("ASP_Plus6","mean"),
+        ).reset_index()
+        base_annual_st = asp_df.groupby("Year").agg(
+            Base_ASP=("RollingASP_6M","mean"),
+        ).reset_index()
+        risk_cmp = base_annual_st.merge(stress_annual, on="Year")
+        risk_cmp["In_Risk"]  = risk_cmp["Stress_ASP"] < stress_floor_adj
+        risk_cmp["Margin"]   = risk_cmp["Stress_ASP6"] - stress_floor_adj
+        risk_cmp["Erosion"]  = risk_cmp["Stress_ASP"] - risk_cmp["Base_ASP"]
+
+        sb2 = st.columns(len(forecast_years))
+        for j, yr in enumerate(forecast_years):
+            row_r = risk_cmp[risk_cmp["Year"]==yr]
+            if len(row_r) == 0: continue
+            row_r   = row_r.iloc[0]
+            in_risk = row_r["In_Risk"]
+            margin  = row_r["Margin"]
+            erosion = row_r["Erosion"]
+            with sb2[j]:
+                icon_r  = "🔴" if in_risk else "🟢"
+                status_r= "RISK" if in_risk else "SAFE"
+                c_r     = "#f87171" if in_risk else "#4ade80"
+                bg_r    = "border:1px solid #b02a2a;background:#1a0505" if in_risk else "border:1px solid #1a6e3a;background:#031209"
+                st.markdown(f"""
+                <div style='{bg_r};border-radius:8px;padding:9px 8px;text-align:center;'>
+                <div style='font-family:Syne;font-weight:700;color:#FFFFFF;font-size:0.72rem;'>{yr}</div>
+                <div style='font-size:1rem;margin:3px 0;'>{icon_r}</div>
+                <div style='font-family:JetBrains Mono;font-size:0.7rem;color:{c_r};font-weight:700;'>{status_r}</div>
+                <div style='font-size:0.62rem;color:#FFFFFF;margin-top:3px;font-family:JetBrains Mono;'>
+                ASP: {fmt_d(row_r["Stress_ASP"])}</div>
+                <div style='font-size:0.62rem;color:{"#f87171" if margin<0 else "#4ade80"};font-family:JetBrains Mono;'>
+                Margin: {fmt_d(margin)}</div>
+                <div style='font-size:0.62rem;color:{"#f87171" if erosion<0 else "#4ade80"};font-family:JetBrains Mono;'>
+                Δ: {fmt_d(erosion)}</div>
+                </div>""", unsafe_allow_html=True)
+
+        # ── Tipping point analysis ─────────────────────────────────────
+        st.markdown('<div class="sec-header">📌 Tipping Point — At What GPO Discount Does ASP Hit the Floor?</div>',
+                    unsafe_allow_html=True)
+
+        # Sweep GPO discount from current to max, find where stress ASP crosses the floor
+        sweep_discounts = [round(x * 0.5, 1) for x in range(0, 141)]  # 0 to 70%
+        tipping_point   = None
+        sweep_rows = []
+        for gd in sweep_discounts:
+            sd = {}
+            for yr in forecast_years:
+                bd = disc_dict.get(yr, disc_dict[forecast_years[0]])
+                sd[yr] = {"gpo": gd, "idn": stress_idn_disc, "b340": bd["b340"], "va": bd["va"]}
+            sw_asp = compute_asp_series(stress_monthly, stress_alloc_dict, sd)
+            sw_asp_y1 = float(sw_asp[sw_asp["Year"]==forecast_years[0]]["RollingASP_6M"].mean())
+            sw_asp6_y1= sw_asp_y1 * 1.06
+            in_r = sw_asp_y1 < stress_floor_adj
+            sweep_rows.append({"GPO Disc %": gd, "Stress ASP": sw_asp_y1,
+                                "ASP+6%": sw_asp6_y1, "In Risk": in_r})
+            if tipping_point is None and in_r:
+                tipping_point = gd
+
+        sweep_df = pd.DataFrame(sweep_rows)
+
+        # Tipping point callout
+        if tipping_point is not None:
+            cur_gpo = disc_dict.get(forecast_years[0], {}).get("gpo", 14.0)
+            gap     = tipping_point - cur_gpo
+            gap_color = "#4ade80" if gap > 5 else "#fbbf24" if gap > 0 else "#f87171"
+            st.markdown(f"""
+            <div style='background:#001C4A;border:2px solid {gap_color};border-radius:10px;
+            padding:14px 18px;margin-bottom:10px;'>
+            <div style='font-family:Syne;font-weight:700;font-size:0.9rem;color:{gap_color};'>
+            ⚠️ Tipping Point: GPO Discount ≥ <span style='font-family:JetBrains Mono;
+            font-size:1.1rem;'>{tipping_point:.1f}%</span></div>
+            <div style='font-size:0.78rem;color:#FFFFFF;margin-top:6px;'>
+            Current GPO discount: <b style='color:#FFFFFF;font-family:JetBrains Mono;'>{cur_gpo:.1f}%</b> &nbsp;|&nbsp;
+            Headroom before risk: <b style='color:{gap_color};font-family:JetBrains Mono;'>{gap:+.1f} pp</b>
+            </div>
+            <div style='font-size:0.72rem;color:#FFFFFF;margin-top:4px;'>
+            At {tipping_point:.1f}% GPO discount, stress ASP crosses below the IDN acquisition floor
+            of {fmt_d(stress_floor_adj)} — buy-and-bill becomes unprofitable for providers.
+            </div></div>""", unsafe_allow_html=True)
+        else:
+            st.markdown("""
+            <div class='card card-success' style='padding:12px 16px;'>
+            ✅ ASP does not breach the IDN floor at any GPO discount up to 70%.
+            Current channel mix and pricing maintain a safe margin throughout.
+            </div>""", unsafe_allow_html=True)
+
+        # Tipping point chart
+        fig_tp = go.Figure()
+        fig_tp.add_hline(y=stress_floor_adj, line_color="#f87171", line_dash="dash",
+                         line_width=2, annotation_text=f"IDN Floor {fmt_d(stress_floor_adj)}",
+                         annotation_font=dict(color="#f87171", size=10))
+        fig_tp.add_trace(go.Scatter(
+            x=sweep_df["GPO Disc %"], y=sweep_df["Stress ASP"],
+            name="Stress ASP", mode="lines",
+            line=dict(color="#f87171", width=2.5),
+        ))
+        fig_tp.add_trace(go.Scatter(
+            x=sweep_df["GPO Disc %"], y=sweep_df["ASP+6%"],
+            name="Stress ASP+6%", mode="lines",
+            line=dict(color="#fb923c", width=1.5, dash="dot"),
+        ))
+        if tipping_point is not None:
+            fig_tp.add_vline(x=tipping_point, line_color="#fbbf24", line_dash="dot",
+                             line_width=2,
+                             annotation_text=f"Tipping: {tipping_point:.1f}%",
+                             annotation_font=dict(color="#fbbf24", size=11))
+        fig_tp.update_layout(
+            title="ASP vs GPO Discount Sweep — Finding the Tipping Point",
+            height=300, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
+            xaxis_title="GPO Discount % off WAC",
+            yaxis_title="ASP ($/unit)",
+        )
+        apply_axes_style(fig_tp)
+        st.plotly_chart(fig_tp, use_container_width=True)
+
     # ═══════════════════════════════════════════════════════════════
     # ASP RESCUE SIMULATOR
     # ═══════════════════════════════════════════════════════════════
@@ -1748,12 +2024,12 @@ with tabs[4]:
     st.markdown("""
     <div style='background:linear-gradient(135deg,#050f05 0%,#050a18 100%);
     border:1px solid #0a4a20;border-radius:12px;padding:16px 22px;margin:8px 0;'>
-    <div style='font-family:Syne;font-weight:800;font-size:1.1rem;color:#4ade80;margin-bottom:6px;'>
+    <div style='font-family:Syne;font-weight:800;font-size:1.1rem;color:#FFFFFF;margin-bottom:6px;'>
     🎯 ASP Rescue Simulator</div>
-    <div style='font-size:0.82rem;color:#C8C2BE;line-height:1.6;'>
+    <div style='font-size:0.82rem;color:#FFFFFF;line-height:1.6;'>
     Adjust contract terms below and watch the 6-month rolling ASP recalculate in real time.
     The goal: find the combination of GPO/IDN discounts and channel mix that lifts ASP
-    <b style='color:#4ade80;'>above the IDN acquisition floor</b> — turning 🚩 flags into ✅ clean status.
+    <b style='color:#FFFFFF;'>above the IDN acquisition floor</b> — turning 🚩 flags into ✅ clean status.
     <br><br>
     <b>What drives ASP down:</b> Higher GPO/IDN discounts (lower invoice price to providers) ·
     Growing IDN/GPO channel share · 340B volumes (exempt but reduce mfr revenue)<br>
@@ -1856,11 +2132,11 @@ with tabs[4]:
         st.markdown(f"""
         <div style='background:#002766;border:1px solid #6AB4F0;border-radius:8px;
         padding:10px 14px;margin-top:10px;'>
-        <div style='font-size:0.7rem;color:#A09A96;font-family:JetBrains Mono;'>
+        <div style='font-size:0.7rem;color:#FFFFFF;font-family:JetBrains Mono;'>
         TRACKED IDN ACQUISITION FLOOR</div>
-        <div style='font-family:JetBrains Mono;font-size:1.1rem;font-weight:700;color:#f87171;'>
+        <div style='font-family:JetBrains Mono;font-size:1.1rem;font-weight:700;color:#FFFFFF;'>
         {fmt_d(idn_acq_sim)}/unit</div>
-        <div style='font-size:0.7rem;color:#A09A96;'>({tracked_idn["discount"]}% off WAC
+        <div style='font-size:0.7rem;color:#FFFFFF;'>({tracked_idn["discount"]}% off WAC
         ${wac_y1_sim:,.0f}) — ASP must exceed this</div>
         </div>""", unsafe_allow_html=True)
 
@@ -1966,13 +2242,13 @@ with tabs[4]:
                 st.markdown(f"""
                 <div style='background:#002766;border:1px solid {"#0a4020" if rescued else "#5c1a1a"};
                 border-radius:9px;padding:10px 8px;text-align:center;'>
-                <div style='font-family:Syne;font-weight:700;color:#C8C2BE;font-size:0.75rem;'>{yr}</div>
+                <div style='font-family:Syne;font-weight:700;color:#FFFFFF;font-size:0.75rem;'>{yr}</div>
                 <div style='font-size:1.1rem;margin:4px 0;'>{icon}</div>
                 <div style='font-family:JetBrains Mono;font-size:0.75rem;color:{color};
                 font-weight:700;'>{status}</div>
-                <div style='font-size:0.68rem;color:#A09A96;margin-top:4px;font-family:JetBrains Mono;'>
+                <div style='font-size:0.68rem;color:#FFFFFF;margin-top:4px;font-family:JetBrains Mono;'>
                 Base: {fmt_d(b_asp)}</div>
-                <div style='font-size:0.68rem;color:#F1ECE9;font-family:JetBrains Mono;'>
+                <div style='font-size:0.68rem;color:#FFFFFF;font-family:JetBrains Mono;'>
                 Scen: {fmt_d(s_asp)}</div>
                 <div style='font-size:0.68rem;color:{delta_color};font-family:JetBrains Mono;'>
                 Δ {fmt_d(delta)}</div>
@@ -2011,7 +2287,7 @@ with tabs[4]:
                 st.markdown(f"""
                 <div style='background:#002766;border:1px solid #6AB4F0;border-radius:8px;
                 padding:14px 18px;'>
-                <span style='color:#C8C2BE;font-size:0.8rem;'>To make <b style='color:#A8D5FF;'>
+                <span style='color:#FFFFFF;font-size:0.8rem;'>To make <b style='color:#FFFFFF;'>
                 Scenario ASP ≥ {fmt_d(idn_acq_sim)}</b> (IDN floor), GPO discount must be
                 <b style='color:{be_color};font-family:JetBrains Mono;'>≤ {be_disc:.1f}%</b>
                 (current scenario: {sim_gpo:.1f}%) — assuming current channel mix.
@@ -2255,49 +2531,47 @@ with tabs[6]:
 
         with card_cols[i % 5]:
             st.markdown(f"""
-            <div style='background:{card_bg};border:1px solid {card_border};
+            <div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 60%,#8ab4f2 100%);border:1px solid {card_border};
             border-radius:12px;padding:16px 14px;margin-bottom:8px;'>
 
             <div style='display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;'>
             <div style='font-family:Syne;font-size:0.82rem;font-weight:700;
-            color:#D4EAFF;line-height:1.3;'>{idn["name"]}</div>
+            color:#FFFFFF;line-height:1.3;'>{idn["name"]}</div>
             <div style='font-size:1.1rem;'>{status_icon}</div>
             </div>
 
-            <div style='font-size:0.68rem;color:#A09A96;margin-bottom:10px;'>{type_tag}</div>
+            <div style='font-size:0.68rem;color:#FFFFFF;margin-bottom:10px;'>{type_tag}</div>
 
             <div style='display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;'>
-            <div style='background:#001C4A;border-radius:6px;padding:7px 9px;'>
-            <div style='font-size:0.6rem;color:#A09A96;text-transform:uppercase;letter-spacing:0.4px;'>Discount</div>
-            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#F1ECE9;font-weight:600;'>
+            <div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 60%,#8ab4f2 100%);border-radius:6px;padding:7px 9px;'>
+            <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.4px;'>Discount</div>
+            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#FFFFFF;font-weight:600;'>
             {idn["discount"]}%</div>
             </div>
-            <div style='background:#001C4A;border-radius:6px;padding:7px 9px;'>
-            <div style='font-size:0.6rem;color:#A09A96;text-transform:uppercase;letter-spacing:0.4px;'>B&B Vol</div>
-            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#F1ECE9;font-weight:600;'>
+            <div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 60%,#8ab4f2 100%);border-radius:6px;padding:7px 9px;'>
+            <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.4px;'>B&B Vol</div>
+            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#FFFFFF;font-weight:600;'>
             {idn["volume_pct"]:.0f}%</div>
             </div>
-            <div style='background:#001C4A;border-radius:6px;padding:7px 9px;'>
-            <div style='font-size:0.6rem;color:#A09A96;text-transform:uppercase;letter-spacing:0.4px;'>Acq. Price</div>
-            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#fbbf24;font-weight:600;'>
+            <div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 60%,#8ab4f2 100%);border-radius:6px;padding:7px 9px;'>
+            <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.4px;'>Acq. Price</div>
+            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#FFFFFF;font-weight:600;'>
             {fmt_d(acq)}</div>
             </div>
             <div style='background:#001C4A;border-radius:6px;padding:7px 9px;'>
-            <div style='font-size:0.6rem;color:#A09A96;text-transform:uppercase;letter-spacing:0.4px;'>Spread</div>
+            <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.4px;'>Spread</div>
             <div style='font-family:JetBrains Mono;font-size:0.88rem;color:{spread_color};font-weight:600;'>
             {fmt_d(spread)}</div>
             </div>
             </div>
 
-            <div style='background:#001C4A;border-radius:6px;padding:7px 9px;margin-bottom:8px;'>
-            <div style='font-size:0.6rem;color:#A09A96;text-transform:uppercase;letter-spacing:0.4px;'>Est. Mfr Rev (Y1)</div>
-            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#A8D5FF;font-weight:600;'>
+            <div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 60%,#8ab4f2 100%);border-radius:6px;padding:7px 9px;margin-bottom:8px;'>
+            <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.4px;'>Est. Mfr Rev (Y1)</div>
+            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#FFFFFF;font-weight:600;'>
             {fmt_m(mfr_rev_yr1)}</div>
             </div>
 
-            <div style='text-align:center;background:{"#2a0505" if flagged else "#052010"};
-            border-radius:6px;padding:5px;font-size:0.73rem;font-weight:700;
-            color:{spread_color};font-family:JetBrains Mono;'>{status_icon} {status_text}</div>
+            <div style='text-align:center;background:linear-gradient(135deg,#0f2d55 0%,#1b4e79 50%,#5f8ed8 100%);border-radius:6px;padding:5px;font-size:0.73rem;font-weight:700;color:{spread_color};font-family:JetBrains Mono;'>{status_icon} {status_text}</div>
             </div>""", unsafe_allow_html=True)
 
     # ── Portfolio summary table ──────────────────────────────────────
@@ -2346,7 +2620,7 @@ with tabs[6]:
         # Column headers
         hdr_c = st.columns([0.3, 2.2, 1.2, 1.2, 0.8])
         for hc, lbl in zip(hdr_c, ["#", "IDN Name", "Discount % off WAC", "% of B&B Volume", "340B"]):
-            hc.markdown(f"<div style='font-size:0.68rem;color:#A09A96;text-transform:uppercase;"
+            hc.markdown(f"<div style='font-size:0.68rem;color:#FFFFFF;text-transform:uppercase;"
                         f"font-family:JetBrains Mono;padding:4px 2px;border-bottom:1px solid #003A8C;'>"
                         f"{lbl}</div>", unsafe_allow_html=True)
 
@@ -2354,7 +2628,7 @@ with tabs[6]:
         for i, idn in enumerate(idn_list):
             row_c = st.columns([0.3, 2.2, 1.2, 1.2, 0.8])
             with row_c[0]:
-                st.markdown(f"<div style='font-family:Syne;font-weight:700;color:#A8D5FF;"
+                st.markdown(f"<div style='font-family:Syne;font-weight:700;color:#FFFFFF;"
                             f"font-size:0.85rem;padding:8px 4px;'>#{i+1}</div>",
                             unsafe_allow_html=True)
             with row_c[1]:
@@ -2510,7 +2784,7 @@ with tabs[6]:
             border-radius:9px;padding:10px 12px;margin-bottom:4px;'>
             <div style='font-family:Syne;font-size:0.8rem;font-weight:700;
             color:{header_color};margin-bottom:6px;'>{idn["name"]}</div>
-            <div style='font-size:0.68rem;color:#A09A96;margin-bottom:6px;'>
+            <div style='font-size:0.68rem;color:#FFFFFF;margin-bottom:6px;'>
             {"🟡 340B" if idn["is_340b"] else "🔵 GPO"} · {idn["discount"]}% off WAC</div>
             """, unsafe_allow_html=True)
             for _, row in sub.iterrows():
@@ -2520,7 +2794,7 @@ with tabs[6]:
                 st.markdown(f"""
                 <div style='display:flex;justify-content:space-between;
                 padding:3px 0;border-bottom:1px solid #003A8C;font-size:0.73rem;'>
-                <span style='color:#C8C2BE;font-family:JetBrains Mono;'>{int(row["Year"])}</span>
+                <span style='color:#FFFFFF;font-family:JetBrains Mono;'>{int(row["Year"])}</span>
                 <span style='color:{color};font-family:JetBrains Mono;'>{icon} {fmt_d(row["Spread"])}</span>
                 </div>""", unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
@@ -2580,7 +2854,7 @@ with tabs[6]:
     # Header row
     hdr = st.columns([2.2, 1, 1, 1, 1, 1, 1])
     for col_h, label in zip(hdr, ["IDN","WAC","ASP","ASP+6%","Acquisition","Spread/Unit","Flag"]):
-        col_h.markdown(f"<div style='font-size:0.7rem;color:#A09A96;text-transform:uppercase;"
+        col_h.markdown(f"<div style='font-size:0.7rem;color:#FFFFFF;text-transform:uppercase;"
                        f"font-family:JetBrains Mono;padding:4px 0;'>{label}</div>",
                        unsafe_allow_html=True)
 
@@ -2588,7 +2862,7 @@ with tabs[6]:
     ref_row = st.columns([2.2, 1, 1, 1, 1, 1, 1])
     for rc, val in zip(ref_row, ["── Reference ──", fmt_d(wac_sel), fmt_d(asp_sel),
                                   fmt_d(asp6_sel), "—", "—", "—"]):
-        rc.markdown(f"<div style='font-size:0.75rem;color:#A09A96;padding:4px 2px;"
+        rc.markdown(f"<div style='font-size:0.75rem;color:#FFFFFF;padding:4px 2px;"
                     f"font-family:JetBrains Mono;'>{val}</div>", unsafe_allow_html=True)
 
     for _, row in yr_sub.iterrows():
@@ -2634,6 +2908,6 @@ with tabs[6]:
 # ── Footer ──
 st.markdown("---")
 st.markdown("""
-<div style='text-align:center;color:#003A8C;font-size:0.72rem;padding:6px;font-family:JetBrains Mono;'>
+<div style='text-align:center;color:#FFFFFF;font-size:0.72rem;padding:6px;font-family:JetBrains Mono;'>
 PharmGTN Pro v3 · Dynamic Multi-Year GTN Engine · For internal forecasting use only
 </div>""", unsafe_allow_html=True)
