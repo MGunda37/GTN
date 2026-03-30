@@ -31,86 +31,445 @@ st.set_page_config(
 st.markdown("""
 <style>
 
+/* ===== GOOGLE FONTS ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 /* ===== GLOBAL BACKGROUND ===== */
 html, body, .stApp, [data-testid="stAppViewContainer"] {
-    background-color: #FFFFFF !important;
-    color: #1A1A1A !important;
-    font-family: 'DM Sans', sans-serif;
+    background-color: #F8FAFD !important;
+    color: #1A1A2E !important;
+    font-family: 'Inter', sans-serif;
 }
 
-/* ===== REMOVE STREAMLIT DARK HEADER ===== */
-header[data-testid="stHeader"] {
-    background-color: #FFFFFF !important;
-}
-
-/* REMOVE TOOLBAR DARK AREA */
-[data-testid="stToolbar"] {
-    background-color: #FFFFFF !important;
-}
-
-/* REMOVE ANY EXTRA DARK STRIP */
-[data-testid="stDecoration"] {
-    background: none !important;
-}
+/* ===== PRESENTATION MODE OVERRIDES ===== */
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+[data-testid="stToolbar"] {visibility: hidden;}
+[data-testid="stDecoration"] {display: none;}
 
 /* ===== SIDEBAR ===== */
 [data-testid="stSidebar"] {
-    background-color: #F7F9FC !important;
-    border-right: 1px solid #E0E0E0;
+    background: linear-gradient(180deg, #FFFFFF 0%, #F0F5FB 100%) !important;
+    border-right: 1px solid #E2E8F0;
+    box-shadow: 2px 0 12px rgba(31, 78, 121, 0.04);
+}
+[data-testid="stSidebar"] * {
+    color: #2D3748 !important;
+}
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {
+    color: #1f4e79 !important;
+    letter-spacing: -0.3px;
+}
+[data-testid="stSidebar"] input,
+[data-testid="stSidebar"] [data-baseweb="select"],
+[data-testid="stSidebar"] [data-baseweb="select"] > div,
+[data-testid="stSidebar"] [data-baseweb="select"] [data-baseweb="popover"],
+[data-testid="stSidebar"] [data-baseweb="input"],
+[data-testid="stSidebar"] [data-baseweb="input"] > div {
+    background-color: #FFFFFF !important;
+    border: 1px solid #D6E8F7 !important;
+    border-radius: 8px !important;
+    color: #1A1A2E !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+[data-testid="stSidebar"] [data-baseweb="select"] div[class*="control"],
+[data-testid="stSidebar"] [data-baseweb="select"] div[class*="ValueContainer"],
+[data-testid="stSidebar"] [data-baseweb="select"] div[class*="singleValue"],
+[data-testid="stSidebar"] [data-baseweb="select"] div[class*="indicatorContainer"],
+[data-testid="stSidebar"] [data-baseweb="select"] svg {
+    background-color: #FFFFFF !important;
+    color: #1A1A2E !important;
+    fill: #4A5568 !important;
+}
+[data-testid="stSidebar"] [data-baseweb="select"] [role="listbox"],
+[data-testid="stSidebar"] [data-baseweb="select"] ul,
+[data-testid="stSidebar"] [data-baseweb="select"] li {
+    background-color: #FFFFFF !important;
+    color: #1A1A2E !important;
+}
+[data-testid="stSidebar"] .stTextInput > div > div,
+[data-testid="stSidebar"] .stNumberInput > div > div > input {
+    background-color: #FFFFFF !important;
+    color: #1A1A2E !important;
+}
+[data-testid="stSidebar"] input:focus,
+[data-testid="stSidebar"] [data-baseweb="select"]:focus-within {
+    border-color: #4a90d9 !important;
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.12) !important;
+}
+[data-testid="stSidebar"] .stSlider label,
+[data-testid="stSidebar"] .stSelectbox label,
+[data-testid="stSidebar"] .stTextInput label,
+[data-testid="stSidebar"] .stNumberInput label {
+    color: #4A5568 !important;
+    font-weight: 600 !important;
+    font-size: 0.78rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+[data-testid="stSidebar"] hr {
+    border-color: #E2E8F0 !important;
+    opacity: 0.6;
+}
+[data-testid="stSidebar"] .stCaption, [data-testid="stSidebar"] small {
+    color: #718096 !important;
 }
 
 /* ===== CUSTOM TOP BANNER (ONLY BLUE AREA) ===== */
 .top-banner {
-    background: linear-gradient(135deg, #1f4e79 0%, #2e75bf 40%, #9dc9f4 100%);
+    background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 40%, #63b3ed 100%);
     color: #ffffff;
-    padding: 14px 20px;
+    padding: 16px 24px;
     font-size: 20px;
-    font-weight: 600;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #1b4c77;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    font-weight: 700;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    border: none;
+    box-shadow: 0 4px 16px rgba(26, 54, 93, 0.15);
+    letter-spacing: -0.3px;
 }
 
 /* ===== TEXT ===== */
 h1, h2, h3 {
-    color: #1f4e79 !important;
+    color: #1a365d !important;
+    font-family: 'Inter', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.5px;
+}
+h2 {
+    font-size: 1.8rem !important;
+    font-weight: 800 !important;
 }
 
 /* ===== SECTION HEADERS ===== */
 .sec-header {
-    background: linear-gradient(135deg, #1f4e79 0%, #264d78 45%, #4f77c0 100%);
+    background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 50%, #3182ce 100%);
     color: white !important;
-    border-radius: 8px;
-    padding: 10px 14px;
-    margin: 10px 0;
-    font-weight: 700;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin: 14px 0;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: 0.2px;
+    box-shadow: 0 4px 14px rgba(26, 54, 93, 0.18);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.sec-header:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(26, 54, 93, 0.22);
 }
 
 p, span, label {
-    color: #333333 !important;
+    color: #4A5568 !important;
+    line-height: 1.6;
+    font-size: 1.05rem;
 }
 
 /* ===== METRIC CARDS ===== */
 [data-testid="stMetric"] {
-    background-color: #FFFFFF;
-    border: 1px solid #E6E6E6;
-    padding: 10px;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #F0F8FF 0%, #E8F2FC 100%);
+    border: 1px solid #D0E3F5;
+    padding: 18px 16px;
+    border-radius: 12px;
+    overflow: visible;
+    box-shadow: 0 2px 8px rgba(31, 78, 121, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+[data-testid="stMetric"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(31, 78, 121, 0.12);
+}
+[data-testid="stMetric"] label {
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.85rem !important;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 700 !important;
+    color: #4A5568 !important;
+}
+[data-testid="stMetric"] [data-testid="stMetricValue"] {
+    white-space: nowrap !important;
+    overflow: visible !important;
+    font-size: 1.8rem !important;
+    font-weight: 800 !important;
+    color: #1a365d !important;
+    font-family: 'JetBrains Mono', monospace !important;
 }
 
 /* ===== BUTTONS ===== */
 .stButton>button {
-    background-color: #1f4e79;
+    background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
     color: white;
-    border-radius: 6px;
+    border-radius: 8px;
     border: none;
+    padding: 8px 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 8px rgba(26, 54, 93, 0.2);
+    transition: all 0.2s ease;
+}
+.stButton>button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(26, 54, 93, 0.3);
+    background: linear-gradient(135deg, #2b6cb0 0%, #3182ce 100%);
+}
+
+/* ===== TABS ===== */
+.stTabs [data-baseweb="tab-list"] {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 4px;
+    gap: 2px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1px solid #E2E8F0;
+}
+.stTabs [data-baseweb="tab"] {
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #4A5568 !important;
+    transition: all 0.2s ease;
+}
+.stTabs [data-baseweb="tab"]:hover {
+    background-color: #F0F5FB;
+    color: #1a365d !important;
+}
+.stTabs [aria-selected="true"] {
+    background-color: #EBF4FF !important;
+    color: #1a365d !important;
+    border-bottom: 2px solid #2b6cb0 !important;
+}
+
+/* ===== DATAFRAMES ===== */
+[data-testid="stDataFrame"] {
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* ===== NUMBER INPUTS ===== */
+.stNumberInput input {
+    background-color: #FFFFFF !important;
+    border: 1px solid #D6E8F7 !important;
+    border-radius: 8px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 0.9rem !important;
+    transition: border-color 0.2s ease;
+}
+.stNumberInput input:focus {
+    border-color: #4a90d9 !important;
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.12) !important;
+}
+
+/* ===== SELECTBOX ===== */
+.stSelectbox [data-baseweb="select"] {
+    background-color: #FFFFFF !important;
+    border-radius: 8px !important;
+}
+
+/* ===== INFO BOX ===== */
+.info-box {
+    background: linear-gradient(135deg, #EBF8FF 0%, #F0F5FB 100%);
+    border: 1px solid #BEE3F8;
+    border-left: 4px solid #3182ce;
+    border-radius: 8px;
+    padding: 16px 22px;
+    margin: 12px 0;
+    font-size: 1rem;
+    color: #2D3748 !important;
+}
+
+/* ===== YEAR LABEL ===== */
+.yr-label {
+    background: #EBF4FF;
+    border: 1px solid #D0E3F5;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-weight: 700;
+    color: #1a365d;
+    text-align: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+/* ===== MULTISELECT (Channel Filter) ===== */
+[data-testid="stMultiselect"] {
+    background-color: #FFFFFF !important;
+    border: 1px solid #D6E8F7 !important;
+    border-radius: 8px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.9rem !important;
+    color: #1A1A2E !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+[data-testid="stMultiselect"]:focus-within {
+    border-color: #4a90d9 !important;
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.12) !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] {
+    background-color: #FFFFFF !important;
+    color: #1A1A2E !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] div[class*="control"] {
+    background-color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 8px !important;
+    min-height: 40px !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] div[class*="ValueContainer"] {
+    color: #1A1A2E !important;
+    font-size: 0.9rem !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] div[class*="multiValue"],
+[data-testid="stMultiselect"] [data-baseweb="select"] [class*="multiValue"],
+[class*="multiValue"] {
+    background-color: #A8D5FF !important;
+    background-image: linear-gradient(135deg, #A8D5FF 0%, #D4EAFF 100%) !important;
+    border: 1px solid #2b6cb0 !important;
+    color: #1a365d !important;
+    border-radius: 6px !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] div[class*="multiValue"] span,
+[data-testid="stMultiselect"] [data-baseweb="select"] div[class*="multiValue"] span span,
+[class*="multiValue"] span,
+[class*="multiValue"] span span {
+    color: #1a365d !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] div[class*="multiValue"] [role="button"] svg,
+[class*="multiValue"] [role="button"] svg {
+    fill: #1a365d !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] div[class*="control"] {
+    background-color: #F8FAFD !important;
+    border: 1px solid #D6E8F7 !important;
+    color: #1A1A2E !important;
+    min-height: 42px !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] {
+    background-color: #F8FAFD !important;
+    border: 1px solid #D6E8F7 !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] [role="listbox"] {
+    background-color: #FFFFFF !important;
+    border: 1px solid #D6E8F7 !important;
+    color: #1A1A2E !important;
+}
+
+[data-testid="stMultiselect"] [data-baseweb="select"] [role="listbox"] {
+    background-color: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] li {
+    color: #1A1A2E !important;
+    font-size: 0.9rem !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] li:hover {
+    background-color: #F0F5FB !important;
+}
+[data-testid="stMultiselect"] [data-baseweb="select"] svg {
+    fill: #4A5568 !important;
+}
+[data-testid="stMultiselect"] label {
+    color: #4A5568 !important;
+    font-weight: 600 !important;
+    font-size: 0.78rem !important;
+    text-transform: none !important;  /* Remove uppercase */
+    letter-spacing: 0.3px !important;
 }
 
 /* ===== PLOTLY FIX ===== */
 .js-plotly-plot {
-    background-color: white !important;
+    background-color: #FFFFFF !important;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* ===== HORIZONTAL RULES ===== */
+hr {
+    border: none !important;
+    border-top: 1px solid #E2E8F0 !important;
+    margin: 16px 0 !important;
+}
+            /* ===== MULTISELECT CONTAINER ===== */
+[data-baseweb="select"] > div {
+    background-color: #FFFFFF !important;
+    border: 1px solid #D0E3F5 !important;
+    border-radius: 8px !important;
+}
+[data-baseweb="select"] > div:focus-within {
+    border-color: #4a90d9 !important;
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.12) !important;
+}
+            /* ===== MULTISELECT ICONS ===== */
+[data-baseweb="select"] svg {
+    fill: #1a365d !important;
+}
+[data-baseweb="select"] svg:hover {
+    fill: #2b6cb0 !important;
+}
+/* ===== MULTISELECT TAGS ===== */
+[data-baseweb="tag"] {
+    background-color: #EBF4FF !important;
+    border: 1px solid #2b6cb0 !important;
+    border-radius: 6px !important;
+}
+[data-baseweb="tag"] span {
+    color: #1a365d !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    font-family: 'Inter', sans-serif !important;
+}
+[data-baseweb="tag"] [role="presentation"] svg {
+    fill: #2b6cb0 !important;
+}
+[data-baseweb="tag"] [role="presentation"]:hover svg {
+    fill: #1a365d !important;
+}
+/* Multiselect dropdown container */
+[data-baseweb="select"] [data-baseweb="popover"] {
+    background-color: #FFFFFF !important;
+    border: 1px solid #D0E3F5 !important;
+    border-radius: 8px !important;
+}
+/* Multiselect option hover */
+[data-baseweb="menu"] [role="option"]:hover {
+    background-color: #EBF4FF !important;
+}
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #F0F5FB;
+}
+::-webkit-scrollbar-thumb {
+    background: #B8CBE0;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #8FA8C8;
+}
+
+/* ===== EXPANDER ===== */
+.streamlit-expanderHeader {
+    background-color: #F7FAFC !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    color: #2D3748 !important;
 }
 
 </style>
@@ -326,15 +685,15 @@ def compute_gtn(monthly_df, asp_df, channel_alloc_by_year, discount_by_year, reb
     return pd.DataFrame(rows)
 
 PLOTLY_LAYOUT = dict(
-    paper_bgcolor="#FFFFFF", plot_bgcolor="#FFFFFF",
-    font=dict(color="#111111", family="DM Sans"),
-    legend=dict(bgcolor="#F8F8F8", bordercolor="#CCCCCC", borderwidth=1,
-                font_size=11, font_color="#111111"),
+    paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+    font=dict(color="#1A1A2E", family="Inter", size=12),
+    legend=dict(bgcolor="rgba(255,255,255,0.8)", bordercolor="#E2E8F0", borderwidth=1,
+                font=dict(size=11, color="#2D3748")),
 )
 # xaxis/yaxis removed from PLOTLY_LAYOUT to prevent duplicate-keyword errors.
 # Use apply_axes_style(fig) after update_layout to apply the brand grid.
-PLOTLY_MARGIN = dict(t=40, b=30, l=20, r=20)
-_GRID = dict(gridcolor="#003A8C", zerolinecolor="#003A8C")
+PLOTLY_MARGIN = dict(t=40, b=30, l=80, r=80)
+_GRID = dict(gridcolor="#E2E8F0", zerolinecolor="#CBD5E1", gridwidth=1, zerolinewidth=1.5)
 
 def apply_axes_style(fig):
     """Apply dark grid to all axes without conflicting with update_layout kwargs."""
@@ -351,16 +710,278 @@ def hex_to_rgba(hex_color, alpha=0.73):
 # Brand-first palette: Anakiwa family first, then readable accents on Prussian Blue
 COLORS_MAIN = ["#A8D5FF","#D4EAFF","#4ade80","#fbbf24","#f87171","#c084fc","#6AB4F0","#fb923c","#60a5fa","#a78bfa"]
 
+def compute_product_gtn_full(cat, forecast_years, n_years, monthly_weights):
+    """Compute full GTN pipeline for a product from catalog entry.
+    Returns (annual_gtn DataFrame, forecast_df) or None if inputs are empty.
+    """
+    fc_df = pd.DataFrame({
+        "Year": forecast_years,
+        "Annual Units": cat["units"][:n_years],
+        "WAC per Unit": [round(cat["base_wac"] * (cat["wac_esc"] ** i), 2) for i in range(n_years)],
+        "Monthly Profile": ["S-Curve (Launch)"] + ["Flat"] * (n_years - 1),
+    })
+    monthly_df = expand_to_monthly(fc_df, monthly_weights)
+
+    # Build dicts
+    ch_alloc_dict = {}
+    for yr in forecast_years:
+        ch_alloc_dict[yr] = dict(cat["channel_mix"])
+
+    disc_dict = {}
+    for i, yr in enumerate(forecast_years):
+        disc_dict[yr] = {
+            "gpo": round(cat["disc"]["gpo"] + i*cat["disc_esc"]["gpo"], 1),
+            "idn": round(cat["disc"]["idn"] + i*cat["disc_esc"]["idn"], 1),
+            "b340": cat["disc"]["b340"],
+            "va": cat["disc"]["va"],
+        }
+
+    rebate_dict = {}
+    for i, yr in enumerate(forecast_years):
+        rebate_dict[yr] = {
+            "com_pbm": round(cat["reb"]["com_pbm"] + i*cat["reb_esc"]["com_pbm"], 1),
+            "com_med": round(cat["reb"]["com_med"] + i*cat["reb_esc"]["com_med"], 1),
+            "mcr_d": round(cat["reb"]["mcr_d"] + i*cat["reb_esc"]["mcr_d"], 1),
+            "mcaid": cat["reb"]["mcaid"],
+            "man_mcaid": round(cat["reb"]["man_mcaid"] + i*cat["reb_esc"]["man_mcaid"], 1),
+        }
+
+    other_dict = {}
+    for yr in forecast_years:
+        other_dict[yr] = {
+            "admin_fee": cat["other"]["admin"],
+            "dist_fee": cat["other"]["dist"],
+            "copay": cat["other"]["copay"],
+            "returns": cat["other"]["returns"],
+        }
+
+    asp_df = compute_asp_series(monthly_df, ch_alloc_dict, disc_dict)
+    gtn_df = compute_gtn(monthly_df, asp_df, ch_alloc_dict, disc_dict, rebate_dict, other_dict)
+
+    annual_gtn = gtn_df.groupby("Year").agg(
+        GrossSales=("GrossSales","sum"), TotalRebates=("TotalRebates","sum"),
+        TotalChargebacks=("TotalChargebacks","sum"), TotalOther=("TotalOther","sum"),
+        TotalDeductions=("TotalDeductions","sum"), NetSales=("NetSales","sum"),
+        Units=("Units","sum"), GTN_Pct=("GTN_Pct","mean"),
+    ).reset_index()
+    annual_gtn["NetPrice"] = annual_gtn["NetSales"] / annual_gtn["Units"]
+    annual_gtn["NetPct"]   = annual_gtn["NetSales"] / annual_gtn["GrossSales"] * 100
+
+    return annual_gtn, fc_df
+
+
+# PRODUCT CATALOG — 10 dummy products with distinct data
+# ───────────────────────────────────────────────────────────────────
+PRODUCT_CATALOG = {
+    "RXPRODUCT-001": {
+        "therapy_area": "Oncology", "admin_route": "IV Infusion (Buy & Bill)",
+        "base_wac": 1500, "wac_esc": 1.03,
+        "units": [10_000, 22_000, 38_000, 50_000, 58_000, 62_000, 65_000, 67_000, 68_000, 69_000],
+        "channel_mix": {"Commercial PBM": 25, "Commercial Medical": 18, "Medicare Part B": 16,
+                        "Medicare Part D": 12, "Medicaid FFS": 8, "Managed Medicaid": 6,
+                        "GPO/IDN Non-340B": 7, "GPO/IDN 340B": 4, "VA/DoD/Federal": 2, "Cash/Uninsured": 2},
+        "disc": {"gpo": 14.0, "idn": 20.0, "b340": 25.6, "va": 24.0},
+        "disc_esc": {"gpo": 0.3, "idn": 0.4, "b340": 0.0, "va": 0.0},
+        "reb": {"com_pbm": 32.0, "com_med": 13.0, "mcr_d": 28.0, "mcaid": 23.1, "man_mcaid": 42.0},
+        "reb_esc": {"com_pbm": 0.5, "com_med": 0.3, "mcr_d": 0.5, "mcaid": 0.0, "man_mcaid": 0.3},
+        "other": {"admin": 2.0, "dist": 2.0, "copay": 3.5, "returns": 1.5},
+    },
+    "RXPRODUCT-002": {
+        "therapy_area": "Rare Disease", "admin_route": "SC Injection",
+        "base_wac": 8500, "wac_esc": 1.04,
+        "units": [800, 1_800, 3_200, 5_000, 6_500, 7_200, 7_800, 8_000, 8_100, 8_200],
+        "channel_mix": {"Commercial PBM": 35, "Commercial Medical": 10, "Medicare Part B": 8,
+                        "Medicare Part D": 18, "Medicaid FFS": 10, "Managed Medicaid": 8,
+                        "GPO/IDN Non-340B": 4, "GPO/IDN 340B": 2, "VA/DoD/Federal": 3, "Cash/Uninsured": 2},
+        "disc": {"gpo": 10.0, "idn": 15.0, "b340": 25.6, "va": 24.0},
+        "disc_esc": {"gpo": 0.2, "idn": 0.5, "b340": 0.0, "va": 0.0},
+        "reb": {"com_pbm": 25.0, "com_med": 10.0, "mcr_d": 22.0, "mcaid": 23.1, "man_mcaid": 35.0},
+        "reb_esc": {"com_pbm": 0.4, "com_med": 0.2, "mcr_d": 0.6, "mcaid": 0.0, "man_mcaid": 0.4},
+        "other": {"admin": 1.5, "dist": 3.0, "copay": 5.0, "returns": 1.0},
+    },
+    "RXPRODUCT-003": {
+        "therapy_area": "Immunology", "admin_route": "SC Injection",
+        "base_wac": 3200, "wac_esc": 1.035,
+        "units": [15_000, 30_000, 52_000, 70_000, 82_000, 90_000, 95_000, 98_000, 100_000, 101_000],
+        "channel_mix": {"Commercial PBM": 30, "Commercial Medical": 15, "Medicare Part B": 12,
+                        "Medicare Part D": 15, "Medicaid FFS": 9, "Managed Medicaid": 7,
+                        "GPO/IDN Non-340B": 5, "GPO/IDN 340B": 3, "VA/DoD/Federal": 2, "Cash/Uninsured": 2},
+        "disc": {"gpo": 16.0, "idn": 22.0, "b340": 25.6, "va": 24.0},
+        "disc_esc": {"gpo": 0.4, "idn": 0.3, "b340": 0.0, "va": 0.0},
+        "reb": {"com_pbm": 35.0, "com_med": 15.0, "mcr_d": 30.0, "mcaid": 23.1, "man_mcaid": 45.0},
+        "reb_esc": {"com_pbm": 0.6, "com_med": 0.4, "mcr_d": 0.4, "mcaid": 0.0, "man_mcaid": 0.2},
+        "other": {"admin": 2.0, "dist": 2.5, "copay": 4.0, "returns": 1.5},
+    },
+    "RXPRODUCT-004": {
+        "therapy_area": "Cardiovascular", "admin_route": "Oral",
+        "base_wac": 450, "wac_esc": 1.025,
+        "units": [50_000, 120_000, 200_000, 280_000, 340_000, 380_000, 400_000, 410_000, 415_000, 418_000],
+        "channel_mix": {"Commercial PBM": 40, "Commercial Medical": 5, "Medicare Part B": 3,
+                        "Medicare Part D": 25, "Medicaid FFS": 10, "Managed Medicaid": 8,
+                        "GPO/IDN Non-340B": 3, "GPO/IDN 340B": 2, "VA/DoD/Federal": 2, "Cash/Uninsured": 2},
+        "disc": {"gpo": 8.0, "idn": 12.0, "b340": 25.6, "va": 24.0},
+        "disc_esc": {"gpo": 0.1, "idn": 0.2, "b340": 0.0, "va": 0.0},
+        "reb": {"com_pbm": 40.0, "com_med": 8.0, "mcr_d": 35.0, "mcaid": 23.1, "man_mcaid": 50.0},
+        "reb_esc": {"com_pbm": 0.7, "com_med": 0.1, "mcr_d": 0.3, "mcaid": 0.0, "man_mcaid": 0.5},
+        "other": {"admin": 2.5, "dist": 1.5, "copay": 2.0, "returns": 2.0},
+    },
+    "RXPRODUCT-005": {
+        "therapy_area": "Neurology", "admin_route": "IV Infusion (Buy & Bill)",
+        "base_wac": 5800, "wac_esc": 1.03,
+        "units": [3_000, 7_500, 14_000, 20_000, 25_000, 28_000, 30_000, 31_000, 31_500, 32_000],
+        "channel_mix": {"Commercial PBM": 20, "Commercial Medical": 22, "Medicare Part B": 20,
+                        "Medicare Part D": 10, "Medicaid FFS": 7, "Managed Medicaid": 5,
+                        "GPO/IDN Non-340B": 8, "GPO/IDN 340B": 4, "VA/DoD/Federal": 2, "Cash/Uninsured": 2},
+        "disc": {"gpo": 15.0, "idn": 21.0, "b340": 25.6, "va": 24.0},
+        "disc_esc": {"gpo": 0.5, "idn": 0.6, "b340": 0.0, "va": 0.0},
+        "reb": {"com_pbm": 28.0, "com_med": 14.0, "mcr_d": 25.0, "mcaid": 23.1, "man_mcaid": 40.0},
+        "reb_esc": {"com_pbm": 0.3, "com_med": 0.5, "mcr_d": 0.7, "mcaid": 0.0, "man_mcaid": 0.6},
+        "other": {"admin": 2.0, "dist": 2.0, "copay": 3.0, "returns": 1.5},
+    },
+    "RXPRODUCT-006": {
+        "therapy_area": "Oncology", "admin_route": "SC Injection",
+        "base_wac": 12000, "wac_esc": 1.045,
+        "units": [2_000, 5_000, 9_000, 13_000, 16_000, 18_000, 19_500, 20_500, 21_000, 21_200],
+        "channel_mix": {"Commercial PBM": 22, "Commercial Medical": 20, "Medicare Part B": 18,
+                        "Medicare Part D": 10, "Medicaid FFS": 8, "Managed Medicaid": 6,
+                        "GPO/IDN Non-340B": 8, "GPO/IDN 340B": 4, "VA/DoD/Federal": 2, "Cash/Uninsured": 2},
+        "disc": {"gpo": 12.0, "idn": 18.0, "b340": 25.6, "va": 24.0},
+        "disc_esc": {"gpo": 0.6, "idn": 0.7, "b340": 0.0, "va": 0.0},
+        "reb": {"com_pbm": 30.0, "com_med": 12.0, "mcr_d": 26.0, "mcaid": 23.1, "man_mcaid": 38.0},
+        "reb_esc": {"com_pbm": 0.8, "com_med": 0.6, "mcr_d": 0.2, "mcaid": 0.0, "man_mcaid": 0.7},
+        "other": {"admin": 1.5, "dist": 2.5, "copay": 4.0, "returns": 1.0},
+    },
+    "RXPRODUCT-007": {
+        "therapy_area": "Immunology", "admin_route": "IV Infusion (Buy & Bill)",
+        "base_wac": 4200, "wac_esc": 1.032,
+        "units": [8_000, 18_000, 32_000, 44_000, 52_000, 56_000, 58_000, 59_500, 60_000, 60_500],
+        "channel_mix": {"Commercial PBM": 28, "Commercial Medical": 16, "Medicare Part B": 14,
+                        "Medicare Part D": 14, "Medicaid FFS": 8, "Managed Medicaid": 7,
+                        "GPO/IDN Non-340B": 6, "GPO/IDN 340B": 3, "VA/DoD/Federal": 2, "Cash/Uninsured": 2},
+        "disc": {"gpo": 13.0, "idn": 19.0, "b340": 25.6, "va": 24.0},
+        "disc_esc": {"gpo": 0.7, "idn": 0.8, "b340": 0.0, "va": 0.0},
+        "reb": {"com_pbm": 33.0, "com_med": 14.0, "mcr_d": 29.0, "mcaid": 23.1, "man_mcaid": 43.0},
+        "reb_esc": {"com_pbm": 0.9, "com_med": 0.7, "mcr_d": 0.8, "mcaid": 0.0, "man_mcaid": 0.8},
+        "other": {"admin": 2.0, "dist": 2.0, "copay": 3.5, "returns": 1.5},
+    },
+    "RXPRODUCT-008": {
+        "therapy_area": "Rare Disease", "admin_route": "IV Infusion (Buy & Bill)",
+        "base_wac": 25000, "wac_esc": 1.05,
+        "units": [300, 700, 1_200, 1_800, 2_300, 2_600, 2_800, 2_900, 2_950, 3_000],
+        "channel_mix": {"Commercial PBM": 18, "Commercial Medical": 25, "Medicare Part B": 15,
+                        "Medicare Part D": 8, "Medicaid FFS": 12, "Managed Medicaid": 8,
+                        "GPO/IDN Non-340B": 5, "GPO/IDN 340B": 3, "VA/DoD/Federal": 4, "Cash/Uninsured": 2},
+        "disc": {"gpo": 10.0, "idn": 16.0, "b340": 25.6, "va": 24.0},
+        "disc_esc": {"gpo": 0.8, "idn": 0.9, "b340": 0.0, "va": 0.0},
+        "reb": {"com_pbm": 22.0, "com_med": 10.0, "mcr_d": 20.0, "mcaid": 23.1, "man_mcaid": 30.0},
+        "reb_esc": {"com_pbm": 0.1, "com_med": 0.8, "mcr_d": 0.9, "mcaid": 0.0, "man_mcaid": 0.9},
+        "other": {"admin": 1.5, "dist": 3.0, "copay": 6.0, "returns": 0.8},
+    },
+    "RXPRODUCT-009": {
+        "therapy_area": "Cardiovascular", "admin_route": "SC Injection",
+        "base_wac": 2100, "wac_esc": 1.028,
+        "units": [20_000, 45_000, 75_000, 100_000, 120_000, 132_000, 138_000, 142_000, 144_000, 145_000],
+        "channel_mix": {"Commercial PBM": 32, "Commercial Medical": 12, "Medicare Part B": 10,
+                        "Medicare Part D": 20, "Medicaid FFS": 9, "Managed Medicaid": 7,
+                        "GPO/IDN Non-340B": 4, "GPO/IDN 340B": 2, "VA/DoD/Federal": 2, "Cash/Uninsured": 2},
+        "disc": {"gpo": 11.0, "idn": 17.0, "b340": 25.6, "va": 24.0},
+        "disc_esc": {"gpo": 0.9, "idn": 0.1, "b340": 0.0, "va": 0.0},
+        "reb": {"com_pbm": 36.0, "com_med": 11.0, "mcr_d": 32.0, "mcaid": 23.1, "man_mcaid": 46.0},
+        "reb_esc": {"com_pbm": 1.0, "com_med": 0.9, "mcr_d": 0.1, "mcaid": 0.0, "man_mcaid": 1.0},
+        "other": {"admin": 2.0, "dist": 2.0, "copay": 3.0, "returns": 1.5},
+    },
+    "RXPRODUCT-010": {
+        "therapy_area": "Neurology", "admin_route": "Oral",
+        "base_wac": 900, "wac_esc": 1.03,
+        "units": [35_000, 80_000, 140_000, 190_000, 230_000, 255_000, 268_000, 275_000, 278_000, 280_000],
+        "channel_mix": {"Commercial PBM": 38, "Commercial Medical": 5, "Medicare Part B": 3,
+                        "Medicare Part D": 28, "Medicaid FFS": 10, "Managed Medicaid": 7,
+                        "GPO/IDN Non-340B": 3, "GPO/IDN 340B": 2, "VA/DoD/Federal": 2, "Cash/Uninsured": 2},
+        "disc": {"gpo": 9.0, "idn": 14.0, "b340": 25.6, "va": 24.0},
+        "disc_esc": {"gpo": 1.0, "idn": 1.0, "b340": 0.0, "va": 0.0},
+        "reb": {"com_pbm": 42.0, "com_med": 7.0, "mcr_d": 38.0, "mcaid": 23.1, "man_mcaid": 52.0},
+        "reb_esc": {"com_pbm": 0.2, "com_med": 1.0, "mcr_d": 1.0, "mcaid": 0.0, "man_mcaid": 0.1},
+        "other": {"admin": 2.5, "dist": 1.5, "copay": 2.5, "returns": 2.0},
+    },
+}
+
+def load_product_defaults(prod_key, forecast_years, n_years):
+    """Load product-specific dummy data into session state."""
+    cat = PRODUCT_CATALOG[prod_key]
+    # Forecast
+    st.session_state.forecast_df = pd.DataFrame({
+        "Year": forecast_years,
+        "Annual Units": cat["units"][:n_years],
+        "WAC per Unit": [round(cat["base_wac"] * (cat["wac_esc"] ** i), 2) for i in range(n_years)],
+        "Monthly Profile": ["S-Curve (Launch)"] + ["Flat"] * (n_years - 1),
+    })
+    # Channel allocation
+    rows = []
+    for yr in forecast_years:
+        row = {"Year": yr}
+        row.update(cat["channel_mix"])
+        rows.append(row)
+    st.session_state.channel_alloc_raw = pd.DataFrame(rows)
+    # Discounts
+    rows = []
+    for i, yr in enumerate(forecast_years):
+        rows.append({"Year": yr,
+                     "GPO Disc %": round(cat["disc"]["gpo"] + i*cat["disc_esc"]["gpo"], 1),
+                     "IDN Disc %": round(cat["disc"]["idn"] + i*cat["disc_esc"]["idn"], 1),
+                     "340B Disc %": cat["disc"]["b340"],
+                     "VA FSS Disc %": cat["disc"]["va"]})
+    st.session_state.discount_raw = pd.DataFrame(rows)
+    # Rebates
+    rows = []
+    for i, yr in enumerate(forecast_years):
+        rows.append({"Year": yr,
+                     "Com PBM %": round(cat["reb"]["com_pbm"] + i*cat["reb_esc"]["com_pbm"], 1),
+                     "Com Med %": round(cat["reb"]["com_med"] + i*cat["reb_esc"]["com_med"], 1),
+                     "Mcr Part D %": round(cat["reb"]["mcr_d"] + i*cat["reb_esc"]["mcr_d"], 1),
+                     "Medicaid FFS %": cat["reb"]["mcaid"],
+                     "Managed Mcaid %": round(cat["reb"]["man_mcaid"] + i*cat["reb_esc"]["man_mcaid"], 1)})
+    st.session_state.rebate_raw = pd.DataFrame(rows)
+    # Other fees
+    rows = []
+    for yr in forecast_years:
+        rows.append({"Year": yr, "Admin Fee %": cat["other"]["admin"],
+                     "Dist Fee %": cat["other"]["dist"],
+                     "Copay Support %": cat["other"]["copay"],
+                     "Returns %": cat["other"]["returns"]})
+    st.session_state.other_raw = pd.DataFrame(rows)
+    # Clear computed data so ASP Engine re-runs
+    for k in ["asp_df", "monthly_df", "ch_alloc_dict", "disc_dict", "rebate_dict", "other_dict"]:
+        st.session_state.pop(k, None)
+    # Clear per-year stepper keys so Forecast tab picks up new values
+    # Clear per-year stepper keys so Forecast tab picks up new values
+    keys_to_clear = [k for k in st.session_state.keys()
+                    if k.startswith(("fc_units_", "fc_wac_", "fc_prof_",
+                                    "ch_", "disc_", "reb_", "oth_",
+                                    "ni_", "sel_prof_"))]
+    for k in keys_to_clear:
+        del st.session_state[k]
+
 # ───────────────────────────────────────────────────────────────────
 # SIDEBAR
 # ───────────────────────────────────────────────────────────────────
 with st.sidebar:
     st.markdown("## ⚕️ PharmGTN Pro v4")
-    st.markdown("*Dynamic Multi-Year GTN Engine*")
+    st.markdown("<div style='font-size:1.1rem;font-weight:600;color:#1f4e79;margin-bottom:12px;'>Multi-Year GTN Engine</div>", unsafe_allow_html=True)
     st.markdown("---")
-    product_name = st.text_input("Product Name", "RXPRODUCT-001")
-    therapy_area = st.selectbox("Therapy Area", ["Oncology","Rare Disease","Immunology","Cardiovascular","Neurology","Other"])
-    admin_route  = st.selectbox("Administration", ["IV Infusion (Buy & Bill)","SC Injection","Oral","IM Injection"])
+
+    # Product selector (sidebar — synced with dashboard)
+    product_name = st.selectbox(
+        "Product",
+        list(PRODUCT_CATALOG.keys()),
+        key="sidebar_prod_sel"
+    )
+    # Auto-display therapy area and admin route from catalog
+    _cat = PRODUCT_CATALOG[product_name]
+    therapy_area = _cat["therapy_area"]
+    admin_route = _cat["admin_route"]
+    st.markdown(f"<div style='font-size:0.82rem;color:#4A5568;margin-top:-8px;margin-bottom:8px;'>"
+                f"<b>{therapy_area}</b> · {admin_route.split('(')[0].strip()}</div>", unsafe_allow_html=True)
+
     st.markdown("---")
     st.markdown("### ⚙️ Forecast Horizon")
     n_years = st.slider("Number of Forecast Years", 1, 10, 7)
@@ -368,58 +989,45 @@ with st.sidebar:
     forecast_years = list(range(start_year, start_year + n_years))
     monthly_profile_choice = st.selectbox("Monthly Distribution Profile", list(MONTH_PROFILES.keys()) + ["Custom"])
     st.markdown("---")
-    st.markdown("### 📋 Tabs")
-    st.markdown("0. Dashboard\n1. Forecast Volumes\n2. Channel Allocation\n3. Contract Terms\n4. ASP Engine\n5. GTN Model\n6. Buy & Bill (Multi-IDN)")
+    st.markdown("### 📋 Navigation")
+    st.markdown("<div style='font-size:0.95rem;line-height:1.8;'>"
+                "<b>0.</b> Dashboard<br>"
+                "<b>1.</b> Forecast Volumes<br>"
+                "<b>2.</b> Channel Mix<br>"
+                "<b>3.</b> Contract Terms<br>"
+                "<b>4.</b> ASP Engine<br>"
+                "<b>5.</b> GTN Base Model<br>"
+                "<b>6.</b> Buy & Bill Analysis</div>", unsafe_allow_html=True)
     st.markdown("---")
-    st.caption(f"Horizon: {forecast_years[0]}–{forecast_years[-1]} · {n_years} years")
+    st.markdown(f"<div style='font-size:0.9rem;font-weight:600;'>Horizon: {forecast_years[0]}–{forecast_years[-1]} ({n_years} yrs)</div>", unsafe_allow_html=True)
 
 # ───────────────────────────────────────────────────────────────────
-# SESSION STATE DEFAULTS
+# SESSION STATE DEFAULTS — load from product catalog on change
 # ───────────────────────────────────────────────────────────────────
+# Detect product change — reload all data
+if st.session_state.get("_active_product") != product_name:
+    load_product_defaults(product_name, forecast_years, n_years)
+    st.session_state["_active_product"] = product_name
+    # Reset dashboard brand filter each time product changes
+    st.session_state["dash_brands"] = [product_name]
+
+# Fallback: if no data yet (first run), load defaults
 if "forecast_df" not in st.session_state or len(st.session_state.forecast_df) != n_years:
-    st.session_state.forecast_df = pd.DataFrame({
-        "Year": forecast_years,
-        "Annual Units": [10_000, 22_000, 38_000, 50_000, 58_000, 62_000, 65_000, 67_000, 68_000, 69_000][:n_years],
-        "WAC per Unit": [round(1500 * (1.03 ** i), 2) for i in range(n_years)],
-        "Monthly Profile": ["S-Curve (Launch)"] + ["Flat"] * (n_years - 1),
-    })
+    load_product_defaults(product_name, forecast_years, n_years)
+    st.session_state["_active_product"] = product_name
+    st.session_state["dash_brands"] = [product_name]
 
 if "channel_alloc_raw" not in st.session_state:
-    base_alloc = {
-        "Commercial PBM": 25, "Commercial Medical": 18, "Medicare Part B": 16,
-        "Medicare Part D": 12, "Medicaid FFS": 8, "Managed Medicaid": 6,
-        "GPO/IDN Non-340B": 7, "GPO/IDN 340B": 4, "VA/DoD/Federal": 2, "Cash/Uninsured": 2,
-    }
-    rows = []
-    for yr in forecast_years:
-        row = {"Year": yr}
-        row.update(base_alloc)
-        rows.append(row)
-    st.session_state.channel_alloc_raw = pd.DataFrame(rows)
+    load_product_defaults(product_name, forecast_years, n_years)
 
 if "discount_raw" not in st.session_state:
-    rows = []
-    for i, yr in enumerate(forecast_years):
-        rows.append({"Year": yr,
-                     "GPO Disc %": round(14 + i*0.3, 1), "IDN Disc %": round(20 + i*0.4, 1),
-                     "340B Disc %": round(25.6, 1),       "VA FSS Disc %": round(24.0, 1)})
-    st.session_state.discount_raw = pd.DataFrame(rows)
+    load_product_defaults(product_name, forecast_years, n_years)
 
 if "rebate_raw" not in st.session_state:
-    rows = []
-    for i, yr in enumerate(forecast_years):
-        rows.append({"Year": yr,
-                     "Com PBM %": round(32 + i*0.5, 1), "Com Med %": round(13 + i*0.3, 1),
-                     "Mcr Part D %": round(28 + i*0.5, 1), "Medicaid FFS %": 23.1,
-                     "Managed Mcaid %": round(42 + i*0.3, 1)})
-    st.session_state.rebate_raw = pd.DataFrame(rows)
+    load_product_defaults(product_name, forecast_years, n_years)
 
 if "other_raw" not in st.session_state:
-    rows = []
-    for yr in forecast_years:
-        rows.append({"Year": yr, "Admin Fee %": 2.0, "Dist Fee %": 2.0,
-                     "Copay Support %": 3.5, "Returns %": 1.5})
-    st.session_state.other_raw = pd.DataFrame(rows)
+    load_product_defaults(product_name, forecast_years, n_years)
 
 
 # ── Multi-IDN session state ──────────────────────────────────────────
@@ -451,67 +1059,131 @@ tabs = st.tabs([
 with tabs[0]:
     st.markdown("## 🏠 Executive Dashboard")
 
-    fc         = st.session_state.forecast_df
-    gross_by_yr= fc["Annual Units"] * fc["WAC per Unit"]
-    total_gross= gross_by_yr.sum()
-    total_units= fc["Annual Units"].sum()
-    peak_idx   = gross_by_yr.idxmax()
-    peak_yr    = fc.loc[peak_idx, "Year"]
-    has_data   = "asp_df" in st.session_state and "monthly_df" in st.session_state
+    # ── Dashboard Filters Bar ─────────────────────────────────────────
+    st.markdown("""<div style='background:#FFFFFF;border:1px solid #E2E8F0;border-radius:12px;
+    padding:16px 24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);'>
+    <div style='font-family:Inter;font-size:0.82rem;font-weight:800;color:#1a365d;
+    text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;'>Dashboard Filters</div>
+    <div style='font-size:0.78rem;color:#64748B;margin-bottom:12px;'>
+    Select <b>Brand</b> to choose specific products, or <b>Portfolio</b> to view aggregated data
+    across all products. Use the Channel Filter to focus on specific payer channels.</div>
+    </div>""", unsafe_allow_html=True)
 
-    # Pre-compute GTN if data available
-    if has_data:
-        gtn_df_dash = compute_gtn(
-            st.session_state["monthly_df"], st.session_state["asp_df"],
-            st.session_state["ch_alloc_dict"], st.session_state["disc_dict"],
-            st.session_state["rebate_dict"],   st.session_state["other_dict"],
+    f_col1, f_col2, f_col3 = st.columns([1.2, 1.5, 2.5])
+
+    with f_col1:
+        dash_scope = st.radio(
+            "SCOPE", ["Brand", "Portfolio"],
+            horizontal=True, key="dash_scope",
+            label_visibility="visible"
         )
-        ann_dash = gtn_df_dash.groupby("Year").agg(
-            NetSales=("NetSales","sum"), GrossSales=("GrossSales","sum"),
-            TotalDeductions=("TotalDeductions","sum"), TotalRebates=("TotalRebates","sum"),
-            TotalChargebacks=("TotalChargebacks","sum"), TotalOther=("TotalOther","sum"),
-            GTN_Pct=("GTN_Pct","mean"), Units=("Units","sum"),
-        ).reset_index()
-        ann_dash["NetPrice"] = ann_dash["NetSales"]  / ann_dash["Units"]
-        ann_dash["NetPct"]   = ann_dash["NetSales"]  / ann_dash["GrossSales"] * 100
-        total_net   = ann_dash["NetSales"].sum()
-        total_ded   = ann_dash["TotalDeductions"].sum()
-        avg_gtn_pct = total_ded / total_gross * 100
-        total_reb   = ann_dash["TotalRebates"].sum()
-        total_cb    = ann_dash["TotalChargebacks"].sum()
-        total_other = ann_dash["TotalOther"].sum()
-    else:
-        total_net = total_ded = avg_gtn_pct = 0
+
+    with f_col2:
+        dash_ch_filter = st.multiselect(
+            "Channel Filter", CHANNELS,
+            default=CHANNELS, key="dash_ch_filter",
+        )
+        if not dash_ch_filter:
+            dash_ch_filter = CHANNELS
+        # Store in session_state for other tabs
+        st.session_state["_active_channels"] = dash_ch_filter
+
+    with f_col3:
+        if dash_scope == "Brand":
+            dash_brands = st.multiselect(
+                "BRANDS TO INCLUDE",
+                list(PRODUCT_CATALOG.keys()),
+                default=st.session_state.get("dash_brands", [product_name]),
+                key="dash_brands",
+            )
+            if not dash_brands:
+                dash_brands = [product_name]
+                st.session_state["dash_brands"] = dash_brands
+        else:
+            dash_brands = list(PRODUCT_CATALOG.keys())
+            st.markdown(f"""<div style='background:#EBF4FF;border:1px solid #BEE3F8;border-radius:8px;
+            padding:10px 16px;margin-top:4px;font-size:0.82rem;color:#1a365d;font-weight:600;'>
+            📊 Viewing aggregated analysis for all {len(dash_brands)} products
+            </div>""", unsafe_allow_html=True)
+
+    # Build status banner
+    n_brands = len(dash_brands)
+    n_ch     = len(dash_ch_filter)
+    ch_label = "All channels" if n_ch == len(CHANNELS) else f"{n_ch} of {len(CHANNELS)} channels"
+    scope_label = f"{n_brands} brand{'s' if n_brands > 1 else ''}" if dash_scope == "Brand" else "Full portfolio"
+    st.markdown(f"""<div style='background:#F0FDF4;border:1px solid #86EFAC;border-radius:8px;
+    padding:10px 16px;margin-bottom:16px;font-size:0.82rem;color:#166534;font-weight:600;'>
+    ✅ Viewing analysis for <b>{scope_label}</b> · {ch_label}
+    </div>""", unsafe_allow_html=True)
+
+    # ── Compute aggregated data ───────────────────────────────────────
+    monthly_weights = get_monthly_weights(monthly_profile_choice, n_years, None)
+
+    agg_annual = None
+    agg_fc     = None
+    for pkey in dash_brands:
+        cat = PRODUCT_CATALOG[pkey]
+        ann_gtn, fc_prod = compute_product_gtn_full(cat, forecast_years, n_years, monthly_weights)
+        if agg_annual is None:
+            agg_annual = ann_gtn.copy()
+            agg_fc     = fc_prod.copy()
+            agg_fc.rename(columns={"Annual Units": "Annual Units"}, inplace=True)
+        else:
+            for col in ["GrossSales","TotalRebates","TotalChargebacks","TotalOther",
+                         "TotalDeductions","NetSales","Units"]:
+                agg_annual[col] = agg_annual[col] + ann_gtn[col]
+            agg_fc["Annual Units"] = agg_fc["Annual Units"] + fc_prod["Annual Units"]
+            # WAC = weighted average for display
+            agg_fc["WAC per Unit"] = (
+                agg_fc["WAC per Unit"] * (agg_fc["Annual Units"] - fc_prod["Annual Units"])
+                + fc_prod["WAC per Unit"] * fc_prod["Annual Units"]
+            ) / agg_fc["Annual Units"]
+
+    # Recalculate derived columns
+    agg_annual["GTN_Pct"]  = agg_annual["TotalDeductions"] / agg_annual["GrossSales"] * 100
+    agg_annual["NetPrice"] = agg_annual["NetSales"] / agg_annual["Units"]
+    agg_annual["NetPct"]   = agg_annual["NetSales"] / agg_annual["GrossSales"] * 100
+
+    ann_dash    = agg_annual
+    fc          = agg_fc
+    gross_by_yr = fc["Annual Units"] * fc["WAC per Unit"]
+    total_gross = ann_dash["GrossSales"].sum()
+    total_units = ann_dash["Units"].sum()
+    total_net   = ann_dash["NetSales"].sum()
+    total_ded   = ann_dash["TotalDeductions"].sum()
+    total_reb   = ann_dash["TotalRebates"].sum()
+    total_cb    = ann_dash["TotalChargebacks"].sum()
+    total_other = ann_dash["TotalOther"].sum()
+    avg_gtn_pct = total_ded / total_gross * 100 if total_gross > 0 else 0
+    peak_idx    = ann_dash["GrossSales"].idxmax()
+    peak_yr     = ann_dash.loc[peak_idx, "Year"]
+    has_data    = True  # Always true now since we compute inline
 
     # ── KPI Banner ────────────────────────────────────────────────────
+    banner_name = ", ".join(dash_brands[:3]) + (f" +{len(dash_brands)-3} more" if len(dash_brands) > 3 else "")
     st.markdown(f"""
     <div style='background:#FFFFFF;border:1px solid #E6E6E6;
     border-radius:12px;padding:18px 24px;margin-bottom:16px;'>
-    <div style='display:flex;align-items:center;gap:12px;margin-bottom:14px;'>
-    <span style='font-family:Syne;font-size:1.1rem;font-weight:800;color:#1f4e79;'>{product_name}</span>
+    <div style='display:flex;align-items:center;gap:12px;margin-bottom:4px;'>
+    <span style='font-family:Inter;font-size:1.2rem;font-weight:800;color:#1f4e79;'>{banner_name}</span>
     <span style='background:#F7F9FC;color:#1f4e79;border:1px solid #E0E0E0;border-radius:8px;
-    padding:3px 10px;font-size:0.72rem;font-family:JetBrains Mono;'>{therapy_area}</span>
+    padding:3px 10px;font-size:0.85rem;font-family:JetBrains Mono;'>{therapy_area}</span>
     <span style='background:#F7F9FC;color:#1f4e79;border:1px solid #E0E0E0;border-radius:8px;
-    padding:3px 10px;font-size:0.72rem;font-family:JetBrains Mono;'>{admin_route.split("(")[0].strip()}</span>
+    padding:3px 10px;font-size:0.85rem;font-family:JetBrains Mono;'>{admin_route.split("(")[0].strip()}</span>
     <span style='background:#F7F9FC;color:#1f4e79;border:1px solid #E0E0E0;border-radius:8px;
-    padding:3px 10px;font-size:0.72rem;font-family:JetBrains Mono;'>
+    padding:3px 10px;font-size:0.85rem;font-family:JetBrains Mono;'>
     {forecast_years[0]}–{forecast_years[-1]} · {n_years}yr</span>
     </div></div>""", unsafe_allow_html=True)
 
-    k1,k2,k3,k4,k5,k6,k7 = st.columns(7)
+    k1,k2,k3,k4 = st.columns(4)
     k1.metric("Total Units", fmt_u(total_units))
     k2.metric("Gross Sales", fmt_b(total_gross) if total_gross>=1e9 else fmt_m(total_gross))
-    k3.metric("Net Sales",   fmt_b(total_net)   if total_net  >=1e9 else fmt_m(total_net) if has_data else "—")
-    k4.metric("Total Deductions", fmt_m(total_ded) if has_data else "—")
-    k5.metric("Avg GTN %",  fmt_pct(avg_gtn_pct) if has_data else "—")
+    k3.metric("Net Sales",   fmt_b(total_net)   if total_net  >=1e9 else fmt_m(total_net))
+    k4.metric("Total Deductions", fmt_m(total_ded))
+    k5,k6,k7 = st.columns(3)
+    k5.metric("Avg GTN %",  fmt_pct(avg_gtn_pct))
     k6.metric("Peak Sales Year", str(peak_yr))
-    k7.metric("Channels", str(len(CHANNELS)))
-
-    if not has_data:
-        st.markdown("""<div class='info-box'>
-        ℹ️ <b>Visit the ASP Engine tab first</b> to unlock full GTN data.
-        Gross sales charts are live below.
-        </div>""", unsafe_allow_html=True)
+    k7.metric("Brands Included", str(n_brands))
 
     st.markdown("---")
 
@@ -522,113 +1194,93 @@ with tabs[0]:
         st.markdown('<div class="sec-header">📈 Total Sales Over Time — Gross vs Net</div>', unsafe_allow_html=True)
         fig_sales = go.Figure()
         fig_sales.add_trace(go.Bar(
-            x=fc["Year"], y=gross_by_yr/1e6,
+            x=ann_dash["Year"], y=ann_dash["GrossSales"]/1e6,
             name="Gross Sales", marker_color="#A8D5FF", opacity=0.6,
             hovertemplate="<b>%{x}</b><br>Gross: $%{y:.2f}M<extra></extra>",
         ))
-        if has_data:
-            fig_sales.add_trace(go.Bar(
-                x=ann_dash["Year"], y=ann_dash["NetSales"]/1e6,
-                name="Net Sales", marker_color="#4ade80", opacity=0.85,
-                hovertemplate="<b>%{x}</b><br>Net: $%{y:.2f}M<extra></extra>",
-            ))
-            # GTN deduction fill
-            fig_sales.add_trace(go.Scatter(
-                x=ann_dash["Year"].tolist() + ann_dash["Year"].tolist()[::-1],
-                y=(gross_by_yr/1e6).tolist() + (ann_dash["NetSales"]/1e6).tolist()[::-1],
-                fill="toself", fillcolor="rgba(248,113,113,0.10)",
-                line=dict(color="rgba(0,0,0,0)"), name="GTN Deductions",
-                hoverinfo="skip",
-            ))
-            # WAC trend line
-            fig_sales.add_trace(go.Scatter(
-                x=fc["Year"], y=fc["WAC per Unit"],
-                name="WAC/unit ($)", mode="lines+markers",
-                line=dict(color="#fbbf24", width=1.5, dash="dot"),
-                marker=dict(size=5), yaxis="y2",
-            ))
+        fig_sales.add_trace(go.Bar(
+            x=ann_dash["Year"], y=ann_dash["NetSales"]/1e6,
+            name="Net Sales", marker_color="#4ade80", opacity=0.85,
+            hovertemplate="<b>%{x}</b><br>Net: $%{y:.2f}M<extra></extra>",
+        ))
+        # GTN deduction fill
+        fig_sales.add_trace(go.Scatter(
+            x=ann_dash["Year"].tolist() + ann_dash["Year"].tolist()[::-1],
+            y=(ann_dash["GrossSales"]/1e6).tolist() + (ann_dash["NetSales"]/1e6).tolist()[::-1],
+            fill="toself", fillcolor="rgba(248,113,113,0.10)",
+            line=dict(color="rgba(0,0,0,0)"), name="GTN Deductions",
+            hoverinfo="skip",
+        ))
         fig_sales.update_layout(
             barmode="overlay", height=340, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-            yaxis=dict(title="Sales ($M)", gridcolor="#003A8C", zerolinecolor="#003A8C"),
-            yaxis2=dict(title="WAC ($/unit)", overlaying="y", side="right",
-                        gridcolor="#003A8C", zerolinecolor="#003A8C"),
+            yaxis=dict(title="Sales Revenue ($ Millions USD)", gridcolor="#E2E8F0", zerolinecolor="#CBD5E1"),
             legend_font_size=10,
         )
         apply_axes_style(fig_sales)
-        st.plotly_chart(fig_sales, use_container_width=True)
+        st.plotly_chart(fig_sales, use_container_width=True, theme=None)
 
     with col2:
         st.markdown('<div class="sec-header">📉 GTN Waterfall — Full Forecast Period</div>', unsafe_allow_html=True)
-        if has_data:
-            wf_labels = ["Gross Sales","(-) Rebates","(-) Chargebacks","(-) Fees/Other","Net Sales"]
-            wf_vals   = [total_gross, -total_reb, -total_cb, -total_other, total_net]
-            wf_measure= ["absolute","relative","relative","relative","total"]
-            wf_pcts   = ["100%",
-                         f"-{total_reb/total_gross*100:.1f}%",
-                         f"-{total_cb/total_gross*100:.1f}%",
-                         f"-{total_other/total_gross*100:.1f}%",
-                         f"{total_net/total_gross*100:.1f}%"]
-            fig_wfall = go.Figure(go.Waterfall(
-                measure=wf_measure, x=wf_labels,
-                y=[v/1e6 for v in wf_vals],
-                connector=dict(line=dict(color="#003A8C", width=1)),
-                decreasing=dict(marker=dict(color="#f87171")),
-                increasing=dict(marker=dict(color="#4ade80")),
-                totals=dict(marker=dict(color="#A8D5FF",
-                            line=dict(color="#D4EAFF", width=2))),
-                text=[f"${abs(v)/1e6:.1f}M<br><span style='font-size:9px'>{p}</span>"
-                      for v, p in zip(wf_vals, wf_pcts)],
-                textposition="outside",
-                textfont=dict(color="#C8C2BE", size=10),
-            ))
-            fig_wfall.update_layout(
-                title=f"GTN Waterfall {forecast_years[0]}–{forecast_years[-1]}",
-                height=340, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-                showlegend=False,
-                yaxis=dict(title="$M", gridcolor="#003A8C", zerolinecolor="#003A8C"),
-            )
-            apply_axes_style(fig_wfall)
-            st.plotly_chart(fig_wfall, use_container_width=True)
-        else:
-            st.markdown("""<div class='card' style='height:300px;display:flex;align-items:center;
-            justify-content:center;flex-direction:column;gap:8px;'>
-            <span style='font-size:1.5rem;'>📉</span>
-            <span style='color:#FFFFFF;font-size:0.85rem;'>Run ASP Engine tab to unlock waterfall</span>
-            </div>""", unsafe_allow_html=True)
+        wf_labels = ["Gross Sales","(-) Rebates","(-) Chargebacks","(-) Fees/Other","Net Sales"]
+        wf_vals   = [total_gross, -total_reb, -total_cb, -total_other, total_net]
+        wf_measure= ["absolute","relative","relative","relative","total"]
+        wf_pcts   = ["100%",
+                     f"-{total_reb/total_gross*100:.1f}%" if total_gross > 0 else "0%",
+                     f"-{total_cb/total_gross*100:.1f}%" if total_gross > 0 else "0%",
+                     f"-{total_other/total_gross*100:.1f}%" if total_gross > 0 else "0%",
+                     f"{total_net/total_gross*100:.1f}%" if total_gross > 0 else "0%"]
+        fig_wfall = go.Figure(go.Waterfall(
+            measure=wf_measure, x=wf_labels,
+            y=[v/1e6 for v in wf_vals],
+            connector=dict(line=dict(color="#003A8C", width=1)),
+            decreasing=dict(marker=dict(color="#f87171")),
+            increasing=dict(marker=dict(color="#4ade80")),
+            totals=dict(marker=dict(color="#A8D5FF",
+                        line=dict(color="#D4EAFF", width=2))),
+            text=[f"${abs(v)/1e6:.1f}M<br><span style='font-size:9px'>{p}</span>"
+                  for v, p in zip(wf_vals, wf_pcts)],
+            textposition="outside",
+            textfont=dict(color="#4A5568", size=10),
+        ))
+        fig_wfall.update_layout(
+            title=f"GTN Waterfall {forecast_years[0]}–{forecast_years[-1]}",
+            height=340, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
+            showlegend=False,
+            yaxis=dict(title="Amount ($ Millions USD)", gridcolor="#E2E8F0", zerolinecolor="#CBD5E1"),
+        )
+        apply_axes_style(fig_wfall)
+        st.plotly_chart(fig_wfall, use_container_width=True, theme=None)
 
     # ── Row 2: Annual deduction breakdown + GTN% trend ────────────────
     col3, col4 = st.columns([1.2, 1])
 
     with col3:
         st.markdown('<div class="sec-header">🧩 Gross-to-Net Deduction Breakdown by Year</div>', unsafe_allow_html=True)
-        if has_data:
-            fig_ded = go.Figure()
-            fig_ded.add_trace(go.Bar(x=ann_dash["Year"],
-                y=ann_dash["TotalRebates"]/ann_dash["GrossSales"]*100,
-                name="Rebates", marker_color="#f87171", opacity=0.85))
-            fig_ded.add_trace(go.Bar(x=ann_dash["Year"],
-                y=ann_dash["TotalChargebacks"]/ann_dash["GrossSales"]*100,
-                name="Chargebacks", marker_color="#fb923c", opacity=0.85))
-            fig_ded.add_trace(go.Bar(x=ann_dash["Year"],
-                y=ann_dash["TotalOther"]/ann_dash["GrossSales"]*100,
-                name="Fees/Other", marker_color="#fbbf24", opacity=0.85))
-            fig_ded.add_trace(go.Scatter(
-                x=ann_dash["Year"], y=ann_dash["GTN_Pct"],
-                name="Total GTN %", mode="lines+markers",
-                line=dict(color="#A8D5FF", width=2.5),
-                marker=dict(size=8, symbol="diamond"),
-                text=[fmt_pct(v) for v in ann_dash["GTN_Pct"]],
-                textposition="top center", textfont=dict(size=9, color="#A8D5FF"),
-            ))
-            fig_ded.update_layout(
-                barmode="stack", height=300, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-                yaxis=dict(title="% of Gross", gridcolor="#003A8C", zerolinecolor="#003A8C"),
-                legend_font_size=10,
-            )
-            apply_axes_style(fig_ded)
-            st.plotly_chart(fig_ded, use_container_width=True)
-        else:
-            st.markdown("<div class='card' style='height:260px;display:flex;align-items:center;justify-content:center;'><span style='color:#FFFFFF;'>Run ASP Engine to unlock</span></div>", unsafe_allow_html=True)
+        fig_ded = go.Figure()
+        fig_ded.add_trace(go.Bar(x=ann_dash["Year"],
+            y=ann_dash["TotalRebates"]/ann_dash["GrossSales"]*100,
+            name="Rebates", marker_color="#f87171", opacity=0.85))
+        fig_ded.add_trace(go.Bar(x=ann_dash["Year"],
+            y=ann_dash["TotalChargebacks"]/ann_dash["GrossSales"]*100,
+            name="Chargebacks", marker_color="#fb923c", opacity=0.85))
+        fig_ded.add_trace(go.Bar(x=ann_dash["Year"],
+            y=ann_dash["TotalOther"]/ann_dash["GrossSales"]*100,
+            name="Fees/Other", marker_color="#fbbf24", opacity=0.85))
+        fig_ded.add_trace(go.Scatter(
+            x=ann_dash["Year"], y=ann_dash["GTN_Pct"],
+            name="Total GTN %", mode="lines+markers",
+            line=dict(color="#A8D5FF", width=2.5),
+            marker=dict(size=8, symbol="diamond"),
+            text=[fmt_pct(v) for v in ann_dash["GTN_Pct"]],
+            textposition="top center", textfont=dict(size=9, color="#1A1A2E"),
+        ))
+        fig_ded.update_layout(
+            barmode="stack", height=300, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
+            yaxis=dict(title="Percentage of Gross Sales (%)", gridcolor="#E2E8F0", zerolinecolor="#CBD5E1"),
+            legend_font_size=10,
+        )
+        apply_axes_style(fig_ded)
+        st.plotly_chart(fig_ded, use_container_width=True, theme=None)
 
     with col4:
         st.markdown('<div class="sec-header">🥧 Payer Channel Mix</div>', unsafe_allow_html=True)
@@ -638,29 +1290,28 @@ with tabs[0]:
                                    label_visibility="collapsed")
         yr_pie_int = int(yr_pie_sel)
         row_pie = ch_raw[ch_raw["Year"]==yr_pie_int].iloc[0] if yr_pie_int in ch_raw["Year"].values else ch_raw.iloc[0]
-        _dash_active = st.session_state.get("active_channels", CHANNELS)
-        vals_pie = [row_pie[ch] for ch in _dash_active if ch in row_pie.index]
-        _dash_labels = [ch for ch in _dash_active if ch in row_pie.index]
+        vals_pie = [row_pie[ch] for ch in dash_ch_filter if ch in row_pie.index]
+        _dash_labels = [ch for ch in dash_ch_filter if ch in row_pie.index]
         fig_pie = go.Figure(go.Pie(
             labels=_dash_labels, values=vals_pie, hole=0.44,
-            marker_colors=COLORS_MAIN, textfont_size=9,
+            marker_colors=COLORS_MAIN, textfont=dict(size=9, color="#1A1A2E"),
             hovertemplate="<b>%{label}</b><br>%{value:.1f}%<extra></extra>",
         ))
         fig_pie.update_layout(
-            paper_bgcolor="#FFFFFF", plot_bgcolor="#FFFFFF", font_color="#111111", height=280,
+            paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font_color="#1A1A2E", height=280,
             margin=dict(t=10, b=10, l=5, r=5),
-            showlegend=True, legend=dict(font_size=9, bgcolor="#FFFFFF", bordercolor="#CCCCCC", borderwidth=1),
+            showlegend=True, legend=dict(font_size=9, font=dict(color="#1A1A2E"), bgcolor="rgba(255,255,255,0.8)", bordercolor="#E2E8F0", borderwidth=1),
             annotations=[dict(text=yr_pie_sel, x=0.5, y=0.5, showarrow=False,
-                              font=dict(size=16, color="#0D2A56", family="Syne"))],
+                              font=dict(size=16, color="#1f4e79", family="Inter"))],
         )
-        st.plotly_chart(fig_pie, use_container_width=True)
+        st.plotly_chart(fig_pie, use_container_width=True, theme=None)
 
     # ── Row 3: Customer / IDN Summary ────────────────────────────────
     st.markdown('<div class="sec-header">🏥 Customer / IDN Summary</div>', unsafe_allow_html=True)
     idn_list = st.session_state.idn_list
     idn_cols = st.columns(len(idn_list))
+    wac_y1 = fc["WAC per Unit"].iloc[0]
     for i, idn in enumerate(idn_list):
-        wac_y1 = fc["WAC per Unit"].iloc[0]
         acq    = wac_y1 * (1 - idn["discount"]/100)
         with idn_cols[i]:
             flag = "🟡 340B" if idn["is_340b"] else "🔵 GPO"
@@ -683,37 +1334,26 @@ with tabs[0]:
         rows = df.loc[df[yr_col] == yr, val_col]
         return rows.values[0] if len(rows) > 0 else default
 
-    if has_data:
-        dash_T = pd.DataFrame({
-            "Metric": ["Annual Units","WAC/Unit","Gross Sales ($M)",
-                       "Rebates ($M)","Chargebacks ($M)","Fees/Other ($M)",
-                       "Total Deductions ($M)","Net Sales ($M)","GTN %","Net $/Unit","Net % of WAC"],
-            **{str(yr): [
-                fmt_u(int(_v(ann_dash, "Year", yr, "Units"))),
-                fmt_d(_v(fc, "Year", yr, "WAC per Unit")),
-                f"${_v(ann_dash,'Year',yr,'GrossSales')/1e6:.2f}M",
-                f"${_v(ann_dash,'Year',yr,'TotalRebates')/1e6:.2f}M",
-                f"${_v(ann_dash,'Year',yr,'TotalChargebacks')/1e6:.2f}M",
-                f"${_v(ann_dash,'Year',yr,'TotalOther')/1e6:.2f}M",
-                f"${_v(ann_dash,'Year',yr,'TotalDeductions')/1e6:.2f}M",
-                f"${_v(ann_dash,'Year',yr,'NetSales')/1e6:.2f}M",
-                fmt_pct(_v(ann_dash, "Year", yr, "GTN_Pct")),
-                fmt_d(_v(ann_dash, "Year", yr, "NetPrice")),
-                fmt_pct(_v(ann_dash, "Year", yr, "NetPct")),
-            ] for yr in fc["Year"].tolist()}
-        })
-    else:
-        u_by_yr = dict(zip(fc["Year"], fc["Annual Units"]))
-        w_by_yr = dict(zip(fc["Year"], fc["WAC per Unit"]))
-        dash_T = pd.DataFrame({
-            "Metric": ["Annual Units","WAC/Unit","Gross Sales ($M)"],
-            **{str(yr): [
-                fmt_u(int(u_by_yr.get(yr, 0))),
-                fmt_d(w_by_yr.get(yr, 0.0)),
-                f"${u_by_yr.get(yr,0) * w_by_yr.get(yr,0) / 1e6:.2f}M",
-            ] for yr in fc["Year"].tolist()}
-        })
+    dash_T = pd.DataFrame({
+        "Metric": ["Annual Units","WAC/Unit","Gross Sales ($M)",
+                   "Rebates ($M)","Chargebacks ($M)","Fees/Other ($M)",
+                   "Total Deductions ($M)","Net Sales ($M)","GTN %","Net $/Unit","Net % of WAC"],
+        **{str(yr): [
+            fmt_u(int(_v(ann_dash, "Year", yr, "Units"))),
+            fmt_d(_v(fc, "Year", yr, "WAC per Unit")),
+            f"${_v(ann_dash,'Year',yr,'GrossSales')/1e6:.2f}M",
+            f"${_v(ann_dash,'Year',yr,'TotalRebates')/1e6:.2f}M",
+            f"${_v(ann_dash,'Year',yr,'TotalChargebacks')/1e6:.2f}M",
+            f"${_v(ann_dash,'Year',yr,'TotalOther')/1e6:.2f}M",
+            f"${_v(ann_dash,'Year',yr,'TotalDeductions')/1e6:.2f}M",
+            f"${_v(ann_dash,'Year',yr,'NetSales')/1e6:.2f}M",
+            fmt_pct(_v(ann_dash, "Year", yr, "GTN_Pct")),
+            fmt_d(_v(ann_dash, "Year", yr, "NetPrice")),
+            fmt_pct(_v(ann_dash, "Year", yr, "NetPct")),
+        ] for yr in ann_dash["Year"].tolist()}
+    })
     st.dataframe(dash_T, use_container_width=True, hide_index=True)
+
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -820,11 +1460,11 @@ with tabs[1]:
                                 line=dict(color="#A8D5FF", width=2.5),
                                 marker=dict(size=7)), secondary_y=True)
     fig_fc.update_layout(title="Units & Gross Sales by Year", height=300, **PLOTLY_LAYOUT,
-                         margin=dict(t=40,b=20,l=10,r=20))
-    fig_fc.update_yaxes(title_text="Units (K)", secondary_y=False)
-    fig_fc.update_yaxes(title_text="Gross Sales ($M)", secondary_y=True)
+                         margin=dict(t=40,b=20,l=80,r=80))
+    fig_fc.update_yaxes(title_text="Sales Volume (Thousands of Units)", secondary_y=False)
+    fig_fc.update_yaxes(title_text="Gross Sales ($ Millions USD)", secondary_y=True)
     apply_axes_style(fig_fc)
-    st.plotly_chart(fig_fc, use_container_width=True)
+    st.plotly_chart(fig_fc, use_container_width=True, theme=None)
 
     # Monthly expansion preview
     st.markdown('<div class="sec-header">📅 Monthly Expansion Preview</div>', unsafe_allow_html=True)
@@ -852,9 +1492,9 @@ with tabs[1]:
             opacity=0.85,
         ))
     fig_mo.update_layout(title="Monthly Gross Sales ($M) — All Years",
-                         barmode="group", height=280, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT)
+                         barmode="group", height=280, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT, yaxis_title="Gross Sales ($ Millions USD)")
     apply_axes_style(fig_mo)
-    st.plotly_chart(fig_mo, use_container_width=True)
+    st.plotly_chart(fig_mo, use_container_width=True, theme=None)
 
     # WAC trend
     st.markdown('<div class="sec-header">💲 WAC Trajectory</div>', unsafe_allow_html=True)
@@ -873,10 +1513,10 @@ with tabs[1]:
         fig_wac.add_trace(go.Bar(x=fc["Year"], y=wac_pcts, name="YoY % Increase",
                                   marker_color="#c084fc", opacity=0.5, yaxis="y2"))
         fig_wac.update_layout(title="WAC / Unit + Annual % Increase", height=260,
-                               margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT, yaxis2=dict(overlaying="y", side="right",
-                               title="WAC Inc. %", gridcolor="#003A8C"))
+                               margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT, yaxis_title="WAC ($ / Unit)", yaxis2=dict(overlaying="y", side="right",
+                               title="YoY Increase (%)", gridcolor="#003A8C"))
         apply_axes_style(fig_wac)
-        st.plotly_chart(fig_wac, use_container_width=True)
+        st.plotly_chart(fig_wac, use_container_width=True, theme=None)
     with col_b:
         st.markdown("""<div class='info-box'>
         <b>WAC Considerations:</b><br>
@@ -1179,9 +1819,9 @@ with tabs[2]:
             hovertemplate=f"<b>{ch}</b><br>%{{y:.1f}}%<extra></extra>",
         ))
     fig_ch.update_layout(title="Payer Channel Mix % by Year", height=350, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-                         yaxis_title="Share (%)")
+                         yaxis_title="Channel Allocation Share (%)")
     apply_axes_style(fig_ch)
-    st.plotly_chart(fig_ch, use_container_width=True)
+    st.plotly_chart(fig_ch, use_container_width=True, theme=None)
 
     # Per-year pie grid — active channels only
     st.markdown('<div class="sec-header">🥧 Channel Mix Snapshots</div>', unsafe_allow_html=True)
@@ -1193,15 +1833,15 @@ with tabs[2]:
         vals = [row[ch] for ch in ACTIVE_CH]
         fig_p = go.Figure(go.Pie(
             labels=ACTIVE_CH, values=vals, hole=0.4,
-            marker_colors=pie_colors, textfont_size=8,
+            marker_colors=pie_colors, textfont=dict(size=8, color="#1A1A2E"),
             hovertemplate="<b>%{label}</b><br>%{value:.1f}%<extra></extra>",
         ))
-        fig_p.update_layout(paper_bgcolor="#FFFFFF", plot_bgcolor="#FFFFFF", font_color="#111111",
+        fig_p.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font_color="#1A1A2E",
                             height=220, margin=dict(t=30, b=10, l=5, r=5),
                             title=str(yr), title_font=dict(size=13, color="#0D2A56"),
                             showlegend=False)
         with cols[idx % 3]:
-            st.plotly_chart(fig_p, use_container_width=True)
+            st.plotly_chart(fig_p, use_container_width=True, theme=None)
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -1407,9 +2047,9 @@ with tabs[3]:
             ))
         fig_reb.update_layout(title="Rebate Rates Over Forecast Period", height=280,
                                margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-                               yaxis_title="Rebate %", legend_font_size=10)
+                               yaxis_title="Rebate Percentage (%)", legend_font_size=10)
         apply_axes_style(fig_reb)
-        st.plotly_chart(fig_reb, use_container_width=True)
+        st.plotly_chart(fig_reb, use_container_width=True, theme=None)
 
     with ch_trend2:
         fig_disc = go.Figure()
@@ -1422,9 +2062,9 @@ with tabs[3]:
             ))
         fig_disc.update_layout(title="Discount Rates (Off WAC) Over Forecast Period", height=280,
                                margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-                               yaxis_title="Discount %", legend_font_size=10)
+                               yaxis_title="Discount Percentage (%)", legend_font_size=10)
         apply_axes_style(fig_disc)
-        st.plotly_chart(fig_disc, use_container_width=True)
+        st.plotly_chart(fig_disc, use_container_width=True, theme=None)
 
     st.markdown('<div class="sec-header">📉 Effective GTN % Preview (Rebates + Discounts Blended)</div>', unsafe_allow_html=True)
     # Quick blended GTN preview
@@ -1458,13 +2098,13 @@ with tabs[3]:
                                        name="Total GTN %", mode="lines+markers+text",
                                        line=dict(color="#A8D5FF", width=2.5),
                                        text=[f"{v:.1f}%" for v in gtn_prev["Total GTN"]],
-                                       textposition="top center", textfont=dict(size=9, color="#A8D5FF"),
+                                       textposition="top center", textfont=dict(size=9, color="#1A1A2E"),
                                        marker=dict(size=8), yaxis="y"))
     fig_gtn_prev.update_layout(barmode="stack", title="Blended GTN % by Year (Indicative)",
-                                height=280, **PLOTLY_LAYOUT, yaxis_title="GTN %",
+                                height=280, **PLOTLY_LAYOUT, yaxis_title="Gross-To-Net Yield (%)",
                                 legend_font_size=10)
     apply_axes_style(fig_gtn_prev)
-    st.plotly_chart(fig_gtn_prev, use_container_width=True)
+    st.plotly_chart(fig_gtn_prev, use_container_width=True, theme=None)
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -1557,12 +2197,12 @@ with tabs[4]:
                               line=dict(color="#003A8C", width=1, dash="dot"))
             fig_asp.add_annotation(x=x_val, y=1.02, xref="x", yref="paper",
                                    text=str(yr), showarrow=False,
-                                   font=dict(color="#C8C2BE", size=10))
+                                   font=dict(color="#4A5568", size=10))
         fig_asp.update_layout(title="ASP Trend — Rolling 6-Month Weighted Average",
-                               height=340, **PLOTLY_LAYOUT, yaxis_title="$/unit",
+                               height=340, **PLOTLY_LAYOUT, yaxis_title="Price ($ / Unit)",
                                xaxis_tickangle=-45, xaxis_nticks=n_years*2)
         apply_axes_style(fig_asp)
-        st.plotly_chart(fig_asp, use_container_width=True)
+        st.plotly_chart(fig_asp, use_container_width=True, theme=None)
 
     with col2:
         st.markdown('<div class="sec-header">📊 Annual ASP Summary</div>', unsafe_allow_html=True)
@@ -1581,9 +2221,9 @@ with tabs[4]:
         fig_ann.add_trace(go.Bar(x=asp_annual["Year"], y=asp_annual["Avg_ASP6"],
                                   name="Avg ASP+6%", marker_color="#A8D5FF", opacity=0.8))
         fig_ann.update_layout(barmode="group", title="Annual Average Prices", height=260,
-                               **PLOTLY_LAYOUT, yaxis_title="$/unit")
+                               **PLOTLY_LAYOUT, yaxis_title="Price ($ / Unit)")
         apply_axes_style(fig_ann)
-        st.plotly_chart(fig_ann, use_container_width=True)
+        st.plotly_chart(fig_ann, use_container_width=True, theme=None)
 
         # Transposed: metrics as rows, years as columns
         asp_yrs = asp_annual["Year"].tolist()
@@ -1602,34 +2242,78 @@ with tabs[4]:
     st.markdown('<div class="sec-header">⚙️ ASP Calculation Step-by-Step</div>', unsafe_allow_html=True)
     col_a, col_b = st.columns(2)
     with col_a:
-        st.markdown("""<div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 55%,#8ab4f2 100%); border-radius:10px; padding:12px;' style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 55%,#8ab4f2 100%); border-radius:10px; padding:12px;'>
-        <b style='color:#FFFFFF;'>Step 1 — Identify ASP-Eligible Channels</b>
-        <table style='width:100%;font-size:0.78rem;margin-top:8px;'>
-        <tr><th style='color:#FFFFFF;text-align:left;font-weight:700;'>Channel</th><th style='color:#FFFFFF;font-weight:700;'>ASP Eligible?</th></tr>
-        """, unsafe_allow_html=True)
+        html_a = """
+        <div style='background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); height: 100%; display: flex; flex-direction: column;'>
+            <div style='font-family: "Inter", -apple-system, sans-serif; font-size: 1.15rem; font-weight: 800; color: #1E293B; margin-bottom: 20px; border-bottom: 2px solid #F1F5F9; padding-bottom: 12px;'>
+                Step 1 — Identify ASP-Eligible Channels
+            </div>
+            <div style='display: grid; gap: 10px; flex-grow: 1;'>
+        """
         for ch, eligible in ASP_ELIGIBLE.items():
-            color = "#4ade80" if eligible else "#f87171"
-            tag = "✅ Included" if eligible else "❌ Exempt"
-            st.markdown(f"<tr><td style='color:#1f4e79;padding:3px 0;'>{ch}</td><td style='color:{color};font-family:JetBrains Mono;font-size:0.75rem;'>{tag}</td></tr>",
-                        unsafe_allow_html=True)
-        st.markdown("</table></div>", unsafe_allow_html=True)
+            if eligible:
+                badge_bg = "#DCFCE7"
+                badge_color = "#166534"
+                icon = "✓"
+                text = "Included"
+                border_left = "4px solid #22C55E"
+            else:
+                badge_bg = "#FEE2E2"
+                badge_color = "#991B1B"
+                icon = "✕"
+                text = "Exempt"
+                border_left = "4px solid #EF4444"
+            html_a += f"""
+                <div style='display: flex; justify-content: space-between; align-items: center; background: #F8FAFC; padding: 12px 16px; border-radius: 8px; border-left: {border_left}; border-right: 1px solid #E2E8F0; border-top: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0; box-shadow: 0 1px 2px rgba(0,0,0,0.02);'>
+                    <span style='font-family: "Inter", -apple-system, sans-serif; font-size: 0.95rem; font-weight: 600; color: #334155;'>{ch}</span>
+                    <span style='background: {badge_bg}; color: {badge_color}; padding: 4px 10px; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; font-family: "JetBrains Mono", monospace; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px;'>
+                        <span style='font-size: 14px; margin-top: -1px;'>{icon}</span> {text}
+                    </span>
+                </div>
+            """
+        html_a += "</div></div>"
+        st.markdown("\n".join(line.lstrip() for line in html_a.split("\n")), unsafe_allow_html=True)
+
     with col_b:
-        st.markdown("""<div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 55%,#8ab4f2 100%); border-radius:10px; padding:12px;'>
-        <b style='color:#FFFFFF;'>Step 2 — Monthly ASP Computation</b>
-        <div style='margin-top:10px;font-size:0.8rem;color:#FFFFFF;line-height:1.7;'>
-        <b>For each month <em>t</em>:</b><br>
-        <code style='background:#001A4D;color:#FFFFFF;font-weight:700;padding:6px 8px;border-radius:4px;display:inline-block;'>ASP_t = Σ(price_i × units_i) / Σ(units_i)</code><br>
-        <b>where <em>i</em> = non-exempt channels only</b><br><br>
-        <b style='color:#FFFFFF;'>Step 3 — Rolling 6-Month Average</b><br>
-        <code style='background:#001A4D;color:#FFFFFF;font-weight:700;padding:6px 8px;border-radius:4px;display:inline-block;'>ASP_rolling = Σ(rev_{t-5..t}) / Σ(units_{t-5..t})</code><br>
-        (volume-weighted, not simple average)<br><br>
-        <b style='color:#FFFFFF;'>Step 4 — Medicare Reimbursement</b><br>
-        <code style='background:#001A4D;color:#FFFFFF;font-weight:700;padding:6px 8px;border-radius:4px;display:inline-block;'>Medicare B Reimb = ASP_rolling × 1.06</code><br>
-        (pre-sequestration; effective = × 1.04 post-seq)<br><br>
-        <b style='color:#FFFFFF;'>Step 5 — Reporting Lag</b><br>
-        ASP published ~2 quarters after the reference period.
-        Model uses concurrent ASP for simplification — add lag for sensitivity analysis.
-        </div></div>""", unsafe_allow_html=True)
+        html_b = """
+        <div style='background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); height: 100%; display: flex; flex-direction: column;'>
+            <div style='font-family: "Inter", -apple-system, sans-serif; font-size: 1.15rem; font-weight: 800; color: #1E293B; margin-bottom: 20px; border-bottom: 2px solid #F1F5F9; padding-bottom: 12px;'>
+                ASP Mathematical Engine
+            </div>
+            
+            <div style='margin-bottom: 20px;'>
+                <div style='font-size: 0.8rem; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;'>Step 2 — Monthly ASP Computation</div>
+                <div style='background: #F0F9FF; border-left: 3px solid #0EA5E9; border-radius: 0 8px 8px 0; padding: 12px 16px;'>
+                    <code style='color: #0369A1; background: transparent; padding: 0; font-family: "JetBrains Mono", monospace; font-size: 0.85rem; font-weight: 700;'>ASP_t = Σ(price_i × units_i) / Σ(units_i)</code>
+                    <div style='font-size: 0.8rem; color: #475569; margin-top: 6px; font-style: italic;'>where <b>i</b> = non-exempt channels only</div>
+                </div>
+            </div>
+
+            <div style='margin-bottom: 20px;'>
+                <div style='font-size: 0.8rem; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;'>Step 3 — Rolling 6-Month Average</div>
+                <div style='background: #F0F9FF; border-left: 3px solid #0EA5E9; border-radius: 0 8px 8px 0; padding: 12px 16px;'>
+                    <code style='color: #0369A1; background: transparent; padding: 0; font-family: "JetBrains Mono", monospace; font-size: 0.85rem; font-weight: 700;'>ASP_rolling = Σ(rev_{t-5..t}) / Σ(units_{t-5..t})</code>
+                    <div style='font-size: 0.8rem; color: #475569; margin-top: 6px; font-style: italic;'>Volume-weighted over the prior 6 months.</div>
+                </div>
+            </div>
+
+            <div style='margin-bottom: 24px;'>
+                <div style='font-size: 0.8rem; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;'>Step 4 — Medicare Reimbursement</div>
+                <div style='background: #F0FDF4; border-left: 3px solid #22C55E; border-radius: 0 8px 8px 0; padding: 12px 16px;'>
+                    <code style='color: #166534; background: transparent; padding: 0; font-family: "JetBrains Mono", monospace; font-size: 0.85rem; font-weight: 700;'>Medicare B Reimb = ASP_rolling × 1.06</code>
+                    <div style='font-size: 0.8rem; color: #15803D; margin-top: 6px;'>Statutory <b>ASP + 6%</b> mark-up for providers.</div>
+                </div>
+            </div>
+            
+            <div style='margin-top: auto; background: #FEF3C7; border: 1px solid #FDE68A; border-radius: 8px; padding: 16px; display: flex; gap: 12px; align-items: flex-start;'>
+                <div style='font-size: 1.4rem; line-height: 1;'>⏳</div>
+                <div>
+                    <div style='font-size: 0.82rem; font-weight: 700; color: #92400E; margin-bottom: 2px;'>Step 5 — Reporting Lag</div>
+                    <div style='font-size: 0.78rem; color: #B45309; line-height: 1.4;'>ASP is published ~2 quarters after the reference period. Model uses concurrent ASP for simplification.</div>
+                </div>
+            </div>
+        </div>
+        """
+        st.markdown("\n".join(line.lstrip() for line in html_b.split("\n")), unsafe_allow_html=True)
 
     # Monthly ASP detail table — transposed: metrics as rows, months as columns
     st.markdown('<div class="sec-header">📋 Monthly ASP Detail (Sample — First Year)</div>', unsafe_allow_html=True)
@@ -1891,10 +2575,10 @@ with tabs[4]:
         fig_risk.update_layout(
             title="ASP Risk Analysis — Stress vs Baseline (red shading = danger zone)",
             height=400, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-            yaxis_title="$/unit", xaxis_tickangle=-45,
+            yaxis_title="Price ($ / Unit)", xaxis_tickangle=-45,
         )
         apply_axes_style(fig_risk)
-        st.plotly_chart(fig_risk, use_container_width=True)
+        st.plotly_chart(fig_risk, use_container_width=True, theme=None)
 
         # ── Year-by-year risk scoreboard ──────────────────────────────
         st.markdown('<div class="sec-header">🎯 Year-by-Year Risk Scoreboard</div>',
@@ -2011,11 +2695,11 @@ with tabs[4]:
         fig_tp.update_layout(
             title="ASP vs GPO Discount Sweep — Finding the Tipping Point",
             height=300, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-            xaxis_title="GPO Discount % off WAC",
-            yaxis_title="ASP ($/unit)",
+            xaxis_title="GPO Discount (% off WAC)",
+            yaxis_title="Average Selling Price ($ / Unit)",
         )
         apply_axes_style(fig_tp)
-        st.plotly_chart(fig_tp, use_container_width=True)
+        st.plotly_chart(fig_tp, use_container_width=True, theme=None)
 
     # ═══════════════════════════════════════════════════════════════
     # ASP RESCUE SIMULATOR
@@ -2215,10 +2899,10 @@ with tabs[4]:
         fig_sim.update_layout(
             title="ASP Rescue: Scenario vs Baseline vs IDN Floor",
             height=380, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-            yaxis_title="$/unit", xaxis_tickangle=-45,
+            yaxis_title="Price ($ / Unit)", xaxis_tickangle=-45,
         )
         apply_axes_style(fig_sim)
-        st.plotly_chart(fig_sim, use_container_width=True)
+        st.plotly_chart(fig_sim, use_container_width=True, theme=None)
 
         # ── Annual comparison scoreboard ─────────────────────────────
         st.markdown('<div class="sec-header">🏆 Year-by-Year Rescue Scoreboard</div>',
@@ -2240,17 +2924,17 @@ with tabs[4]:
                 status = "RESCUED" if rescued else "BELOW FLOOR"
                 delta_color = "#4ade80" if delta > 0 else "#f87171"
                 st.markdown(f"""
-                <div style='background:#002766;border:1px solid {"#0a4020" if rescued else "#5c1a1a"};
-                border-radius:9px;padding:10px 8px;text-align:center;'>
-                <div style='font-family:Syne;font-weight:700;color:#FFFFFF;font-size:0.75rem;'>{yr}</div>
-                <div style='font-size:1.1rem;margin:4px 0;'>{icon}</div>
-                <div style='font-family:JetBrains Mono;font-size:0.75rem;color:{color};
-                font-weight:700;'>{status}</div>
-                <div style='font-size:0.68rem;color:#FFFFFF;margin-top:4px;font-family:JetBrains Mono;'>
+                <div style='background:#FFFFFF; border:1px solid {"#86EFAC" if rescued else "#FCA5A5"}; box-shadow:0 4px 12px {"rgba(34,197,94,0.15)" if rescued else "rgba(239,68,68,0.15)"};
+                border-radius:12px; padding:16px 12px; text-align:center; transition: transform 0.2s;' onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                <div style='font-family:"Inter", sans-serif; font-weight:800; color:#1E293B; font-size:1rem; margin-bottom:4px;'>{yr}</div>
+                <div style='font-size:1.4rem; margin:8px 0;'>{icon}</div>
+                <div style='margin: 8px auto; display: inline-block; background: {"#DCFCE7" if rescued else "#FEE2E2"}; color: {"#166534" if rescued else "#991B1B"}; padding: 4px 10px; border-radius: 20px; font-weight: 700; font-family: "JetBrains Mono", monospace; font-size: 0.7rem; letter-spacing: 0.5px;'>
+                {status}</div>
+                <div style='font-size:0.75rem; color:#64748B; margin-top:8px; font-family:"JetBrains Mono", monospace;'>
                 Base: {fmt_d(b_asp)}</div>
-                <div style='font-size:0.68rem;color:#FFFFFF;font-family:JetBrains Mono;'>
-                Scen: {fmt_d(s_asp)}</div>
-                <div style='font-size:0.68rem;color:{delta_color};font-family:JetBrains Mono;'>
+                <div style='font-size:0.75rem; color:#64748B; font-family:"JetBrains Mono", monospace;'>
+                Scen: <span style='font-weight:700; color:#1E293B;'>{fmt_d(s_asp)}</span></div>
+                <div style='font-size:0.75rem; color:{delta_color}; font-weight:700; font-family:"JetBrains Mono", monospace; margin-top:4px;'>
                 Δ {fmt_d(delta)}</div>
                 </div>""", unsafe_allow_html=True)
 
@@ -2285,11 +2969,11 @@ with tabs[4]:
                 be_disc = max(0, min(99, be_disc))
                 be_color= "#4ade80" if be_disc < sim_gpo else "#fbbf24"
                 st.markdown(f"""
-                <div style='background:#002766;border:1px solid #6AB4F0;border-radius:8px;
-                padding:14px 18px;'>
-                <span style='color:#FFFFFF;font-size:0.8rem;'>To make <b style='color:#FFFFFF;'>
+                <div style='background:#F0F9FF; border-left:4px solid #0EA5E9; border-radius:4px; margin-top:12px;
+                padding:16px 20px; box-shadow:0 1px 3px rgba(0,0,0,0.05);'>
+                <span style='color:#0369A1; font-family:"Inter", sans-serif; font-size:0.95rem; line-height:1.5;'>To make <b style='color:#0284C7;'>
                 Scenario ASP ≥ {fmt_d(idn_acq_sim)}</b> (IDN floor), GPO discount must be
-                <b style='color:{be_color};font-family:JetBrains Mono;'>≤ {be_disc:.1f}%</b>
+                <b style='color:{be_color}; font-family:"JetBrains Mono", monospace; background:#E0F2FE; padding:2px 6px; border-radius:4px;'>≤ {be_disc:.1f}%</b>
                 (current scenario: {sim_gpo:.1f}%) — assuming current channel mix.
                 </span></div>""", unsafe_allow_html=True)
             else:
@@ -2358,9 +3042,9 @@ with tabs[5]:
                                  text=[fmt_m(v) for v in annual_gtn["NetSales"]],
                                  textposition="top center", textfont=dict(size=9, color="#4ade80")))
     fig_wf.update_layout(barmode="relative", title="GTN Waterfall — Annual ($M)",
-                          height=380, **PLOTLY_LAYOUT, yaxis_title="$M", legend_font_size=11)
+                          height=380, **PLOTLY_LAYOUT, yaxis_title="Amount ($ Millions USD)", legend_font_size=11)
     apply_axes_style(fig_wf)
-    st.plotly_chart(fig_wf, use_container_width=True)
+    st.plotly_chart(fig_wf, use_container_width=True, theme=None)
 
     # ── GTN % trend ──
     col1, col2 = st.columns(2)
@@ -2374,11 +3058,11 @@ with tabs[5]:
                                          line=dict(color="#4ade80", width=2.5),
                                          marker=dict(size=8)), secondary_y=True)
         fig_gtnpct.update_layout(title="GTN % and Net Price per Unit", height=280,
-                                  **PLOTLY_LAYOUT, margin=dict(t=40,b=20,l=10,r=20))
-        fig_gtnpct.update_yaxes(title_text="GTN %", secondary_y=False)
-        fig_gtnpct.update_yaxes(title_text="Net $/Unit", secondary_y=True)
+                                  **PLOTLY_LAYOUT, margin=dict(t=40,b=20,l=80,r=80))
+        fig_gtnpct.update_yaxes(title_text="Gross-To-Net Yield (%)", secondary_y=False)
+        fig_gtnpct.update_yaxes(title_text="Net Price ($ / Unit)", secondary_y=True)
         apply_axes_style(fig_gtnpct)
-        st.plotly_chart(fig_gtnpct, use_container_width=True)
+        st.plotly_chart(fig_gtnpct, use_container_width=True, theme=None)
 
     with col2:
         st.markdown('<div class="sec-header">🧩 Deduction Mix by Year</div>', unsafe_allow_html=True)
@@ -2393,9 +3077,9 @@ with tabs[5]:
                                    y=annual_gtn["TotalOther"]/annual_gtn["GrossSales"]*100,
                                    name="Fees/Other", marker_color="#fbbf24"))
         fig_dmix.update_layout(barmode="stack", title="Deduction Components (% of Gross)", height=280,
-                                **PLOTLY_LAYOUT, yaxis_title="%", legend_font_size=10)
+                                **PLOTLY_LAYOUT, yaxis_title="Percentage of Gross (%)", legend_font_size=10)
         apply_axes_style(fig_dmix)
-        st.plotly_chart(fig_dmix, use_container_width=True)
+        st.plotly_chart(fig_dmix, use_container_width=True, theme=None)
 
     # ── Full Annual Summary Table — transposed (metrics as rows, years as cols) ──
     st.markdown('<div class="sec-header">📋 Annual GTN Summary Table</div>', unsafe_allow_html=True)
@@ -2434,10 +3118,196 @@ with tabs[5]:
                                      line=dict(color="#f87171", width=2), yaxis="y2"))
     fig_mo_gtn.update_layout(barmode="group", title=f"{yr_sel} — Monthly Gross vs Net ($M) + GTN%",
                               height=300, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-                              yaxis=dict(title="$M", gridcolor="#003A8C", zerolinecolor="#003A8C"),
-                              yaxis2=dict(title="GTN %", overlaying="y", side="right",
+                              yaxis=dict(title="Amount ($ Millions USD)", gridcolor="#003A8C", zerolinecolor="#003A8C"),
+                              yaxis2=dict(title="Gross-To-Net Yield (%)", overlaying="y", side="right",
                                           gridcolor="#003A8C", zerolinecolor="#003A8C"))
-    st.plotly_chart(fig_mo_gtn, use_container_width=True)
+    st.plotly_chart(fig_mo_gtn, use_container_width=True, theme=None)
+
+    # ── Channel-Wise GTN Breakdown ──────────────────────────────────
+    st.markdown("---")
+    st.markdown('<div class="sec-header">📡 Channel-Wise GTN Breakdown</div>', unsafe_allow_html=True)
+    st.markdown("""<div class='info-box'>
+    Revenue flows differently through each payer channel. Commercial PBM and Medicare Part D
+    are invoiced at WAC with post-sale rebates; GPO/IDN channels have chargebacks at point of sale;
+    340B and VA have the deepest discounts. This section shows the per-channel economics.
+    </div>""", unsafe_allow_html=True)
+
+    yr_ch_sel = st.selectbox("Select Year for Channel Breakdown", forecast_years, key="gtn_ch_yr_sel")
+
+    # Compute per-channel economics for selected year
+    ch_alloc = st.session_state["ch_alloc_dict"].get(yr_ch_sel, {})
+    disc_yr  = st.session_state["disc_dict"].get(yr_ch_sel, {})
+    reb_yr   = st.session_state["rebate_dict"].get(yr_ch_sel, {})
+    oth_yr   = st.session_state["other_dict"].get(yr_ch_sel, {})
+    fc_yr    = st.session_state.forecast_df[st.session_state.forecast_df["Year"]==yr_ch_sel]
+    yr_units = float(fc_yr["Annual Units"].values[0]) if len(fc_yr) else 0
+    yr_wac   = float(fc_yr["WAC per Unit"].values[0]) if len(fc_yr) else 0
+
+    # Price schedule
+    gpo_p  = yr_wac * (1 - disc_yr.get("gpo",0)/100)
+    idn_p  = yr_wac * (1 - disc_yr.get("idn",0)/100)
+    b340_p = yr_wac * (1 - disc_yr.get("b340",0)/100)
+    va_p   = yr_wac * (1 - disc_yr.get("va",0)/100)
+
+    # Rebate map
+    ch_rebate_pct = {
+        "Commercial PBM": reb_yr.get("com_pbm",0), "Commercial Medical": reb_yr.get("com_med",0),
+        "Medicare Part B": 0, "Medicare Part D": reb_yr.get("mcr_d",0),
+        "Medicaid FFS": reb_yr.get("mcaid",0), "Managed Medicaid": reb_yr.get("man_mcaid",0),
+        "GPO/IDN Non-340B": 0, "GPO/IDN 340B": 0, "VA/DoD/Federal": 0, "Cash/Uninsured": 0,
+    }
+    # Chargeback per unit
+    ch_cb_per_unit = {
+        "Commercial PBM": 0, "Commercial Medical": yr_wac - gpo_p,
+        "Medicare Part B": yr_wac - gpo_p, "Medicare Part D": 0,
+        "Medicaid FFS": 0, "Managed Medicaid": 0,
+        "GPO/IDN Non-340B": yr_wac - idn_p, "GPO/IDN 340B": yr_wac - b340_p,
+        "VA/DoD/Federal": yr_wac - va_p, "Cash/Uninsured": 0,
+    }
+
+    other_total_pct = oth_yr.get("admin_fee",0) + oth_yr.get("dist_fee",0) + oth_yr.get("copay",0) + oth_yr.get("returns",0)
+
+    ch_data_rows = []
+    for ch in CHANNELS:
+        alloc_pct = ch_alloc.get(ch, 0)
+        ch_units  = yr_units * alloc_pct / 100
+        gross     = ch_units * yr_wac
+        rebates   = ch_units * yr_wac * ch_rebate_pct[ch] / 100
+        cbacks    = ch_units * ch_cb_per_unit[ch]
+        other_ded = gross * other_total_pct / 100
+        total_ded = rebates + cbacks + other_ded
+        net       = gross - total_ded
+        gtn_pct   = total_ded / gross * 100 if gross > 0 else 0
+        ch_data_rows.append({
+            "Channel": ch, "Alloc %": alloc_pct, "Units": ch_units,
+            "Gross ($M)": gross/1e6, "Rebates ($M)": rebates/1e6,
+            "Chargebacks ($M)": cbacks/1e6, "Other ($M)": other_ded/1e6,
+            "Total Ded ($M)": total_ded/1e6, "Net ($M)": net/1e6, "GTN %": gtn_pct,
+            # Raw for Sankey
+            "_gross": gross, "_rebates": rebates, "_cbacks": cbacks, "_other": other_ded, "_net": net,
+        })
+    ch_breakdown = pd.DataFrame(ch_data_rows)
+
+    # ── Grouped Bar: Gross / Deductions / Net per Channel ────────────
+    col_bar, col_pie = st.columns([1.6, 1])
+    with col_bar:
+        st.markdown(f'<div class="sec-header">📊 Channel GTN Waterfall — {yr_ch_sel}</div>', unsafe_allow_html=True)
+        fig_ch_bar = go.Figure()
+        fig_ch_bar.add_trace(go.Bar(
+            y=ch_breakdown["Channel"], x=ch_breakdown["Gross ($M)"],
+            name="Gross Sales", marker_color="#A8D5FF", opacity=0.85, orientation="h",
+        ))
+        fig_ch_bar.add_trace(go.Bar(
+            y=ch_breakdown["Channel"], x=-ch_breakdown["Total Ded ($M)"],
+            name="Total Deductions", marker_color="#f87171", opacity=0.85, orientation="h",
+        ))
+        fig_ch_bar.add_trace(go.Bar(
+            y=ch_breakdown["Channel"], x=ch_breakdown["Net ($M)"],
+            name="Net Sales", marker_color="#4ade80", opacity=0.85, orientation="h",
+        ))
+        fig_ch_bar.update_layout(
+            barmode="group", height=420, margin=dict(t=30, b=20, l=160, r=40),
+            **PLOTLY_LAYOUT, xaxis_title="Amount ($ Millions USD)",
+        )
+        fig_ch_bar.update_layout(
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1,
+                        font=dict(size=10, color="#2D3748"), bgcolor="rgba(255,255,255,0.8)"),
+        )
+        apply_axes_style(fig_ch_bar)
+        st.plotly_chart(fig_ch_bar, use_container_width=True, theme=None)
+
+    with col_pie:
+        st.markdown(f'<div class="sec-header">🥧 GTN % by Channel — {yr_ch_sel}</div>', unsafe_allow_html=True)
+        active_ch = ch_breakdown[ch_breakdown["Alloc %"] > 0]
+        fig_gtn_pie = go.Figure(go.Bar(
+            x=active_ch["Channel"], y=active_ch["GTN %"],
+            marker_color=[COLORS_MAIN[i % len(COLORS_MAIN)] for i in range(len(active_ch))],
+            text=[f"{v:.1f}%" for v in active_ch["GTN %"]],
+            textposition="outside", textfont=dict(size=9, color="#1A1A2E"),
+        ))
+        fig_gtn_pie.update_layout(
+            height=420, margin=dict(t=30, b=80, l=40, r=20),
+            **PLOTLY_LAYOUT, yaxis_title="GTN %", xaxis_tickangle=-45,
+        )
+        apply_axes_style(fig_gtn_pie)
+        st.plotly_chart(fig_gtn_pie, use_container_width=True, theme=None)
+
+    # ── Sankey Diagram: Channel Path Flow ─────────────────────────────
+    st.markdown(f'<div class="sec-header">🔀 Channel Path — Revenue Flow Diagram ({yr_ch_sel})</div>', unsafe_allow_html=True)
+    st.caption("Shows how gross revenue flows through each payer channel and splits into net sales vs. deduction categories.")
+
+    # Build Sankey nodes and links
+    active_channels = [r for _, r in ch_breakdown.iterrows() if r["_gross"] > 0]
+    n_ch = len(active_channels)
+
+    # Nodes: [0] Gross Sales → [1..n_ch] Channels → [n_ch+1] Net Sales, [n_ch+2] Rebates, [n_ch+3] Chargebacks, [n_ch+4] Fees
+    node_labels = ["Gross Sales"]
+    node_colors = ["#A8D5FF"]
+    for i, r in enumerate(active_channels):
+        node_labels.append(r["Channel"])
+        node_colors.append(COLORS_MAIN[i % len(COLORS_MAIN)])
+    node_labels += ["Net Sales", "Rebates", "Chargebacks", "Fees/Other"]
+    node_colors += ["#4ade80", "#f87171", "#fb923c", "#fbbf24"]
+
+    net_idx = n_ch + 1
+    reb_idx = n_ch + 2
+    cb_idx  = n_ch + 3
+    fee_idx = n_ch + 4
+
+    sources, targets, values, link_colors = [], [], [], []
+    for i, r in enumerate(active_channels):
+        ch_idx = i + 1
+        # Gross → Channel
+        sources.append(0); targets.append(ch_idx); values.append(r["_gross"])
+        link_colors.append("rgba(168,213,255,0.3)")
+        # Channel → Net
+        if r["_net"] > 0:
+            sources.append(ch_idx); targets.append(net_idx); values.append(r["_net"])
+            link_colors.append("rgba(74,222,128,0.3)")
+        # Channel → Rebates
+        if r["_rebates"] > 0:
+            sources.append(ch_idx); targets.append(reb_idx); values.append(r["_rebates"])
+            link_colors.append("rgba(248,113,113,0.3)")
+        # Channel → Chargebacks
+        if r["_cbacks"] > 0:
+            sources.append(ch_idx); targets.append(cb_idx); values.append(r["_cbacks"])
+            link_colors.append("rgba(251,146,60,0.3)")
+        # Channel → Fees
+        if r["_other"] > 0:
+            sources.append(ch_idx); targets.append(fee_idx); values.append(r["_other"])
+            link_colors.append("rgba(251,191,36,0.3)")
+
+    fig_sankey = go.Figure(go.Sankey(
+        node=dict(
+            pad=15, thickness=20,
+            label=node_labels,
+            color=node_colors,
+            line=dict(color="#E2E8F0", width=0.5),
+        ),
+        link=dict(
+            source=sources, target=targets, value=values,
+            color=link_colors,
+        ),
+    ))
+    fig_sankey.update_layout(
+        title=f"Revenue Flow: Gross → Channels → Net / Deductions ({yr_ch_sel})",
+        height=480, margin=dict(t=50, b=20, l=20, r=20),
+        paper_bgcolor="rgba(0,0,0,0)", font=dict(color="#1A1A2E", family="Inter", size=11),
+    )
+    st.plotly_chart(fig_sankey, use_container_width=True, theme=None)
+
+    # ── Channel Summary Table ─────────────────────────────────────────
+    st.markdown(f'<div class="sec-header">📋 Channel Summary Table — {yr_ch_sel}</div>', unsafe_allow_html=True)
+    ch_table = ch_breakdown[ch_breakdown["Alloc %"] > 0][
+        ["Channel", "Alloc %", "Units", "Gross ($M)", "Rebates ($M)",
+         "Chargebacks ($M)", "Other ($M)", "Total Ded ($M)", "Net ($M)", "GTN %"]
+    ].copy()
+    ch_table["Units"] = ch_table["Units"].apply(lambda v: fmt_u(v))
+    for col in ["Gross ($M)", "Rebates ($M)", "Chargebacks ($M)", "Other ($M)", "Total Ded ($M)", "Net ($M)"]:
+        ch_table[col] = ch_table[col].apply(lambda v: f"${v:.2f}M")
+    ch_table["GTN %"] = ch_table["GTN %"].apply(lambda v: fmt_pct(v))
+    ch_table["Alloc %"] = ch_table["Alloc %"].apply(lambda v: f"{v:.1f}%")
+    st.dataframe(ch_table, use_container_width=True, hide_index=True)
 
 
 # ═══════════════════════════════════════════════════════════════════
@@ -2531,47 +3401,47 @@ with tabs[6]:
 
         with card_cols[i % 5]:
             st.markdown(f"""
-            <div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 60%,#8ab4f2 100%);border:1px solid {card_border};
-            border-radius:12px;padding:16px 14px;margin-bottom:8px;'>
+            <div style='background:#FFFFFF; border:1px solid {"#FECACA" if flagged else "#E2E8F0"};
+            border-radius:12px; padding:16px 14px; margin-bottom:8px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);'>
 
-            <div style='display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;'>
-            <div style='font-family:Syne;font-size:0.82rem;font-weight:700;
-            color:#FFFFFF;line-height:1.3;'>{idn["name"]}</div>
+            <div style='display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;'>
+            <div style='font-family:"Inter", sans-serif; font-size:0.85rem; font-weight:800;
+            color:#1E293B; line-height:1.3;'>{idn["name"]}</div>
             <div style='font-size:1.1rem;'>{status_icon}</div>
             </div>
 
-            <div style='font-size:0.68rem;color:#FFFFFF;margin-bottom:10px;'>{type_tag}</div>
+            <div style='font-size:0.68rem; color:#64748B; font-weight:600; margin-bottom:12px;'>{type_tag}</div>
 
-            <div style='display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;'>
-            <div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 60%,#8ab4f2 100%);border-radius:6px;padding:7px 9px;'>
-            <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.4px;'>Discount</div>
-            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#FFFFFF;font-weight:600;'>
+            <div style='display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:8px;'>
+            <div style='background:#F8FAFC; border:1px solid #F1F5F9; border-radius:6px; padding:8px 10px;'>
+            <div style='font-size:0.6rem; color:#64748B; text-transform:uppercase; letter-spacing:0.4px; font-weight:700;'>Discount</div>
+            <div style='font-family:"JetBrains Mono", monospace; font-size:0.88rem; color:#0F172A; font-weight:700;'>
             {idn["discount"]}%</div>
             </div>
-            <div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 60%,#8ab4f2 100%);border-radius:6px;padding:7px 9px;'>
-            <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.4px;'>B&B Vol</div>
-            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#FFFFFF;font-weight:600;'>
+            <div style='background:#F8FAFC; border:1px solid #F1F5F9; border-radius:6px; padding:8px 10px;'>
+            <div style='font-size:0.6rem; color:#64748B; text-transform:uppercase; letter-spacing:0.4px; font-weight:700;'>B&B Vol</div>
+            <div style='font-family:"JetBrains Mono", monospace; font-size:0.88rem; color:#0F172A; font-weight:700;'>
             {idn["volume_pct"]:.0f}%</div>
             </div>
-            <div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 60%,#8ab4f2 100%);border-radius:6px;padding:7px 9px;'>
-            <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.4px;'>Acq. Price</div>
-            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#FFFFFF;font-weight:600;'>
+            <div style='background:#F8FAFC; border:1px solid #F1F5F9; border-radius:6px; padding:8px 10px;'>
+            <div style='font-size:0.6rem; color:#64748B; text-transform:uppercase; letter-spacing:0.4px; font-weight:700;'>Acq. Price</div>
+            <div style='font-family:"JetBrains Mono", monospace; font-size:0.88rem; color:#0F172A; font-weight:700;'>
             {fmt_d(acq)}</div>
             </div>
-            <div style='background:#001C4A;border-radius:6px;padding:7px 9px;'>
-            <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.4px;'>Spread</div>
-            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:{spread_color};font-weight:600;'>
+            <div style='background:{"#FEF2F2" if spread < 0 else "#F0FDF4"}; border:1px solid {"#FCA5A5" if spread < 0 else "#86EFAC"}; border-radius:6px; padding:8px 10px;'>
+            <div style='font-size:0.6rem; color:{"#991B1B" if spread < 0 else "#166534"}; text-transform:uppercase; letter-spacing:0.4px; font-weight:700;'>Spread</div>
+            <div style='font-family:"JetBrains Mono", monospace; font-size:0.88rem; color:{"#991B1B" if spread < 0 else "#166534"}; font-weight:700;'>
             {fmt_d(spread)}</div>
             </div>
             </div>
 
-            <div style='background:linear-gradient(135deg,#1f4e79 0%,#2e75bf 60%,#8ab4f2 100%);border-radius:6px;padding:7px 9px;margin-bottom:8px;'>
-            <div style='font-size:0.6rem;color:#FFFFFF;text-transform:uppercase;letter-spacing:0.4px;'>Est. Mfr Rev (Y1)</div>
-            <div style='font-family:JetBrains Mono;font-size:0.88rem;color:#FFFFFF;font-weight:600;'>
+            <div style='background:#F8FAFC; border:1px solid #F1F5F9; border-radius:6px; padding:8px 10px; margin-bottom:12px;'>
+            <div style='font-size:0.6rem; color:#64748B; text-transform:uppercase; letter-spacing:0.4px; font-weight:700;'>Est. Mfr Rev (Y1)</div>
+            <div style='font-family:"JetBrains Mono", monospace; font-size:0.88rem; color:#0F172A; font-weight:700;'>
             {fmt_m(mfr_rev_yr1)}</div>
             </div>
 
-            <div style='text-align:center;background:linear-gradient(135deg,#0f2d55 0%,#1b4e79 50%,#5f8ed8 100%);border-radius:6px;padding:5px;font-size:0.73rem;font-weight:700;color:{spread_color};font-family:JetBrains Mono;'>{status_icon} {status_text}</div>
+            <div style='text-align:center; background:{"#FEF2F2" if flagged else "#ECFCCB"}; border-radius:6px; padding:6px; font-size:0.75rem; font-weight:700; color:{"#991B1B" if flagged else "#166534"}; font-family:"JetBrains Mono", monospace;'>{status_icon} {status_text}</div>
             </div>""", unsafe_allow_html=True)
 
     # ── Portfolio summary table ──────────────────────────────────────
@@ -2620,16 +3490,16 @@ with tabs[6]:
         # Column headers
         hdr_c = st.columns([0.3, 2.2, 1.2, 1.2, 0.8])
         for hc, lbl in zip(hdr_c, ["#", "IDN Name", "Discount % off WAC", "% of B&B Volume", "340B"]):
-            hc.markdown(f"<div style='font-size:0.68rem;color:#FFFFFF;text-transform:uppercase;"
-                        f"font-family:JetBrains Mono;padding:4px 2px;border-bottom:1px solid #003A8C;'>"
+            hc.markdown(f"<div style='font-size:0.7rem;color:#475569;text-transform:uppercase;font-weight:700;"
+                        f"font-family:Inter, sans-serif;padding:6px 2px;border-bottom:2px solid #E2E8F0;'>"
                         f"{lbl}</div>", unsafe_allow_html=True)
 
         updated_idn = []
         for i, idn in enumerate(idn_list):
             row_c = st.columns([0.3, 2.2, 1.2, 1.2, 0.8])
             with row_c[0]:
-                st.markdown(f"<div style='font-family:Syne;font-weight:700;color:#FFFFFF;"
-                            f"font-size:0.85rem;padding:8px 4px;'>#{i+1}</div>",
+                st.markdown(f"<div style='font-family:Inter, sans-serif;font-weight:800;color:#334155;"
+                            f"font-size:0.95rem;padding:12px 4px;'>#{i+1}</div>",
                             unsafe_allow_html=True)
             with row_c[1]:
                 name = st.text_input("Name", value=idn["name"], key=f"idn_name_{i}",
@@ -2733,14 +3603,15 @@ with tabs[6]:
                 )
         fig_all.update_layout(
             title="Price Comparison: WAC / ASP / All IDN Acquisitions",
-            height=400, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT, yaxis_title="$/unit",
+            height=400, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT, yaxis_title="Price ($ / Unit)",
         )
         fig_all.update_layout(legend=dict(
-            bgcolor="#002766", bordercolor="#003A8C", font_size=10,
-            orientation="v", x=1.01, xanchor="left",
+            bgcolor="rgba(255,255,255,0.9)", bordercolor="#E2E8F0", borderwidth=1,
+            font=dict(size=11, color="#1E293B", family="Inter"),
+            orientation="v", x=1.02, xanchor="left", y=1, yanchor="top"
         ))
         apply_axes_style(fig_all)
-        st.plotly_chart(fig_all, use_container_width=True)
+        st.plotly_chart(fig_all, use_container_width=True, theme=None)
 
     with col_b:
         st.markdown('<div class="sec-header">📐 Provider Spread by IDN</div>', unsafe_allow_html=True)
@@ -2756,11 +3627,11 @@ with tabs[6]:
             z=spread_matrix,
             x=yr_labels,
             y=[x["name"].split("(")[0].strip() for x in updated_idn],
-            colorscale=[[0,"#3d0a0a"],[0.4,"#fbbf24"],[1,"#4ade80"]],
-            text=[[fmt_d(v) for v in row] for row in spread_matrix],
+            colorscale=[[0, "#FCA5A5"], [0.5, "#FEF08A"], [1, "#86EFAC"]],
+            text=[[f"${int(v):,}" for v in row] for row in spread_matrix],
             texttemplate="%{text}",
-            textfont=dict(size=9, family="JetBrains Mono"),
-            hovertemplate="<b>%{y}</b><br>%{x}: Spread %{z:.0f}<extra></extra>",
+            textfont=dict(size=8, family="Inter", color="#1E293B"),
+            hovertemplate="<b>%{y}</b><br>%{x}: Spread $%{z:,.0f}<extra></extra>",
             colorbar=dict(title="Spread $", tickfont=dict(size=9)),
         ))
         fig_heat.update_layout(
@@ -2768,7 +3639,7 @@ with tabs[6]:
             height=280, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
         )
         apply_axes_style(fig_heat)
-        st.plotly_chart(fig_heat, use_container_width=True)
+        st.plotly_chart(fig_heat, use_container_width=True, theme=None)
 
     # ── Per-IDN Flag Cards ────────────────────────────────────────────
     st.markdown('<div class="sec-header">🚩 ASP vs Acquisition Flags — Per IDN Per Year</div>', unsafe_allow_html=True)
@@ -2779,12 +3650,12 @@ with tabs[6]:
             any_flag = sub["Below_ASP"].any()
             header_color = "#f87171" if any_flag else "#4ade80"
             st.markdown(f"""
-            <div style='border:1px solid {"#5c1a1a" if any_flag else "#0a3020"};
-            background:{"#140505" if any_flag else "#05130c"};
-            border-radius:9px;padding:10px 12px;margin-bottom:4px;'>
-            <div style='font-family:Syne;font-size:0.8rem;font-weight:700;
-            color:{header_color};margin-bottom:6px;'>{idn["name"]}</div>
-            <div style='font-size:0.68rem;color:#FFFFFF;margin-bottom:6px;'>
+            <div style='border:1px solid {"#FCA5A5" if any_flag else "#E2E8F0"};
+            background:{"#FEF2F2" if any_flag else "#FFFFFF"}; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border-radius:12px; padding:12px 14px; margin-bottom:8px;'>
+            <div style='font-family:"Inter", sans-serif; font-size:0.85rem; font-weight:800;
+            color:{"#991B1B" if any_flag else "#1E293B"}; margin-bottom:6px;'>{idn["name"]}</div>
+            <div style='font-size:0.68rem; color:#475569; font-weight:600; margin-bottom:8px;'>
             {"🟡 340B" if idn["is_340b"] else "🔵 GPO"} · {idn["discount"]}% off WAC</div>
             """, unsafe_allow_html=True)
             for _, row in sub.iterrows():
@@ -2793,8 +3664,8 @@ with tabs[6]:
                 icon  = "🚩 ASP<ACQ" if flag else "✅ OK"
                 st.markdown(f"""
                 <div style='display:flex;justify-content:space-between;
-                padding:3px 0;border-bottom:1px solid #003A8C;font-size:0.73rem;'>
-                <span style='color:#FFFFFF;font-family:JetBrains Mono;'>{int(row["Year"])}</span>
+                padding:6px 0;border-bottom:1px solid #E2E8F0;font-size:0.78rem;'>
+                <span style='color:#334155;font-family:"JetBrains Mono", monospace;font-weight:600;'>{int(row["Year"])}</span>
                 <span style='color:{color};font-family:JetBrains Mono;'>{icon} {fmt_d(row["Spread"])}</span>
                 </div>""", unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
@@ -2815,11 +3686,11 @@ with tabs[6]:
         fig_mfr.update_layout(
             barmode="group", title="Manufacturer Revenue by IDN ($M)",
             height=300, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-            yaxis=dict(title="$M", gridcolor="#003A8C", zerolinecolor="#003A8C"),
+            yaxis=dict(title="Amount ($ Millions USD)", gridcolor="#003A8C", zerolinecolor="#003A8C"),
             legend_font_size=9,
         )
         apply_axes_style(fig_mfr)
-        st.plotly_chart(fig_mfr, use_container_width=True)
+        st.plotly_chart(fig_mfr, use_container_width=True, theme=None)
 
     with col_e2:
         fig_prov2 = go.Figure()
@@ -2833,11 +3704,11 @@ with tabs[6]:
         fig_prov2.update_layout(
             barmode="group", title="Provider Profit (Spread) by IDN ($M)",
             height=300, margin=PLOTLY_MARGIN, **PLOTLY_LAYOUT,
-            yaxis=dict(title="$M", gridcolor="#003A8C", zerolinecolor="#003A8C"),
+            yaxis=dict(title="Amount ($ Millions USD)", gridcolor="#003A8C", zerolinecolor="#003A8C"),
             legend_font_size=9,
         )
         apply_axes_style(fig_prov2)
-        st.plotly_chart(fig_prov2, use_container_width=True)
+        st.plotly_chart(fig_prov2, use_container_width=True, theme=None)
 
     # ── Summary table: all IDNs × all years ──────────────────────────
     st.markdown('<div class="sec-header">📋 Multi-IDN Summary Table — Acquisition / ASP / Spread by Year</div>', unsafe_allow_html=True)
@@ -2854,16 +3725,16 @@ with tabs[6]:
     # Header row
     hdr = st.columns([2.2, 1, 1, 1, 1, 1, 1])
     for col_h, label in zip(hdr, ["IDN","WAC","ASP","ASP+6%","Acquisition","Spread/Unit","Flag"]):
-        col_h.markdown(f"<div style='font-size:0.7rem;color:#FFFFFF;text-transform:uppercase;"
-                       f"font-family:JetBrains Mono;padding:4px 0;'>{label}</div>",
+        col_h.markdown(f"<div style='font-size:0.75rem;color:#475569;text-transform:uppercase;font-weight:700;"
+                       f"font-family:Inter, sans-serif;padding:6px 0;border-bottom:2px solid #E2E8F0;'>{label}</div>",
                        unsafe_allow_html=True)
 
     # Reference row
     ref_row = st.columns([2.2, 1, 1, 1, 1, 1, 1])
     for rc, val in zip(ref_row, ["── Reference ──", fmt_d(wac_sel), fmt_d(asp_sel),
                                   fmt_d(asp6_sel), "—", "—", "—"]):
-        rc.markdown(f"<div style='font-size:0.75rem;color:#FFFFFF;padding:4px 2px;"
-                    f"font-family:JetBrains Mono;'>{val}</div>", unsafe_allow_html=True)
+        rc.markdown(f"<div style='font-size:0.78rem;color:#0EA5E9;font-weight:700;padding:8px 2px;"
+                    f"font-family:JetBrains Mono, monospace;'>{val}</div>", unsafe_allow_html=True)
 
     for _, row in yr_sub.iterrows():
         flag   = row["Below_ASP"]
@@ -2879,11 +3750,11 @@ with tabs[6]:
             fmt_d(row["Spread"]),
             icon,
         ]
-        colors = ["#1f4e79","#fbbf24","#4ade80","#A8D5FF","#f87171",
-                  "#f87171" if row["Spread"]<0 else "#4ade80", color]
+        colors = ["#1E293B","#334155","#334155","#334155","#991B1B",
+                  "#DC2626" if row["Spread"]<0 else "#166534", color]
         for rc, v, c in zip(r_cols, vals, colors):
-            rc.markdown(f"<div style='font-size:0.78rem;color:{c};padding:5px 2px;"
-                        f"font-family:JetBrains Mono;border-bottom:1px solid #003A8C;'>{v}</div>",
+            rc.markdown(f"<div style='font-size:0.8rem;color:{c};padding:8px 2px;font-weight:600;"
+                        f"font-family:JetBrains Mono, monospace;border-bottom:1px solid #E2E8F0;'>{v}</div>",
                         unsafe_allow_html=True)
 
     # ── ASP Sensitivity Table ─────────────────────────────────────────
